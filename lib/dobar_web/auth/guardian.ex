@@ -1,6 +1,6 @@
-defmodule ReadtomeWeb.Auth.Guardian do
-  use Guardian, otp_app: :readtome
-  alias Readtome.Accounts
+defmodule DobarWeb.Auth.Guardian do
+  use Guardian, otp_app: :dobar
+  alias Dobar.Accounts
 
   def subject_for_token(user, _claims) do
     {:ok, to_string(user.id)}

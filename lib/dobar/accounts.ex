@@ -7,6 +7,7 @@ defmodule Dobar.Accounts do
   alias Dobar.Repo
 
   alias Dobar.Accounts.User
+  alias Comeonin.Bcrypt
 
   @doc """
   Returns the list of users.
@@ -100,5 +101,22 @@ defmodule Dobar.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  def authenticate_user(username, given_password) do
+    with user when not is_nil(user) <- Repo.get_by(User, username: username) do
+      check_password(user, given_password)
+    else
+      _ -> {:error, "Invalid User or Password"}
+    end
+  end
+
+  defp check_password(nil, _), do: {:error, "Incorrect username or password"}
+
+  defp check_password(user, given_password) do
+    case Bcrypt.checkpw(given_password, user.encrypted_password) do
+      true -> {:ok, user}
+      false -> {:error, "Incorrect username or password"}
+    end
   end
 end

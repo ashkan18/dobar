@@ -13,11 +13,11 @@ defmodule Dobar.Places do
 
   ## Examples
 
-      iex> list_places()
+      iex> find_places()
       [%Place{}, ...]
 
   """
-  def list_places do
+  def find_places(_args) do
     Repo.all(Place)
   end
 

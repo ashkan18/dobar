@@ -19,6 +19,10 @@ defmodule Dobar.Accounts.User do
     user
     |> cast(attrs, [:email, :name, :username, :password])
     |> validate_required([:email, :name, :username, :password])
+    |> validate_format(:email, ~r/@/)
+    |> validate_length(:password, min: 8)
+    |> validate_confirmation(:password)
+    |> unique_constraint(:username)
     |> put_pass_hash()
   end
 

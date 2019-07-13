@@ -48,7 +48,7 @@ defmodule Dobar.MixProject do
       {:geo_postgis, "~> 3.1"},
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 0.12"}
+      {:bcrypt_elixir, "~> 1.0"}
     ]
   end
 

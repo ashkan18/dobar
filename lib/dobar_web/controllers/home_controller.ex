@@ -1,4 +1,4 @@
-defmodule DobarWeb.PageController do
+defmodule DobarWeb.HomeController do
   use DobarWeb, :controller
 
   def index(conn, _params) do
