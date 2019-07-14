@@ -20,4 +20,9 @@ defmodule DobarWeb.Schema.PlaceTypes do
     field :state, :string
     field :website, :string
   end
+
+  input_object :location_input do
+    field :lat, non_null(:float)
+    field :lng, non_null(:float)
+  end
 end

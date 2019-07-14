@@ -12,11 +12,15 @@ defmodule DobarWeb.Schema do
   connection(node_type: :place)
 
   query do
-    @desc "Find Places Instance by location"
+    @desc "Find Places by location"
     connection field :places, node_type: :place do
-      arg :lat, non_null(:float)
-      arg :lng, non_null(:float)
+      arg :location, :location_input
       resolve &Resolvers.PlaceResolver.find_places/3
+    end
+
+    @desc "My user info"
+    field :me, :user do
+      resolve(&Resolvers.UserResolver.current_user/3)
     end
   end
 

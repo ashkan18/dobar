@@ -4,6 +4,8 @@ defmodule Dobar.Places do
   """
 
   import Ecto.Query, warn: false
+  import Geo.PostGIS
+
   alias Dobar.Repo
 
   alias Dobar.Places.Place
@@ -17,9 +19,20 @@ defmodule Dobar.Places do
       [%Place{}, ...]
 
   """
-  def find_places(_args) do
-    Repo.all(Place)
+  def find_places(args) do
+    Place
+    |> filter_query(args)
+    |> Repo.all()
   end
+
+  defp filter_query(query, args), do: Enum.reduce(args, query, &place_query/2)
+
+  defp place_query({:location, %{lat: lat, lng: lng}}, query) do
+    point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
+    from place in query,
+      order_by: st_distance(place.location, ^point)
+  end
+  defp place_query(_, query), do: query
 
   @doc """
   Gets a single place.
