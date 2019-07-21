@@ -14,6 +14,6 @@ defmodule Dobar.Repo.Migrations.CreatePlaceReviews do
 
     create index(:reviews, [:place_id])
     create index(:reviews, [:user_id])
-    create unique_index(:reviews, [:place_id, :user_id], :reviews_place_id_user_id_uniq_idx)
+    create unique_index(:reviews, [:place_id, :user_id], name: :reviews_place_id_user_id_uniq_idx)
   end
 end
