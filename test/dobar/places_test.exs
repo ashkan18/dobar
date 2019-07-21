@@ -2,6 +2,7 @@ defmodule Dobar.PlacesTest do
   use Dobar.DataCase
 
   alias Dobar.Places
+  import Dobar.Fixtures
 
   describe "places" do
     alias Dobar.Places.Place
@@ -15,8 +16,10 @@ defmodule Dobar.PlacesTest do
       name: "some name",
       postal_code: "some postal_code",
       short_description: "some short_description",
-      state: "some state"
+      state: "some state",
+      location: %Geo.Point{coordinates: {44.2, 74.3}, srid: 4326}
     }
+
     @update_attrs %{
       address: "some updated address",
       address2: "some updated address2",
@@ -26,7 +29,8 @@ defmodule Dobar.PlacesTest do
       name: "some updated name",
       postal_code: "some updated postal_code",
       short_description: "some updated short_description",
-      state: "some updated state"
+      state: "some updated state",
+      location: %Geo.Point{coordinates: {44.2, 74.3}, srid: 4326}
     }
     @invalid_attrs %{
       address: nil,
@@ -40,18 +44,9 @@ defmodule Dobar.PlacesTest do
       state: nil
     }
 
-    def place_fixture(attrs \\ %{}) do
-      {:ok, place} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Places.create_place()
-
-      place
-    end
-
-    test "list_places/0 returns all places" do
+    test "find_places/0 returns all places" do
       place = place_fixture()
-      assert Places.list_places() == [place]
+      assert Places.find_places() == [place]
     end
 
     test "get_place!/1 returns the place with given id" do

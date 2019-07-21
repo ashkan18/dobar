@@ -15,12 +15,13 @@ defmodule Dobar.Reviews.Review do
   end
 
   @required_fields ~w(place_id user_id review_type response)a
+  @review_types ~w(dobar rideshare_dobar)
   @doc false
   def changeset(review, attrs) do
     review
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
-    |> validate_inclusion(:review_type, [:dobar, :rideshare_dobar])
+    |> validate_inclusion(:review_type, @review_types)
     |> foreign_key_constraint(:place_id)
     |> foreign_key_constraint(:user_id)
     |> unique_constraint(:reviews_place_id_user_id_uniq, name: :reviews_place_id_user_id_uniq_idx)

@@ -3,31 +3,25 @@ defmodule Dobar.AccountsTest do
 
   alias Dobar.Accounts
 
+  import Dobar.Fixtures
+
   describe "users" do
     alias Dobar.Accounts.User
 
     @valid_attrs %{
-      email: "some email",
+      email: "test@dobar.com",
       name: "some name",
       password: "some password",
       username: "some username"
     }
+
     @update_attrs %{
-      email: "some updated email",
+      email: "test2@dobar.com",
       name: "some updated name",
       password: "some updated password",
       username: "some updated username"
     }
     @invalid_attrs %{email: nil, name: nil, password: nil, username: nil}
-
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Accounts.create_user()
-
-      user
-    end
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -41,9 +35,9 @@ defmodule Dobar.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.email == "some email"
+      assert user.email == "test@dobar.com"
       assert user.name == "some name"
-      assert user.password == "some password"
+      assert !is_nil(user.password)
       assert user.username == "some username"
     end
 
@@ -54,9 +48,9 @@ defmodule Dobar.AccountsTest do
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
       assert {:ok, %User{} = user} = Accounts.update_user(user, @update_attrs)
-      assert user.email == "some updated email"
+      assert user.email == "test2@dobar.com"
       assert user.name == "some updated name"
-      assert user.password == "some updated password"
+      assert is_nil(user.password) == false
       assert user.username == "some updated username"
     end
 

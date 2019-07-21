@@ -5,19 +5,11 @@ defmodule Dobar.ReviewsTest do
 
   describe "reviews" do
     alias Dobar.Reviews.Review
+    import Dobar.Fixtures
 
-    @valid_attrs %{response: true, review_type: "some review_type"}
-    @update_attrs %{response: false, review_type: "some updated review_type"}
+    @valid_attrs %{response: true, review_type: "dobar"}
+    @update_attrs %{response: false, review_type: "rideshare_dobar"}
     @invalid_attrs %{response: nil, review_type: nil}
-
-    def review_fixture(attrs \\ %{}) do
-      {:ok, review} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Reviews.create_review()
-
-      review
-    end
 
     test "list_reviews/0 returns all reviews" do
       review = review_fixture()
@@ -30,9 +22,16 @@ defmodule Dobar.ReviewsTest do
     end
 
     test "create_review/1 with valid data creates a review" do
-      assert {:ok, %Review{} = review} = Reviews.create_review(@valid_attrs)
+      user = user_fixture()
+      place = place_fixture()
+
+      assert {:ok, %Review{} = review} =
+               @valid_attrs
+               |> Enum.into(%{place_id: place.id, user_id: user.id})
+               |> Reviews.create_review()
+
       assert review.response == true
-      assert review.review_type == "some review_type"
+      assert review.review_type == "dobar"
     end
 
     test "create_review/1 with invalid data returns error changeset" do
@@ -43,7 +42,7 @@ defmodule Dobar.ReviewsTest do
       review = review_fixture()
       assert {:ok, %Review{} = review} = Reviews.update_review(review, @update_attrs)
       assert review.response == false
-      assert review.review_type == "some updated review_type"
+      assert review.review_type == "rideshare_dobar"
     end
 
     test "update_review/2 with invalid data returns error changeset" do

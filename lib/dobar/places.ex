@@ -19,7 +19,7 @@ defmodule Dobar.Places do
       [%Place{}, ...]
 
   """
-  def find_places(args) do
+  def find_places(args \\ %{}) do
     Place
     |> filter_query(args)
     |> Repo.all()
