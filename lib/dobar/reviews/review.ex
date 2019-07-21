@@ -7,8 +7,9 @@ defmodule Dobar.Reviews.Review do
   schema "reviews" do
     field :response, :boolean, default: false
     field :review_type, :string
-    field :place_id, :binary_id
-    field :user_id, :binary_id
+
+    belongs_to :user, Dobar.Accounts.User
+    belongs_to :place, Dobar.Places.Place
 
     timestamps()
   end
@@ -22,6 +23,6 @@ defmodule Dobar.Reviews.Review do
     |> validate_inclusion(:review_type, [:dobar, :rideshare_dobar])
     |> foreign_key_constraint(:place_id)
     |> foreign_key_constraint(:user_id)
-    |> unique_constraint([:place_id, :user_id])
+    |> unique_constraint(:reviews_place_id_user_id_uniq, name: :reviews_place_id_user_id_uniq_idx)
   end
 end

@@ -11,6 +11,8 @@ defmodule Dobar.Accounts.User do
     field :password, :string
     field :username, :string
 
+    has_many :reviews, Dobar.Reviews.Review
+
     timestamps()
   end
 

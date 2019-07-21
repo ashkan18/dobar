@@ -20,6 +20,8 @@ defmodule Dobar.Places.Place do
     field :state, :string
     field :website, :string
 
+    has_many :reviews, Dobar.Reviews.Review
+
     timestamps()
   end
 
