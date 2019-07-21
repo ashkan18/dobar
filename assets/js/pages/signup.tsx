@@ -24,8 +24,8 @@ export default class Signup extends React.Component<{}, State>{
   }
 
   signUpMutation = gql`
-    mutation createUser($username: String!, $password: String!, $passwordConfirmation: String!, $name: String!){
-      createUser(username: $username, password: $password, passwordConfirmation: $passwordConfirmation, name: $name){
+    mutation createUser($username: String!, $password: String!, $passwordConfirmation: String!, $name: String!, $email: String!){
+      createUser(username: $username, password: $password, passwordConfirmation: $passwordConfirmation, name: $name, email: $email){
         token
       }
     }
@@ -34,23 +34,32 @@ export default class Signup extends React.Component<{}, State>{
   public render(){
     return(
       <Mutation mutation={this.signUpMutation}>
-        {(signUp, {data, loading, error}) => (<>
-          {data && <Redirect to={'/'} />}
-          <Header noLogin={true} />
-          {loading && <Spinner />}
-          {!loading &&
-            <Box m={3} mt={6}>
-              <Join separator={<Spacer m={1} />}>
-                {error}
-                <Input type="text" onChange={e => this.setName(e.currentTarget.value)} title="Name" value={this.state.name} />
-                <Input type="text" onChange={e => this.setUsername(e.currentTarget.value)} title="Username" value={this.state.username} />
-                <Input type="email" onChange={e => this.setEmail(e.currentTarget.value)} title="Email" value={this.state.email} />
-                <Input type="password" onChange={e => this.setPassword(e.currentTarget.value)} title="Password" value={this.state.password} />
-                <Input type="password" onChange={e => this.setpasswordConfirmation(e.currentTarget.value)} title="Password Confirmation" value={this.state.passwordConfirmation} />
-                <Button size="medium" onClick={_e => signUp({ variables: { name: this.state.name, username: this.state.username, email: this.state.email, password: this.state.password, passwordConfirmation: this.state.passwordConfirmation } })} mt={1}>Signup!</Button>
-              </Join>
-            </Box>}
-        </>)}
+        {(signUp, {data, loading, error}) => {
+            if (data) {
+              this.authService.setToken(data.data.token)
+              return(<Redirect to={'/'} />)
+            } else if (loading) {
+              return <Spinner/>
+            } else {
+              return (
+                <>
+                  <Header noLogin={true} />
+                  <Box m={3} mt={6}>
+                    <Join separator={<Spacer m={1} />}>
+                      {error}
+                      <Input type="text" onChange={e => this.setName(e.currentTarget.value)} title="Name" value={this.state.name} />
+                      <Input type="text" onChange={e => this.setUsername(e.currentTarget.value)} title="Username" value={this.state.username} />
+                      <Input type="email" onChange={e => this.setEmail(e.currentTarget.value)} title="Email" value={this.state.email} />
+                      <Input type="password" onChange={e => this.setPassword(e.currentTarget.value)} title="Password" value={this.state.password} />
+                      <Input type="password" onChange={e => this.setPasswordConfirmation(e.currentTarget.value)} title="Password Confirmation" value={this.state.passwordConfirmation} />
+                      <Button size="medium" onClick={_e => signUp({ variables: { name: this.state.name, username: this.state.username, email: this.state.email, password: this.state.password, passwordConfirmation: this.state.passwordConfirmation } })} mt={1}>Signup!</Button>
+                    </Join>
+                  </Box>
+                </>
+              )
+            }
+          }
+        }
       </Mutation>
     )
   }
@@ -67,7 +76,7 @@ export default class Signup extends React.Component<{}, State>{
   private setPassword(password: string) {
     this.setState({password})
   }
-  private setpasswordConfirmation(passwordConfirmation: string) {
+  private setPasswordConfirmation(passwordConfirmation: string) {
     this.setState({passwordConfirmation})
   }
 }

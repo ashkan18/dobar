@@ -2,10 +2,9 @@ defmodule Dobar.PlacesTest do
   use Dobar.DataCase
 
   alias Dobar.Places
-  import Dobar.Fixtures
 
   describe "places" do
-    alias Dobar.Places.Place
+    alias Dobar.{Places.Place, Fixtures}
 
     @valid_attrs %{
       address: "some address",
@@ -45,12 +44,12 @@ defmodule Dobar.PlacesTest do
     }
 
     test "find_places/0 returns all places" do
-      place = place_fixture()
+      place = Fixtures.create(:place)
       assert Places.find_places() == [place]
     end
 
     test "get_place!/1 returns the place with given id" do
-      place = place_fixture()
+      place = Fixtures.create(:place)
       assert Places.get_place!(place.id) == place
     end
 
@@ -72,7 +71,7 @@ defmodule Dobar.PlacesTest do
     end
 
     test "update_place/2 with valid data updates the place" do
-      place = place_fixture()
+      place = Fixtures.create(:place)
       assert {:ok, %Place{} = place} = Places.update_place(place, @update_attrs)
       assert place.address == "some updated address"
       assert place.address2 == "some updated address2"
@@ -86,19 +85,19 @@ defmodule Dobar.PlacesTest do
     end
 
     test "update_place/2 with invalid data returns error changeset" do
-      place = place_fixture()
+      place = Fixtures.create(:place)
       assert {:error, %Ecto.Changeset{}} = Places.update_place(place, @invalid_attrs)
       assert place == Places.get_place!(place.id)
     end
 
     test "delete_place/1 deletes the place" do
-      place = place_fixture()
+      place = Fixtures.create(:place)
       assert {:ok, %Place{}} = Places.delete_place(place)
       assert_raise Ecto.NoResultsError, fn -> Places.get_place!(place.id) end
     end
 
     test "change_place/1 returns a place changeset" do
-      place = place_fixture()
+      place = Fixtures.create(:place)
       assert %Ecto.Changeset{} = Places.change_place(place)
     end
   end

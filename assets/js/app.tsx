@@ -60,7 +60,7 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Theme style={{width: "100%"}}>
-          <Box m={1}>
+          <Box m={2}>
             <GlobalStyles />
             <Router>
               <Switch>

@@ -12,6 +12,13 @@ interface Props {
 }
 
 const FIND_PLACE_QUERY = gql`
+  query FindPlace($id: ID!){
+    findPlace(id: $id) {
+      id
+      name
+      location
+    }
+  }
 `
 
 export default class PlaceDetail extends React.Component<Props, {}>{

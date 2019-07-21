@@ -13,7 +13,7 @@ const Header = (props: Props) => {
     <>
       <Flex flexDirection="row" flexWrap="nowrap" mt={2} justifyContent="space-between" alignContext="top" style={ { width: "100%"  }}>
         <StyledLink to={"/"}>
-          <><span style={{fontSize: 33}}>M</span><span style={{fontSize: 12}}>ateria</span><span style={{fontSize: 33}}>.L</span><span style={{fontSize: 12}}>ist</span></>
+          <><span style={{fontSize: 33}}>D</span><span style={{fontSize: 12}}>o</span><span style={{fontSize: 33}}>.B</span><span style={{fontSize: 12}}>ar</span></>
         </StyledLink>
         { !props.noLogin && <MyAccount/> }
       </Flex>

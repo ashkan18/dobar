@@ -22,7 +22,8 @@ defmodule Dobar.Fixtures do
     username: "some username"
   }
 
-  def user_fixture(attrs \\ %{}) do
+  def create(type, attrs \\ %{})
+  def create(:user, attrs) do
     {:ok, user} =
       attrs
       |> Enum.into(@user_default_attrs)
@@ -31,7 +32,7 @@ defmodule Dobar.Fixtures do
     user
   end
 
-  def place_fixture(attrs \\ %{}) do
+  def create(:place, attrs) do
     {:ok, place} =
       attrs
       |> Enum.into(@place_default_attrs)
@@ -40,9 +41,9 @@ defmodule Dobar.Fixtures do
     place
   end
 
-  def review_fixture(attrs \\ %{}) do
-    user = user_fixture()
-    place = place_fixture()
+  def create(:review, attrs) do
+    user = create(:user)
+    place = create(:place)
 
     {:ok, review} =
       attrs
