@@ -29,9 +29,11 @@ defmodule Dobar.Places do
 
   defp place_query({:location, %{lat: lat, lng: lng}}, query) do
     point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
+
     from place in query,
       order_by: st_distance(place.location, ^point)
   end
+
   defp place_query(_, query), do: query
 
   @doc """

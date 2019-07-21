@@ -15,6 +15,7 @@ defmodule DobarWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
     plug Plug.Parsers,
       parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
       pass: ["*/*"],
@@ -42,7 +43,8 @@ defmodule DobarWeb.Router do
   end
 
   scope "/", DobarWeb do
-    pipe_through :browser # Use the default browser stack
+    # Use the default browser stack
+    pipe_through :browser
 
     get "/*path", HomeController, :index
   end

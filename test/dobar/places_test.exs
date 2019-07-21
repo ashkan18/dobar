@@ -6,9 +6,39 @@ defmodule Dobar.PlacesTest do
   describe "places" do
     alias Dobar.Places.Place
 
-    @valid_attrs %{address: "some address", address2: "some address2", city: "some city", country: "some country", description: "some description", name: "some name", postal_code: "some postal_code", short_description: "some short_description", state: "some state"}
-    @update_attrs %{address: "some updated address", address2: "some updated address2", city: "some updated city", country: "some updated country", description: "some updated description", name: "some updated name", postal_code: "some updated postal_code", short_description: "some updated short_description", state: "some updated state"}
-    @invalid_attrs %{address: nil, address2: nil, city: nil, country: nil, description: nil, name: nil, postal_code: nil, short_description: nil, state: nil}
+    @valid_attrs %{
+      address: "some address",
+      address2: "some address2",
+      city: "some city",
+      country: "some country",
+      description: "some description",
+      name: "some name",
+      postal_code: "some postal_code",
+      short_description: "some short_description",
+      state: "some state"
+    }
+    @update_attrs %{
+      address: "some updated address",
+      address2: "some updated address2",
+      city: "some updated city",
+      country: "some updated country",
+      description: "some updated description",
+      name: "some updated name",
+      postal_code: "some updated postal_code",
+      short_description: "some updated short_description",
+      state: "some updated state"
+    }
+    @invalid_attrs %{
+      address: nil,
+      address2: nil,
+      city: nil,
+      country: nil,
+      description: nil,
+      name: nil,
+      postal_code: nil,
+      short_description: nil,
+      state: nil
+    }
 
     def place_fixture(attrs \\ %{}) do
       {:ok, place} =

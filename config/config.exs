@@ -27,7 +27,8 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :dobar, DobarWeb.Auth.Guardian,
-  issuer: "dobar", # Name of your app/company/product
+  # Name of your app/company/product
+  issuer: "dobar",
   secret_key: "uGV84HYOnL45wwxgNUUsEj9V82RNxp8xCzUWLuA+KO/eiLbNw+Tfs4EVFcy8JJjv"
 
 # Import environment specific config. This must remain at the bottom

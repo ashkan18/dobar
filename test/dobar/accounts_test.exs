@@ -6,8 +6,18 @@ defmodule Dobar.AccountsTest do
   describe "users" do
     alias Dobar.Accounts.User
 
-    @valid_attrs %{email: "some email", name: "some name", password: "some password", username: "some username"}
-    @update_attrs %{email: "some updated email", name: "some updated name", password: "some updated password", username: "some updated username"}
+    @valid_attrs %{
+      email: "some email",
+      name: "some name",
+      password: "some password",
+      username: "some username"
+    }
+    @update_attrs %{
+      email: "some updated email",
+      name: "some updated name",
+      password: "some updated password",
+      username: "some updated username"
+    }
     @invalid_attrs %{email: nil, name: nil, password: nil, username: nil}
 
     def user_fixture(attrs \\ %{}) do

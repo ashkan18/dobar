@@ -2,9 +2,9 @@ defmodule DobarWeb.Schema do
   use Absinthe.Schema
   use Absinthe.Relay.Schema, :modern
 
-  import_types DobarWeb.Schema.JSON
-  import_types DobarWeb.Schema.LocationType
-  import_types DobarWeb.Schema.PlaceTypes
+  import_types(DobarWeb.Schema.JSON)
+  import_types(DobarWeb.Schema.LocationType)
+  import_types(DobarWeb.Schema.PlaceTypes)
   import_types(DobarWeb.Schema.AccountTypes)
 
   alias DobarWeb.Resolvers
@@ -14,8 +14,8 @@ defmodule DobarWeb.Schema do
   query do
     @desc "Find Places by location"
     connection field :places, node_type: :place do
-      arg :location, :location_input
-      resolve &Resolvers.PlaceResolver.find_places/3
+      arg(:location, :location_input)
+      resolve(&Resolvers.PlaceResolver.find_places/3)
     end
 
     @desc "My user info"
@@ -42,6 +42,22 @@ defmodule DobarWeb.Schema do
       arg(:password, non_null(:string))
 
       resolve(&Resolvers.UserResolver.login/2)
+    end
+
+    @desc "Dobar?"
+    field :dobar, type: :boolean do
+      arg(:place_id, non_null(:id))
+      arg(:response, non_null(:boolean))
+
+      resolve(&Resolvers.ReviewResolver.dobar/3)
+    end
+
+    @desc "Rideshare Dobar?"
+    field :rideshare_dobar, type: :boolean do
+      arg(:place_id, non_null(:id))
+      arg(:response, non_null(:boolean))
+
+      resolve(&Resolvers.ReviewResolver.rideshare_dobar/3)
     end
   end
 end

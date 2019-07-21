@@ -7,8 +7,10 @@ defmodule DobarWeb.Auth.Guardian do
   end
 
   def resource_from_claims(claims) do
-    user = claims["sub"]
-    |> Accounts.get_user!
+    user =
+      claims["sub"]
+      |> Accounts.get_user!()
+
     {:ok, user}
     # If something goes wrong here return {:error, reason}
   end

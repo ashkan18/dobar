@@ -22,6 +22,8 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 dobar-*.tar
 
+.DS_Store
+
 # If NPM crashes, it generates a log, let's ignore it too.
 npm-debug.log
 
@@ -32,3 +34,5 @@ npm-debug.log
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
 /priv/static/
+
+.elixir_ls

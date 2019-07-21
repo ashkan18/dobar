@@ -29,5 +29,6 @@ defmodule Dobar.Accounts.User do
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
     change(changeset, password: Bcrypt.hashpwsalt(password))
   end
+
   defp put_pass_hash(changeset), do: changeset
 end
