@@ -25,8 +25,8 @@ defmodule DobarWeb.Schema do
   end
 
   mutation do
-    @desc "SignUp for an account"
-    field :create_user, type: :session do
+    @desc "Signup for an account"
+    field :signup, type: :session do
       arg(:name, non_null(:string))
       arg(:username, non_null(:string))
       arg(:email, non_null(:string))

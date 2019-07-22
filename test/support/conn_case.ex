@@ -23,6 +23,9 @@ defmodule DobarWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint DobarWeb.Endpoint
+
+      import Dobar.GraphqlTestHelper
+      import Dobar.AuthenticationTestHelper
     end
   end
 

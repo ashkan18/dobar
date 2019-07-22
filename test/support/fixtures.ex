@@ -23,6 +23,7 @@ defmodule Dobar.Fixtures do
   }
 
   def create(type, attrs \\ %{})
+
   def create(:user, attrs) do
     {:ok, user} =
       attrs

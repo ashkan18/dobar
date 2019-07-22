@@ -114,7 +114,7 @@ defmodule Dobar.Accounts do
   defp check_password(nil, _), do: {:error, "Incorrect username or password"}
 
   defp check_password(user, given_password) do
-    case Bcrypt.checkpw(given_password, user.encrypted_password) do
+    case Bcrypt.checkpw(given_password, user.password) do
       true -> {:ok, user}
       false -> {:error, "Incorrect username or password"}
     end

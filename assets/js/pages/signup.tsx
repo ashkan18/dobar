@@ -24,8 +24,8 @@ export default class Signup extends React.Component<{}, State>{
   }
 
   signUpMutation = gql`
-    mutation createUser($username: String!, $password: String!, $passwordConfirmation: String!, $name: String!, $email: String!){
-      createUser(username: $username, password: $password, passwordConfirmation: $passwordConfirmation, name: $name, email: $email){
+    mutation signup($username: String!, $password: String!, $passwordConfirmation: String!, $name: String!, $email: String!){
+      signup(username: $username, password: $password, passwordConfirmation: $passwordConfirmation, name: $name, email: $email){
         token
       }
     }
