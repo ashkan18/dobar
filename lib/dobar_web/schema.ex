@@ -6,6 +6,7 @@ defmodule DobarWeb.Schema do
   import_types(DobarWeb.Schema.LocationType)
   import_types(DobarWeb.Schema.PlaceTypes)
   import_types(DobarWeb.Schema.AccountTypes)
+  import_types(DobarWeb.Schema.ReviewTypes)
 
   alias DobarWeb.Resolvers
 
@@ -44,16 +45,16 @@ defmodule DobarWeb.Schema do
       resolve(&Resolvers.UserResolver.login/2)
     end
 
-    @desc "Dobar?"
-    field :dobar, type: :boolean do
+    @desc "would you dobar"
+    field :dobar, type: :review do
       arg(:place_id, non_null(:id))
       arg(:response, non_null(:boolean))
 
       resolve(&Resolvers.ReviewResolver.dobar/3)
     end
 
-    @desc "Rideshare Dobar?"
-    field :rideshare_dobar, type: :boolean do
+    @desc "Would your rideshare dobar"
+    field :rideshare_dobar, type: :review do
       arg(:place_id, non_null(:id))
       arg(:response, non_null(:boolean))
 
