@@ -33,6 +33,10 @@ defmodule Dobar.Places do
     from place in query,
       order_by: st_distance(place.location, ^point)
   end
+  defp place_query({:term, term}, query) do
+    from place in query,
+      where: place.name == ^term
+  end
 
   defp place_query(_, query), do: query
 

@@ -16,6 +16,7 @@ defmodule DobarWeb.Schema do
     @desc "Find Places by location"
     connection field :places, node_type: :place do
       arg(:location, :location_input)
+      arg(:term, :string)
       resolve(&Resolvers.PlaceResolver.find_places/3)
     end
 

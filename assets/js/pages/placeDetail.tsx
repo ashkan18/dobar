@@ -2,7 +2,6 @@ import * as React from "react"
 import { Spinner, Flex, Box, Button, Serif, BorderBox, space, color, Col, Image } from "@artsy/palette"
 
 import Header from "../components/header";
-import styled from 'styled-components';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
