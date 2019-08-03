@@ -1,0 +1,5 @@
+<div>
+  <ul>
+    <li><%= link "Places", to: Routes.admin_place_path(@conn, :index) %></li>
+    <li><%= link "Users", to: Routes.admin_user_path(@conn, :index) %></li>
+</div>

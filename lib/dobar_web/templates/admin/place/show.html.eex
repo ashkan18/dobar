@@ -1,0 +1,8 @@
+<h1>Show Place</h1>
+
+<ul>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.admin_place_path(@conn, :edit, @place) %></span>
+<span><%= link "Back", to: Routes.admin_place_path(@conn, :index) %></span>

@@ -9,6 +9,25 @@ defmodule DobarWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :maybe_browser_auth do
+    plug Guardian.Plug.Pipeline,
+      module: DobarWeb.Auth.Guardian,
+      error_handler: DobarWeb.Admin.AuthErrorHandler
+
+    plug(Guardian.Plug.VerifySession, claims: %{"typ" => "access"})
+    plug(Guardian.Plug.VerifyHeader, realm: "Bearer")
+    plug(Guardian.Plug.LoadResource, allow_blank: true)
+  end
+  pipeline :ensure_admin_access do
+    plug(Guardian.Plug.EnsureAuthenticated,
+      claims: %{"typ" => "access"},
+      error_handler: DobarWeb.Admin.AuthErrorHandler
+    )
+  end
+  pipeline :admin_layout do
+    plug :put_layout, {DobarWeb.LayoutView, :admin}
+  end
+
   pipeline :graphql do
     plug DobarWeb.Auth.GraphQLContextPlug
   end
@@ -29,10 +48,16 @@ defmodule DobarWeb.Router do
     plug(Guardian.Plug.LoadResource, allow_blank: true)
   end
 
-  scope "/", DobarWeb do
-    pipe_through :browser
+  scope "/admin", DobarWeb.Admin, as: :admin do
+    pipe_through([:browser, :maybe_browser_auth])
+    get("/login", AuthController, :index)
+    post("/login", AuthController, :login)
+    get("/logout", AuthController, :logout)
 
-    get "/", HomeController, :index
+    pipe_through :ensure_admin_access
+    get("/", DashboardController, :index)
+    resources "/places", PlaceController
+    resources "/users", UserController
   end
 
   scope "/api" do
