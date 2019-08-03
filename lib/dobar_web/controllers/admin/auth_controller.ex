@@ -3,7 +3,6 @@ defmodule DobarWeb.Admin.AuthController do
   alias Dobar.{Accounts, Accounts.User}
   alias DobarWeb.Auth.Guardian
 
-
   def index(conn, _params) do
     changeset = Accounts.change_user(%User{})
     maybe_user = Guardian.Plug.current_resource(conn)

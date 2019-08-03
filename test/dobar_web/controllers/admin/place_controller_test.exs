@@ -75,6 +75,7 @@ defmodule DobarWeb.Admin.PlaceControllerTest do
     test "deletes chosen place", %{conn: conn, place: place} do
       conn = delete(conn, Routes.admin_place_path(conn, :delete, place))
       assert redirected_to(conn) == Routes.admin_place_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.admin_place_path(conn, :show, place))
       end

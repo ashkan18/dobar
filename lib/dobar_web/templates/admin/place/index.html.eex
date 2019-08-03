@@ -3,14 +3,14 @@
 <table>
   <thead>
     <tr>
-
-      <th></th>
+      <th>Name</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
 <%= for place <- @places do %>
     <tr>
-
+      <td> <%= place.name %> </td>
       <td>
         <%= link "Show", to: Routes.admin_place_path(@conn, :show, place) %>
         <%= link "Edit", to: Routes.admin_place_path(@conn, :edit, place) %>

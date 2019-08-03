@@ -1,7 +1,7 @@
 <h1>Show Place</h1>
 
 <ul>
-
+  <li><%= @place.name %></li>
 </ul>
 
 <span><%= link "Edit", to: Routes.admin_place_path(@conn, :edit, @place) %></span>

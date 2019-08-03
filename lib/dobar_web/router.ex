@@ -18,12 +18,14 @@ defmodule DobarWeb.Router do
     plug(Guardian.Plug.VerifyHeader, realm: "Bearer")
     plug(Guardian.Plug.LoadResource, allow_blank: true)
   end
+
   pipeline :ensure_admin_access do
     plug(Guardian.Plug.EnsureAuthenticated,
       claims: %{"typ" => "access"},
       error_handler: DobarWeb.Admin.AuthErrorHandler
     )
   end
+
   pipeline :admin_layout do
     plug :put_layout, {DobarWeb.LayoutView, :admin}
   end
@@ -49,7 +51,7 @@ defmodule DobarWeb.Router do
   end
 
   scope "/admin", DobarWeb.Admin, as: :admin do
-    pipe_through([:browser, :maybe_browser_auth])
+    pipe_through([:browser, :maybe_browser_auth, :admin_layout])
     get("/login", AuthController, :index)
     post("/login", AuthController, :login)
     get("/logout", AuthController, :logout)

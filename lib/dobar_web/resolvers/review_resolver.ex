@@ -11,6 +11,7 @@ defmodule DobarWeb.Resolvers.ReviewResolver do
       response: response
     })
   end
+
   def dobar(_parent, _args, _context), do: {:error, "Not Authorized"}
 
   def rideshare_dobar(_parent, %{place_id: place_id, response: response}, %{
@@ -23,5 +24,6 @@ defmodule DobarWeb.Resolvers.ReviewResolver do
       response: response
     })
   end
+
   def rideshare_dobar(_parent, _args, _context), do: {:error, "Not Authorized"}
 end

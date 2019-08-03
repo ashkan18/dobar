@@ -5,4 +5,8 @@ defmodule DobarWeb.Resolvers.PlaceResolver do
     Places.find_places(args)
     |> Absinthe.Relay.Connection.from_list(args)
   end
+
+  def find_place(_parent, args, _resolution) do
+    {:ok, Places.get_place!(args.id)}
+  end
 end

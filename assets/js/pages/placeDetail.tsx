@@ -12,7 +12,7 @@ interface Props {
 
 const FIND_PLACE_QUERY = gql`
   query FindPlace($id: ID!){
-    findPlace(id: $id) {
+    place(id: $id) {
       id
       name
       location
@@ -33,6 +33,7 @@ export default class PlaceDetail extends React.Component<Props, {}>{
               { !error && !loading && data &&
                 <Flex flexDirection="row" justifyContent="space-between">
                   <BorderBox flexDirection="column" style={{width: 200}}>
+                    {data.place.name}
                   </BorderBox>
                 </Flex>
               }

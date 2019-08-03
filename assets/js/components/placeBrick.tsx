@@ -1,4 +1,6 @@
 import * as React from "react"
+import { BorderBox } from "@artsy/palette";
+import { Link } from "react-router-dom";
 
 export interface Props{
   place: any
@@ -6,8 +8,12 @@ export interface Props{
 
 export default class PlaceBrick extends React.Component<Props, {}> {
   public render() {
-    return (<>
-      {this.props.place.name}
-    </>);
+    return (
+      <Link to={`/places/${this.props.place.id}`}>
+        <BorderBox>
+          {this.props.place.name}
+        </BorderBox>
+      </Link>
+    )
   }
 }
