@@ -14,15 +14,33 @@ defmodule DobarWeb.Admin.PlaceController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, attrs = %{"place" => %{"working_hours_csv" => working_hours_csv}}) do
-    create(conn, Map.merge(attrs, %{"working_hours" => String.split(working_hours_csv, ",")}))
+  def create(conn, %{"place" => place_params = %{"working_hours_csv" => working_hours_csv}}) do
+    working_hours = String.split(working_hours_csv, ",")
+
+    place_params =
+      place_params
+      |> Map.drop(["working_hours_csv"])
+      |> Map.put("working_hours", working_hours)
+      |> IO.inspect(label: 1)
+
+    create(conn, %{"place" => place_params})
   end
 
-  def create(conn, attrs = %{"place" => %{"tags_csv" => tags_csv}}) do
-    create(conn, Map.merge(attrs, %{"tags_csv" => String.split(tags_csv, ",")}))
+  def create(conn, %{"place" => place_params = %{"tags_csv" => tags_csv}}) do
+    tags = String.split(tags_csv, ",")
+
+    place_params =
+      place_params
+      |> Map.drop(["tags_csv"])
+      |> Map.put("tags", tags)
+      |> IO.inspect(label: 2)
+
+    create(conn, %{"place" => place_params})
   end
 
   def create(conn, %{"place" => place_params}) do
+    IO.inspect(place_params, label: 3)
+
     case Places.create_place(place_params) do
       {:ok, place} ->
         conn
