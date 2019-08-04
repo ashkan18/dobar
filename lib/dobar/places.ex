@@ -33,6 +33,7 @@ defmodule Dobar.Places do
     from place in query,
       order_by: st_distance(place.location, ^point)
   end
+
   defp place_query({:term, term}, query) do
     from place in query,
       where: place.name == ^term
@@ -68,9 +69,21 @@ defmodule Dobar.Places do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_place(attrs \\ %{}) do
+  def create_place(atts \\ %{})
+
+  def create_place(attrs = %{"lat" => lat, "lng" => lng}) do
+    location = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
+
+    attrs
+    |> Map.drop(["lat", "lng"])
+    |> Map.put("location", location)
+    |> create_place()
+  end
+
+  def create_place(attrs) do
     %Place{}
     |> Place.changeset(attrs)
+    |> IO.inspect()
     |> Repo.insert()
   end
 

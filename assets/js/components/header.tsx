@@ -18,7 +18,6 @@ const Header = (props: Props) => {
         { !props.noLogin && <MyAccount/> }
       </Flex>
       <Separator mb={2} mt={1}/>
-      <Spacer m={3} />
     </>
   )
 }

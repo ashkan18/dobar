@@ -46,6 +46,7 @@ defmodule DobarWeb.ReviewTest do
             response: true
           }
         )
+
       assert [%{"message" => "Not Authorized"}] = response["errors"]
     end
 
@@ -60,6 +61,7 @@ defmodule DobarWeb.ReviewTest do
             response: true
           }
         )
+
       assert response["data"]["dobar"]["reviewType"] == "dobar"
     end
   end
@@ -75,6 +77,7 @@ defmodule DobarWeb.ReviewTest do
             response: true
           }
         )
+
       assert [%{"message" => "Not Authorized"}] = response["errors"]
     end
 
@@ -89,6 +92,7 @@ defmodule DobarWeb.ReviewTest do
             response: true
           }
         )
+
       assert response["data"]["rideshareDobar"]["reviewType"] == "rideshare_dobar"
     end
   end

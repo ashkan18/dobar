@@ -1,0 +1,62 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below. <%= @changeset %></p>
+    </div>
+  <% end %>
+  <%= label f, :name %>
+  <%= text_input f, :name %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :short_description %>
+  <%= text_input f, :short_description %>
+  <%= error_tag f, :short_description %>
+
+  <%= label f, :description %>
+  <%= text_input f, :description %>
+  <%= error_tag f, :description %>
+
+  <%= label f, :address %>
+  <%= text_input f, :address %>
+  <%= error_tag f, :address %>
+
+  <%= label f, :address2 %>
+  <%= text_input f, :address2 %>
+  <%= error_tag f, :address2 %>
+
+  <%= label f, :city %>
+  <%= text_input f, :city %>
+  <%= error_tag f, :city %>
+
+  <%= label f, :postal_code %>
+  <%= text_input f, :postal_code %>
+  <%= error_tag f, :postal_code %>
+
+  <%= label f, :state %>
+  <%= text_input f, :state %>
+  <%= error_tag f, :state %>
+
+  <%= label f, :country %>
+  <%= text_input f, :country %>
+  <%= error_tag f, :country %>
+
+  <%= label f, :lat %>
+  <%= text_input f, :lat %>
+  <%= error_tag f, :lat %>
+
+  <%= label f, :lng %>
+  <%= text_input f, :lng %>
+  <%= error_tag f, :lng %>
+
+  <%= label f, :working_hours %>
+  <%= csv_input f, :working_hours %>
+  <%= error_tag f, :working_hours %>
+
+  <%= label f, :tags %>
+  <%= csv_input f, :tags %>
+  <%= error_tag f, :tags %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

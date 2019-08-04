@@ -1,0 +1,24 @@
+<h1>Listing Places</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for place <- @places do %>
+    <tr>
+      <td> <%= place.name %> </td>
+      <td>
+        <%= link "Show", to: Routes.admin_place_path(@conn, :show, place) %>
+        <%= link "Edit", to: Routes.admin_place_path(@conn, :edit, place) %>
+        <%= link "Delete", to: Routes.admin_place_path(@conn, :delete, place), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Place", to: Routes.admin_place_path(@conn, :new) %></span>

@@ -20,6 +20,12 @@ defmodule DobarWeb.Schema do
       resolve(&Resolvers.PlaceResolver.find_places/3)
     end
 
+    @desc "Find Place by Id"
+    field :place, :place do
+      arg(:id, non_null(:string))
+      resolve(&Resolvers.PlaceResolver.find_place/3)
+    end
+
     @desc "My user info"
     field :me, :user do
       resolve(&Resolvers.UserResolver.current_user/3)

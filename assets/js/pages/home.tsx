@@ -3,7 +3,7 @@ import { Flex, Input, Button, Spinner } from "@artsy/palette"
 import Header from "../components/header";
 import gql from "graphql-tag";
 import { ApolloConsumer } from "react-apollo";
-import PlaceBrick from "../components/placeBrick";
+import PlacesWall from "../components/placesWall";
 
 const FIND_PLACES = gql`
   query findPlaces($location: LocationInput, $term: String) {
@@ -11,6 +11,9 @@ const FIND_PLACES = gql`
       edges{
         node{
           id
+          name
+          workingHours
+          tags
         }
       }
     }
@@ -29,9 +32,9 @@ export default class Home extends React.Component<{}, State>{
 
   public render(){
     return(
-      <>
+      <Flex flexDirection="column" justifyItems="normal">
         <Header noLogin={false}/>
-        <Flex flexDirection="row">
+        <Flex flexDirection="row" mt={0}>
           <Input placeholder="Where"/>
           <Input placeholder="What"/>
           <ApolloConsumer>
@@ -51,15 +54,10 @@ export default class Home extends React.Component<{}, State>{
               > Search </Button>
             )}
           </ApolloConsumer>
-          {this.state.loading && <Spinner />}
-          {this.state.places && this.state.places.map( p => {
-            return(
-              <PlaceBrick place={p}/>
-            )
-          })
-          }
         </Flex>
-      </>
+        {this.state.loading && <Spinner />}
+        {this.state.places && <PlacesWall places={this.state.places.map( p => p)} />}
+      </Flex>
     )
   }
 }

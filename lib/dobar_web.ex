@@ -41,6 +41,7 @@ defmodule DobarWeb do
 
       import DobarWeb.ErrorHelpers
       import DobarWeb.Gettext
+      import DovarWeb.InputHelpers
       alias DobarWeb.Router.Helpers, as: Routes
     end
   end

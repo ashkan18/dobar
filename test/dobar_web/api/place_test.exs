@@ -39,11 +39,15 @@ defmodule DobarWeb.PlaceTest do
         variables: %{
           location: %{
             lat: 40.6843493,
-            lng: -73.9886644,
+            lng: -73.9886644
           },
           first: 10
         }
       )
-    assert Enum.map(response["data"]["places"]["edges"], fn p -> p["node"]["id"] end) == [context.good_burger.id, context.khoob_burger.id]
+
+    assert Enum.map(response["data"]["places"]["edges"], fn p -> p["node"]["id"] end) == [
+             context.good_burger.id,
+             context.khoob_burger.id
+           ]
   end
 end
