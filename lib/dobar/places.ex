@@ -69,6 +69,8 @@ defmodule Dobar.Places do
       {:error, %Ecto.Changeset{}}
 
   """
+  def create_place(atts \\ %{})
+
   def create_place(attrs = %{"lat" => lat, "lng" => lng}) do
     location = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
 
@@ -78,7 +80,7 @@ defmodule Dobar.Places do
     |> create_place()
   end
 
-  def create_place(attrs \\ %{}) do
+  def create_place(attrs) do
     %Place{}
     |> Place.changeset(attrs)
     |> Repo.insert()
