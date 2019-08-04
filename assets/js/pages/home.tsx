@@ -3,7 +3,6 @@ import { Flex, Input, Button, Spinner } from "@artsy/palette"
 import Header from "../components/header";
 import gql from "graphql-tag";
 import { ApolloConsumer } from "react-apollo";
-import PlaceBrick from "../components/placeBrick";
 import PlacesWall from "../components/placesWall";
 
 const FIND_PLACES = gql`
@@ -13,6 +12,8 @@ const FIND_PLACES = gql`
         node{
           id
           name
+          workingHours
+          tags
         }
       }
     }
