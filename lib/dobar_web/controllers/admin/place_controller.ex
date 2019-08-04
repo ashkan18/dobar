@@ -14,6 +14,10 @@ defmodule DobarWeb.Admin.PlaceController do
     render(conn, "new.html", changeset: changeset)
   end
 
+  def create(conn, attrs = %{"place" => %{"working_hours_csv" => working_hours_csv}}) do
+    create(conn, Map.merge(attrs, %{"working_hours_csv" => String.split(working_hours_csv, ",")}))
+  end
+
   def create(conn, %{"place" => place_params}) do
     case Places.create_place(place_params) do
       {:ok, place} ->

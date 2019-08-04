@@ -48,6 +48,10 @@
   <%= text_input f, :lng %>
   <%= error_tag f, :lng %>
 
+  <%= label f, :working_hours %>
+  <%= csv_input f, :working_hours %>
+  <%= error_tag f, :working_hours %>
+
   <div>
     <%= submit "Save" %>
   </div>
