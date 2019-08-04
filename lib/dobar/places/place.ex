@@ -27,6 +27,7 @@ defmodule Dobar.Places.Place do
     field :short_description, :string
     field :smoking, :boolean
     field :state, :string
+    field :tags, {:array, :string}
     field :takes_reservation, :boolean
     field :twitter, :string
     field :website, :string
@@ -40,7 +41,7 @@ defmodule Dobar.Places.Place do
   end
 
   @required_fields ~w(name short_description description address city state country postal_code location)a
-  @optional_fields ~w(price_range address2 neighborhood website logo_url working_hours wifi weelchaire_accessible twitter website takes_reservation phone parking outdoor_seating good_for_groups accepts_card)a
+  @optional_fields ~w(price_range address2 neighborhood website logo_url working_hours wifi weelchaire_accessible tags twitter website takes_reservation phone parking outdoor_seating good_for_groups accepts_card)a
 
   @doc false
   def changeset(place, attrs) do

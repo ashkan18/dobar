@@ -10,6 +10,7 @@ defmodule Dobar.Repo.Migrations.AddMoreFieldsToPlace do
       add :accepts_card, :boolean
       add :wifi, :boolean
       add :outdoor_seating, :boolean
+      add :tags, {:array, :string}
       add :takes_reservation, :boolean
       add :good_for_groups, :boolean
       add :weelchaire_accessible, :boolean

@@ -52,6 +52,10 @@
   <%= csv_input f, :working_hours %>
   <%= error_tag f, :working_hours %>
 
+  <%= label f, :tags %>
+  <%= csv_input f, :tags %>
+  <%= error_tag f, :tags %>
+
   <div>
     <%= submit "Save" %>
   </div>
