@@ -20,6 +20,7 @@ const FIND_PLACE_QUERY = gql`
       id
       name
       location
+      tags
     }
   }
 `
@@ -40,23 +41,24 @@ export default class PlaceDetail extends React.Component<Props, State>{
               { error && <> Error! {error} </>}
               { !error && !loading && data &&
                 <Flex flexDirection="column" justifyContent="space-between">
-                  <Sans size={4}>{data.place.name}</Sans>
+                  <Sans size={10}>{data.place.name}</Sans>
+                  <Sans size={6}>{data.place.tags.map(t => `#${t}`).join(" ")}</Sans>
                   <Flex flexDirection="row">
-                    <Sans size={2}>Have you been to {data.place.name}?</Sans>
-                    <CheckIcon ml={2} opacity={this.state.haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => this.setState({haveBeenToPlace: true})}/>
+                    <Sans size={5}>Have you been to {data.place.name}?</Sans>
+                    <CheckIcon ml={2} height={30} width={30} opacity={this.state.haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => this.setState({haveBeenToPlace: true})}/>
                   </Flex>
                   {this.state.haveBeenToPlace &&
                     <Flex flexDirection="row">
-                      <Sans size={2}>Would you go to this place again?</Sans>
-                      <CheckIcon ml={2} opacity={this.state.dobar === true ? 1 : 0.2} onClick={ _e => this.setState({dobar: true})}/>
-                      <CloseIcon ml={2} opacity={this.state.dobar === false ? 1 : 0.2} onClick={ _e => this.setState({dobar: false})}/>
+                      <Sans size={5}>Would you go to this place again?</Sans>
+                      <CheckIcon ml={2} height={30} width={30} opacity={this.state.dobar === true ? 1 : 0.2} onClick={ _e => this.setState({dobar: true})}/>
+                      <CloseIcon ml={2} height={30} width={30} opacity={this.state.dobar === false ? 1 : 0.2} onClick={ _e => this.setState({dobar: false})}/>
                     </Flex>
                   }
                   {this.state.dobar &&
                     <Flex flexDirection="row">
-                      <Sans size={2}>You are 3 miles away from {data.place.name}, would you use a rideshare service to go there?</Sans>
-                      <CheckIcon ml={2} opacity={this.state.rideShareDobar === true ? 1 : 0.2} onClick={ _e => this.setState({rideShareDobar: true})}/>
-                      <CloseIcon ml={2} opacity={this.state.rideShareDobar === false ? 1 : 0.2} onClick={ _e => this.setState({rideShareDobar: false})}/>
+                      <Sans size={5}>You are 3 miles away from {data.place.name}, would you use a rideshare service to go there?</Sans>
+                      <CheckIcon ml={2} height={30} width={30} opacity={this.state.rideShareDobar === true ? 1 : 0.2} onClick={ _e => this.setState({rideShareDobar: true})}/>
+                      <CloseIcon ml={2} height={30} width={30} opacity={this.state.rideShareDobar === false ? 1 : 0.2} onClick={ _e => this.setState({rideShareDobar: false})}/>
                     </Flex>
                   }
                 </Flex>
