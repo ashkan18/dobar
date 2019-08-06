@@ -1,0 +1,26 @@
+<h1>Listing Place images</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Original url</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for place_image <- @place_images do %>
+    <tr>
+      <td><%= place_image.original_url %></td>
+
+      <td>
+        <%= link "Show", to: Routes.admin_place_place_image_path(@conn, :show, place_image) %>
+        <%= link "Edit", to: Routes.admin_place_place_image_path(@conn, :edit, place_image) %>
+        <%= link "Delete", to: Routes.admin_place_place_image_path(@conn, :delete, place_image), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Place image", to: Routes.admin_place_place_image_path(@conn, :new, @place_id) %></span>

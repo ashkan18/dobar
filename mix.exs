@@ -48,7 +48,15 @@ defmodule Dobar.MixProject do
       {:geo_postgis, "~> 3.1"},
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      arc: "~> 0.11.0",
+
+      # If using Amazon S3:
+      ex_aws: "~> 2.0",
+      ex_aws_s3: "~> 2.0",
+      hackney: "~> 1.6",
+      poison: "~> 3.1",
+      sweet_xml: "~> 0.6"
     ]
   end
 

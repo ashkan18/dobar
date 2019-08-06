@@ -36,6 +36,7 @@ defmodule Dobar.Places.Place do
     field :working_hours, {:array, :string}
 
     has_many :reviews, Dobar.Reviews.Review
+    has_many :images, Dobar.Places.PlaceImage
 
     timestamps()
   end

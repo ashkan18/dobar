@@ -1,0 +1,13 @@
+<h1>Show Place image</h1>
+
+<ul>
+
+  <li>
+    <strong>Original url:</strong>
+    <%= @place_image.original_url %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.admin_place_place_image_path(@conn, :edit, @place_image) %></span>
+<span><%= link "Back", to: Routes.admin_place_place_image_path(@conn, :index, @place_image.place_id) %></span>

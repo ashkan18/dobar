@@ -14,6 +14,7 @@
       <td>
         <%= link "Show", to: Routes.admin_place_path(@conn, :show, place) %>
         <%= link "Edit", to: Routes.admin_place_path(@conn, :edit, place) %>
+        <%= link "Upload Image", to: Routes.admin_place_place_image_path(@conn, :index, place.id) %>
         <%= link "Delete", to: Routes.admin_place_path(@conn, :delete, place), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>

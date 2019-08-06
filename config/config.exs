@@ -31,6 +31,14 @@ config :dobar, DobarWeb.Auth.Guardian,
   issuer: "dobar",
   secret_key: "uGV84HYOnL45wwxgNUUsEj9V82RNxp8xCzUWLuA+KO/eiLbNw+Tfs4EVFcy8JJjv"
 
+config :arc,
+  storage: Arc.Storage.S3,
+  bucket: {:system, "AWS_S3_BUCKET"}
+
+config :ex_aws,
+  access_key_id: [{:system, "AWS_ACCESS_KEY_ID"}, :instance_role],
+  secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

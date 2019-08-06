@@ -133,4 +133,100 @@ defmodule Dobar.Places do
   def change_place(%Place{} = place) do
     Place.changeset(place, %{})
   end
+
+  alias Dobar.Places.PlaceImage
+
+  @doc """
+  Returns the list of place_images.
+
+  ## Examples
+
+      iex> list_place_images()
+      [%PlaceImage{}, ...]
+
+  """
+  def list_place_images do
+    Repo.all(PlaceImage)
+  end
+
+  @doc """
+  Gets a single place_image.
+
+  Raises `Ecto.NoResultsError` if the Place image does not exist.
+
+  ## Examples
+
+      iex> get_place_image!(123)
+      %PlaceImage{}
+
+      iex> get_place_image!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_place_image!(id), do: Repo.get!(PlaceImage, id)
+
+  @doc """
+  Creates a place_image.
+
+  ## Examples
+
+      iex> create_place_image(%{field: value})
+      {:ok, %PlaceImage{}}
+
+      iex> create_place_image(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_place_image(attrs \\ %{}) do
+    %PlaceImage{}
+    |> PlaceImage.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a place_image.
+
+  ## Examples
+
+      iex> update_place_image(place_image, %{field: new_value})
+      {:ok, %PlaceImage{}}
+
+      iex> update_place_image(place_image, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_place_image(%PlaceImage{} = place_image, attrs) do
+    place_image
+    |> PlaceImage.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a PlaceImage.
+
+  ## Examples
+
+      iex> delete_place_image(place_image)
+      {:ok, %PlaceImage{}}
+
+      iex> delete_place_image(place_image)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_place_image(%PlaceImage{} = place_image) do
+    Repo.delete(place_image)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking place_image changes.
+
+  ## Examples
+
+      iex> change_place_image(place_image)
+      %Ecto.Changeset{source: %PlaceImage{}}
+
+  """
+  def change_place_image(%PlaceImage{} = place_image) do
+    PlaceImage.changeset(place_image, %{})
+  end
 end

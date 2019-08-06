@@ -101,4 +101,63 @@ defmodule Dobar.PlacesTest do
       assert %Ecto.Changeset{} = Places.change_place(place)
     end
   end
+
+  describe "place_images" do
+    alias Dobar.Places.PlaceImage
+
+    @valid_attrs %{original_url: "some original_url"}
+    @update_attrs %{original_url: "some updated original_url"}
+    @invalid_attrs %{original_url: nil}
+
+    def place_image_fixture(attrs \\ %{}) do
+      {:ok, place_image} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Places.create_place_image()
+
+      place_image
+    end
+
+    test "list_place_images/0 returns all place_images" do
+      place_image = place_image_fixture()
+      assert Places.list_place_images() == [place_image]
+    end
+
+    test "get_place_image!/1 returns the place_image with given id" do
+      place_image = place_image_fixture()
+      assert Places.get_place_image!(place_image.id) == place_image
+    end
+
+    test "create_place_image/1 with valid data creates a place_image" do
+      assert {:ok, %PlaceImage{} = place_image} = Places.create_place_image(@valid_attrs)
+      assert place_image.original_url == "some original_url"
+    end
+
+    test "create_place_image/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Places.create_place_image(@invalid_attrs)
+    end
+
+    test "update_place_image/2 with valid data updates the place_image" do
+      place_image = place_image_fixture()
+      assert {:ok, %PlaceImage{} = place_image} = Places.update_place_image(place_image, @update_attrs)
+      assert place_image.original_url == "some updated original_url"
+    end
+
+    test "update_place_image/2 with invalid data returns error changeset" do
+      place_image = place_image_fixture()
+      assert {:error, %Ecto.Changeset{}} = Places.update_place_image(place_image, @invalid_attrs)
+      assert place_image == Places.get_place_image!(place_image.id)
+    end
+
+    test "delete_place_image/1 deletes the place_image" do
+      place_image = place_image_fixture()
+      assert {:ok, %PlaceImage{}} = Places.delete_place_image(place_image)
+      assert_raise Ecto.NoResultsError, fn -> Places.get_place_image!(place_image.id) end
+    end
+
+    test "change_place_image/1 returns a place_image changeset" do
+      place_image = place_image_fixture()
+      assert %Ecto.Changeset{} = Places.change_place_image(place_image)
+    end
+  end
 end
