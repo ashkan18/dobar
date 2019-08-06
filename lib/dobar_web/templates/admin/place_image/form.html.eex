@@ -5,9 +5,9 @@
     </div>
   <% end %>
 
-  <%= label f, :image_file %>
-  <%= file_input f, :image_file %>
-  <%= error_tag f, :image_file %>
+  <%= label f, :original_url %>
+  <%= file_input f, :original_url %>
+  <%= error_tag f, :original_url %>
 
   <div>
     <%= submit "Upload" %>

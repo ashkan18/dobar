@@ -13,17 +13,17 @@ defmodule DobarWeb.Admin.PlaceImageController do
     render(conn, "new.html", changeset: changeset, place_id: place_id)
   end
 
-  def create(conn, %{"place_id" => place_id, "place_image" => %{"image_file" => image_file} }) do
+  def create(conn, %{"place_id" => place_id, "place_image" => %{"original_url" => original_file} }) do
     with place <- Places.get_place!(place_id),
-        {:ok, file} <- PlaceImageUploader.store({image_file, place}),
+        {:ok, file} <- PlaceImageUploader.store({original_file, place}),
         original_url <- PlaceImageUploader.url({file, place}, :original),
-        {:ok, place_image} <- Places.create_place_image(%{original_url: original_url, place_id: place.id, uploader_id: Guardian.Plug.current_resource(conn).id}) do
+        {:ok, place_image} <- Places.create_place_image(%{original_url: original_url, place_id: place.id, uploader_id: "d1d71d2b-55b4-42af-8e80-7bf582c7acda"}) do # uploader_id: Guardian.Plug.current_resource(conn).id}) do
       conn
       |> put_flash(:info, "Place image created successfully.")
       |> redirect(to: Routes.admin_place_place_image_path(conn, :index, place_image.place_id))
     else
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, place_id: place_id)
     end
   end
 

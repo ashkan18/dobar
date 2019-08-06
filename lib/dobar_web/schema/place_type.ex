@@ -2,6 +2,17 @@ defmodule DobarWeb.Schema.PlaceTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
 
+  @desc "A Place Image"
+  object :place_image do
+    field :id, :id
+    field :image_url, :string do
+      arg :type, :string
+      resolve &DobarWeb.Resolvers.PlaceImageResolver.imageUrl/3
+    end
+    field :place_id, :id
+    field :uploader_id, :id
+  end
+
   @desc "A Place"
   object :place do
     field :id, :id
@@ -15,6 +26,7 @@ defmodule DobarWeb.Schema.PlaceTypes do
     field :facebook, :string
     field :good_for_groups, :boolean
     field :instagram, :string
+    field :images, list_of(:place_image)
     field :location, :location
     field :logo_url, :string
     field :name, :string

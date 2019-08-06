@@ -22,6 +22,7 @@ defmodule Dobar.Places do
   def find_places(args \\ %{}) do
     Place
     |> filter_query(args)
+    |> Repo.preload(:images)
     |> Repo.all()
   end
 

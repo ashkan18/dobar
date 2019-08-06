@@ -1,5 +1,5 @@
 defmodule DobarWeb.Resolvers.PlaceResolver do
-  alias Dobar.Places
+  alias Dobar.{Places, Repo}
 
   def find_places(_parent, args, _resolution) do
     Places.find_places(args)
@@ -7,6 +7,6 @@ defmodule DobarWeb.Resolvers.PlaceResolver do
   end
 
   def find_place(_parent, args, _resolution) do
-    {:ok, Places.get_place!(args.id)}
+    {:ok, Places.get_place!(args.id) |> Repo.preload(:images)}
   end
 end
