@@ -6,13 +6,7 @@ import Header from "../components/header";
 import { Redirect } from "react-router";
 import { useMutation } from '@apollo/react-hooks';
 import gql from "graphql-tag";
-
-interface State {
-  username: string
-  password: string
-  loggedIn: boolean
-  error?: string
-}
+import { useState } from "react";
 
 const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
@@ -22,43 +16,29 @@ const LOGIN = gql`
   }
 `;
 
-
-export default class Login extends React.Component<{}, State>{
-  authService: AuthService = new AuthService;
-  public constructor(props: {}, context: any) {
-    super(props, context)
-    this.state = { loggedIn: false, username: "", password: "" }
+const Login = () => {
+  const [username, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [login, { data, loading, error }] = useMutation(LOGIN)
+  if (data && data.login.token) {
+    (new AuthService).setToken(data.token)
+    return <Redirect to={'/'}/>
   }
-
-  public render(){
-    let input;
-    const [login, { data, loading, error }] = useMutation(LOGIN)
-    if (data.token) {
-      (new AuthService).setToken(data.token)
-      return <Redirect to={'/'}/>
-    } else if (loading) {
-      return <Spinner />
-    }
-    return(
-      <>
-        <Header noLogin={true}/>
-        <Box m={3} mt={6}>
-          <Join separator={<Spacer m={1} />}>
-            { error && <> {error} </> }
-            <Input onChange={e => this.setUsername(e.currentTarget.value)} placeholder="Email" value={this.state.username}/>
-            <Input onChange={e => this.setPassword(e.currentTarget.value)} placeholder="Password" value={this.state.password} type="password"/>
-            <Button size="medium" onClick={ _e => login({variables: {username: this.state.username, password: this.state.password}}) }>Login</Button>
-            <>Don't have an account? click <Link to={'/signup'}>here</Link></>
-          </Join>
-        </Box>
-      </>
-    )
-  }
-
-  private setUsername(username: string) {
-    this.setState({username})
-  }
-  private setPassword(password: string) {
-    this.setState({password})
-  }
+  return(
+    <>
+      <Header noLogin={true}/>
+      <Box m={3} mt={6}>
+        <Join separator={<Spacer m={1} />}>
+          <Input onChange={e => setUserName(e.currentTarget.value)} placeholder="Username"/>
+          <Input onChange={e => setPassword(e.currentTarget.value)} placeholder="Password" type="password"/>
+          <Button size="medium" onClick={ _e => login({variables: {username, password}}) }>
+          {loading ? <Spinner /> : "Login"}</Button>
+          <>Don't have an account? click <Link to={'/signup'}>here</Link></>
+          { error && <> Invalid username or password, please try again. </> }
+        </Join>
+      </Box>
+    </>
+  )
 }
+
+export default Login

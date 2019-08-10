@@ -29,6 +29,7 @@ import PlaceDetail from "./pages/placeDetail";
 import ApolloClient from "apollo-client"
 import { setContext } from 'apollo-link-context'
 import { ApolloProvider } from "react-apollo"
+import { ApolloProvider as ApolloProviderHooks } from '@apollo/react-hooks'
 import AuthService from "./services/authService"
 import { createHttpLink } from "apollo-link-http"
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -59,19 +60,21 @@ class App extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <Theme style={{width: "100%"}}>
-          <Box m={2}>
-            <GlobalStyles />
-            <Router>
-              <Switch>
-                <Route path="/places/:placeId" component={PlaceDetail}/>
-                <Route path="/login" exact component={Login} />
-                <Route path="/signup" exact component={Signup} />
-                <Route path="/" component={Home}/>
-              </Switch>
-            </Router>
-          </Box>
-        </Theme>
+        <ApolloProviderHooks client={client}>
+          <Theme style={{width: "100%"}}>
+            <Box m={2}>
+              <GlobalStyles />
+              <Router>
+                <Switch>
+                  <Route path="/places/:placeId" component={PlaceDetail}/>
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/signup" exact component={Signup} />
+                  <Route path="/" component={Home}/>
+                </Switch>
+              </Router>
+            </Box>
+          </Theme>
+        </ApolloProviderHooks>
       </ApolloProvider>
     )
   }
