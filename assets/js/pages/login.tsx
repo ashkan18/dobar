@@ -21,7 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [login, { data, loading, error }] = useMutation(LOGIN)
   if (data && data.login.token) {
-    (new AuthService).setToken(data.token)
+    (new AuthService).setToken(data.login.token)
     return <Redirect to={'/'}/>
   }
   return(

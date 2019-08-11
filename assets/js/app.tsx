@@ -24,7 +24,7 @@ import { BrowserRouter as Router} from "react-router-dom"
 import Home from "./pages/home"
 import Login from "./pages/login"
 import Signup from "./pages/signup"
-import PlaceDetail from "./pages/placeDetail";
+import {PlaceDetail} from "./pages/placeDetail";
 
 import ApolloClient from "apollo-client"
 import { setContext } from 'apollo-link-context'
@@ -45,7 +45,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      ...(token && {authorization: `Bearer ${token}`}),
     }
   }
 });

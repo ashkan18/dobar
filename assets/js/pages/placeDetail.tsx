@@ -1,15 +1,11 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, CheckIcon, CloseIcon } from "@artsy/palette"
+import { Spinner, Flex, Sans } from "@artsy/palette"
 
-import Header from "../components/header";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import Header from "../components/header"
+import gql from "graphql-tag"
+import { useQuery } from "@apollo/react-hooks"
+import { Questions } from "../components/questions"
 
-interface State {
-  haveBeenToPlace: boolean | null
-  dobar: boolean | null
-  rideShareDobar: boolean | null
-}
 interface Props {
   match: any
 }
@@ -25,48 +21,25 @@ const FIND_PLACE_QUERY = gql`
   }
 `
 
-export default class PlaceDetail extends React.Component<Props, State>{
-  public constructor(props: Props, context: any) {
-    super(props, context)
-    this.state = { haveBeenToPlace: null, dobar: null, rideShareDobar: null }
-  }
-  public render(){
+export const PlaceDetail = (props: Props) => {
+  const { loading, data } = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
+  if (loading) {
     return(
-      <Query query={FIND_PLACE_QUERY} variables={{id: this.props.match.params.placeId}}>
-        {({ loading, error, data }) => {
-          return (
-            <>
-              <Header noLogin={false}/>
-              { loading && <Spinner size="large"/>}
-              { error && <> Error! {error} </>}
-              { !error && !loading && data &&
-                <Flex flexDirection="column" justifyContent="space-between">
-                  <Sans size={10}>{data.place.name}</Sans>
-                  <Sans size={6}>{data.place.tags.map(t => `#${t}`).join(" ")}</Sans>
-                  <Flex flexDirection="row">
-                    <Sans size={5}>Have you been to {data.place.name}?</Sans>
-                    <CheckIcon ml={2} height={30} width={30} opacity={this.state.haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => this.setState({haveBeenToPlace: true})}/>
-                  </Flex>
-                  {this.state.haveBeenToPlace &&
-                    <Flex flexDirection="row">
-                      <Sans size={5}>Would you go to this place again?</Sans>
-                      <CheckIcon ml={2} height={30} width={30} opacity={this.state.dobar === true ? 1 : 0.2} onClick={ _e => this.setState({dobar: true})}/>
-                      <CloseIcon ml={2} height={30} width={30} opacity={this.state.dobar === false ? 1 : 0.2} onClick={ _e => this.setState({dobar: false})}/>
-                    </Flex>
-                  }
-                  {this.state.dobar &&
-                    <Flex flexDirection="row">
-                      <Sans size={5}>You are 3 miles away from {data.place.name}, would you use a rideshare service to go there?</Sans>
-                      <CheckIcon ml={2} height={30} width={30} opacity={this.state.rideShareDobar === true ? 1 : 0.2} onClick={ _e => this.setState({rideShareDobar: true})}/>
-                      <CloseIcon ml={2} height={30} width={30} opacity={this.state.rideShareDobar === false ? 1 : 0.2} onClick={ _e => this.setState({rideShareDobar: false})}/>
-                    </Flex>
-                  }
-                </Flex>
-              }
-            </>
-          )
-        }}
-      </Query>
+      <>
+        <Header noLogin={false}/>
+        <Spinner size="large"/>
+      </>
+    )
+  } else if (data) {
+    return(
+      <>
+        <Header noLogin={false}/>
+        <Flex flexDirection="column" justifyContent="space-between">
+          <Sans size={10}>{data.place.name}</Sans>
+          <Sans size={6}>{data.place.tags.map(t => `#${t}`).join(" ")}</Sans>
+          <Questions place={data.place}/>
+        </Flex>
+      </>
     )
   }
 }

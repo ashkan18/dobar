@@ -22,8 +22,8 @@ defmodule Dobar.Places do
   def find_places(args \\ %{}) do
     Place
     |> filter_query(args)
-    |> Repo.preload(:images)
     |> Repo.all()
+    |> Repo.preload(:images)
   end
 
   defp filter_query(query, args), do: Enum.reduce(args, query, &place_query/2)

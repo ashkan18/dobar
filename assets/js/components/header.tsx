@@ -1,7 +1,7 @@
 import { Flex, Spacer, Separator } from '@artsy/palette'
 import React from "react"
 import { Link } from "react-router-dom"
-import MyAccount from './my_account'
+import {Account} from './account'
 import styled from 'styled-components';
 
 interface Props {
@@ -15,7 +15,7 @@ const Header = (props: Props) => {
         <StyledLink to={"/"}>
           <><span style={{fontSize: 33}}>D</span><span style={{fontSize: 12}}>o</span><span style={{fontSize: 33}}>.B</span><span style={{fontSize: 12}}>ar</span></>
         </StyledLink>
-        { !props.noLogin && <MyAccount/> }
+        { !props.noLogin && <Account/> }
       </Flex>
       <Separator mb={2} mt={1}/>
     </>
