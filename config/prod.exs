@@ -56,6 +56,6 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
 config :dobar, Dobar.Repo,
-  url: System.get_env("DATABASE_URL"),
+  url: {:system, "DATABASE_URL"},
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true

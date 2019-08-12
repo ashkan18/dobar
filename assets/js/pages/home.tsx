@@ -14,6 +14,12 @@ const FIND_PLACES = gql`
           name
           workingHours
           tags
+          images {
+            urls {
+              original
+              thumbnail
+            }
+          }
         }
       }
     }

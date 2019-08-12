@@ -4,7 +4,7 @@
 
   <li>
     <strong>Original url:</strong>
-    <%= @place_image.original_url %>
+    <%= @place_image.urls %>
   </li>
 
 </ul>

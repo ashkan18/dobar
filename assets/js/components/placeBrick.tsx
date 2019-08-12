@@ -1,5 +1,5 @@
 import * as React from "react"
-import { BorderBox, Sans, Flex } from "@artsy/palette";
+import { BorderBox, Sans, Flex, Image } from "@artsy/palette";
 import { Link } from "react-router-dom";
 
 export interface Props{
@@ -12,6 +12,7 @@ export default class PlaceBrick extends React.Component<Props, {}> {
     return (
       <BorderBox>
         <Flex flexDirection="column" justifyContent="space-between">
+          <Image src={place.images[0].urls.thumbnail} />
           <Link to={`/places/${place.id}`}>
             <Sans size="4">{place.name}</Sans>
           </Link>
