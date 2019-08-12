@@ -19,7 +19,6 @@ config :dobar, DobarWeb.Endpoint,
   pubsub: [name: Dobar.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :dobar, Dobar.Repo,
-  adapter: Ecto.Adapters.Postgres,
   types: Dobar.PostgresTypes
 
 # Configures Elixir's Logger
