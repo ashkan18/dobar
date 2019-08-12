@@ -18,6 +18,10 @@ config :dobar, DobarWeb.Endpoint,
   render_errors: [view: DobarWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Dobar.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :dobar, Dobar.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  types: Dobar.PostgresTypes
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
