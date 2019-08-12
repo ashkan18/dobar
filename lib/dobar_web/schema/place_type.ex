@@ -4,14 +4,22 @@ defmodule DobarWeb.Schema.PlaceTypes do
 
   @desc "Image urls for a PlaceImage"
   object :image_urls do
-    field :thumbnail, :string
-    field :original, :string
+    field :thumb, :string do
+      resolve fn image_urls, _, _ ->
+        {:ok, image_urls["thumb"]}
+      end
+    end
+    field :original, :string do
+      resolve fn image_urls, _, _ ->
+        {:ok, image_urls["original"]}
+      end
+    end
   end
 
   @desc "A Place Image"
   object :place_image do
     field :id, :id
-    field :urls, :image_urls do
+    field :urls, :image_urls
     field :place_id, :id
     field :uploader_id, :id
   end

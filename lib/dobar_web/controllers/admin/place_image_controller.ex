@@ -16,7 +16,7 @@ defmodule DobarWeb.Admin.PlaceImageController do
   def create(conn, %{"place_id" => place_id, "place_image" => %{"image_file" => image_file} }) do
     with place <- Places.get_place!(place_id),
         {:ok, file} <- PlaceImageUploader.store({image_file, place}),
-        urls <- PlaceImageUploader.url({file, place}),
+        urls <- PlaceImageUploader.urls({file, place}),
         {:ok, place_image} <- Places.create_place_image(%{urls: urls, place_id: place.id, uploader_id: Guardian.Plug.current_resource(conn).id}) do
       conn
       |> put_flash(:info, "Place image created successfully.")
@@ -31,27 +31,6 @@ defmodule DobarWeb.Admin.PlaceImageController do
     place_image = Places.get_place_image!(id)
     render(conn, "show.html", place_image: place_image)
   end
-
-  def edit(conn, %{"id" => id}) do
-    place_image = Places.get_place_image!(id)
-    changeset = Places.change_place_image(place_image)
-    render(conn, "edit.html", place_image: place_image, changeset: changeset)
-  end
-
-  def update(conn, %{"id" => id, "place_image" => place_image_params}) do
-    place_image = Places.get_place_image!(id)
-
-    case Places.update_place_image(place_image, place_image_params) do
-      {:ok, place_image} ->
-        conn
-        |> put_flash(:info, "Place image updated successfully.")
-        |> redirect(to: Routes.admin_place_place_image_path(conn, :show, place_image))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", place_image: place_image, changeset: changeset)
-    end
-  end
-
   def delete(conn, %{"id" => id}) do
     place_image = Places.get_place_image!(id)
     {:ok, _place_image} = Places.delete_place_image(place_image)

@@ -4,7 +4,7 @@ defmodule Dobar.Repo.Migrations.AddUrlsToPlaceImages do
   def change do
     alter table(:place_images) do
       add :urls, :map
-      drop :original_url
+      remove :original_url
     end
   end
 end

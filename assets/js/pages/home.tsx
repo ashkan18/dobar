@@ -17,7 +17,7 @@ const FIND_PLACES = gql`
           images {
             urls {
               original
-              thumbnail
+              thumb
             }
           }
         }

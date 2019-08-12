@@ -11,7 +11,11 @@
   <tbody>
 <%= for place_image <- @place_images do %>
     <tr>
-      <td><img src=<%= place_image.original_url %> width="200px" height="200px"/></td>
+      <td>
+      <%= if place_image.urls do %>
+        <img src=<%= place_image.urls["thumb"] %> width="200px" height="200px"/>
+      <% end %>
+      </td>
 
       <td>
         <%= link "Delete", to: Routes.admin_place_place_image_path(@conn, :delete, place_image.place_id, place_image.id), method: :delete, data: [confirm: "Are you sure?"] %>
