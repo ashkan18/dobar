@@ -56,7 +56,7 @@ defmodule DobarWeb.Router do
     post("/login", AuthController, :login)
     get("/logout", AuthController, :logout)
 
-    #pipe_through :ensure_admin_access
+    pipe_through :ensure_admin_access
     get("/", DashboardController, :index)
     resources "/places", PlaceController do
       resources "/images", PlaceImageController
