@@ -38,7 +38,7 @@ export default class Home extends React.Component<{}, State>{
 
   public render(){
     return(
-      <Flex flexDirection="column" justifyItems="normal">
+      <Flex flexDirection="column">
         <Header noLogin={false}/>
         <Flex flexDirection="row" mt={0}>
           <Input placeholder="Where"/>
