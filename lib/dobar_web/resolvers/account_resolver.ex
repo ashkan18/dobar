@@ -25,8 +25,8 @@ defmodule DobarWeb.Resolvers.AccountResolver do
   def current_user(_parent, _args, %{context: %{current_user: current_user}}),
     do: {:ok, current_user}
 
-  def add_to_list(_parent, %{place_id: place_id, list_type: list_type}, %{context: %{current_user: current_user}}) do
-    Accounts.create_user_list(%{place_id: place_id, list_type: list_type, user_id: current_user.id})
+  def add_to_list(_parent, %{place_id: place_id, list_type: list_type}, %{context: %{current_user: %{id: user_id}}}) do
+    Accounts.create_user_list(%{place_id: place_id, list_type: list_type, user_id: user_id})
   end
   def add_to_list(_parent, _args, _context), do: {:error, "Not Authorized"}
 end

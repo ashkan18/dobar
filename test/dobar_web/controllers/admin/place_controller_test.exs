@@ -3,8 +3,21 @@ defmodule DobarWeb.Admin.PlaceControllerTest do
 
   alias Dobar.Places
 
-  @create_attrs %{}
-  @update_attrs %{}
+  @create_attrs %{
+    address: "some address",
+    address2: "some address2",
+    city: "some city",
+    country: "some country",
+    description: "some description",
+    name: "some name",
+    postal_code: "some postal_code",
+    short_description: "some short_description",
+    state: "some state",
+    location: %Geo.Point{coordinates: {44.2, 74.3}, srid: 4326}
+  }
+  @update_attrs %{
+    name: "new name"
+  }
   @invalid_attrs %{}
 
   def fixture(:place) do
