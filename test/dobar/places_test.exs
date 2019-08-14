@@ -105,9 +105,9 @@ defmodule Dobar.PlacesTest do
   describe "place_images" do
     alias Dobar.Places.PlaceImage
 
-    @valid_attrs %{original_url: "some original_url"}
-    @update_attrs %{original_url: "some updated original_url"}
-    @invalid_attrs %{original_url: nil}
+    @valid_attrs %{urls: %{original: "some original_url"}}
+    @update_attrs %{urls: %{original: "some updated original_url"}}
+    @invalid_attrs %{urls: nil}
 
     def place_image_fixture(attrs \\ %{}) do
       {:ok, place_image} =
@@ -130,7 +130,7 @@ defmodule Dobar.PlacesTest do
 
     test "create_place_image/1 with valid data creates a place_image" do
       assert {:ok, %PlaceImage{} = place_image} = Places.create_place_image(@valid_attrs)
-      assert place_image.original_url == "some original_url"
+      assert place_image.urls.original == "some original_url"
     end
 
     test "create_place_image/1 with invalid data returns error changeset" do
@@ -140,7 +140,7 @@ defmodule Dobar.PlacesTest do
     test "update_place_image/2 with valid data updates the place_image" do
       place_image = place_image_fixture()
       assert {:ok, %PlaceImage{} = place_image} = Places.update_place_image(place_image, @update_attrs)
-      assert place_image.original_url == "some updated original_url"
+      assert place_image.urls.original == "some updated original_url"
     end
 
     test "update_place_image/2 with invalid data returns error changeset" do
