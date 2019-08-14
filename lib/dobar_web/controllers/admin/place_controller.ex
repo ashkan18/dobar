@@ -21,7 +21,6 @@ defmodule DobarWeb.Admin.PlaceController do
       place_params
       |> Map.drop(["working_hours_csv"])
       |> Map.put("working_hours", working_hours)
-      |> IO.inspect(label: 1)
 
     create(conn, %{"place" => place_params})
   end
@@ -33,13 +32,11 @@ defmodule DobarWeb.Admin.PlaceController do
       place_params
       |> Map.drop(["tags_csv"])
       |> Map.put("tags", tags)
-      |> IO.inspect(label: 2)
 
     create(conn, %{"place" => place_params})
   end
 
   def create(conn, %{"place" => place_params}) do
-    IO.inspect(place_params, label: 3)
 
     case Places.create_place(place_params) do
       {:ok, place} ->

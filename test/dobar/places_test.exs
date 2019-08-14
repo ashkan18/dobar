@@ -1,10 +1,10 @@
 defmodule Dobar.PlacesTest do
   use Dobar.DataCase
 
-  alias Dobar.Places
+  alias Dobar.{Places, Fixtures}
 
   describe "places" do
-    alias Dobar.{Places.Place, Fixtures}
+    alias Dobar.Places.Place
 
     @valid_attrs %{
       address: "some address",
@@ -45,7 +45,7 @@ defmodule Dobar.PlacesTest do
 
     test "find_places/0 returns all places" do
       place = Fixtures.create(:place)
-      assert Places.find_places() == [place]
+      assert [place.id] == Enum.map(Places.find_places(), fn(p) -> p.id end)
     end
 
     test "get_place!/1 returns the place with given id" do
@@ -105,14 +105,18 @@ defmodule Dobar.PlacesTest do
   describe "place_images" do
     alias Dobar.Places.PlaceImage
 
-    @valid_attrs %{original_url: "some original_url"}
-    @update_attrs %{original_url: "some updated original_url"}
-    @invalid_attrs %{original_url: nil}
+    @valid_attrs %{urls: %{"original" => "some original_url"}}
+    @update_attrs %{urls: %{"original" => "some updated original_url"}}
+    @invalid_attrs %{urls: nil}
 
     def place_image_fixture(attrs \\ %{}) do
+      user = Fixtures.create(:user)
+      place = Fixtures.create(:place)
+
       {:ok, place_image} =
         attrs
         |> Enum.into(@valid_attrs)
+        |> Enum.into(%{place_id: place.id, uploader_id: user.id})
         |> Places.create_place_image()
 
       place_image
@@ -129,8 +133,10 @@ defmodule Dobar.PlacesTest do
     end
 
     test "create_place_image/1 with valid data creates a place_image" do
-      assert {:ok, %PlaceImage{} = place_image} = Places.create_place_image(@valid_attrs)
-      assert place_image.original_url == "some original_url"
+      user = Fixtures.create(:user)
+      place = Fixtures.create(:place)
+      assert {:ok, %PlaceImage{} = place_image} = Places.create_place_image(Enum.into(@valid_attrs, %{place_id: place.id, uploader_id: user.id}))
+      assert place_image.urls["original"] == "some original_url"
     end
 
     test "create_place_image/1 with invalid data returns error changeset" do
@@ -140,7 +146,7 @@ defmodule Dobar.PlacesTest do
     test "update_place_image/2 with valid data updates the place_image" do
       place_image = place_image_fixture()
       assert {:ok, %PlaceImage{} = place_image} = Places.update_place_image(place_image, @update_attrs)
-      assert place_image.original_url == "some updated original_url"
+      assert place_image.urls["original"] == "some updated original_url"
     end
 
     test "update_place_image/2 with invalid data returns error changeset" do

@@ -11,4 +11,12 @@ defmodule DobarWeb.Schema.AccountTypes do
   object :session do
     field :token, :string
   end
+
+  @desc "A user list type"
+  object :user_list do
+    field :id, :string
+    field :user, :user
+    field :place, :place
+    field :list_type, :string
+  end
 end

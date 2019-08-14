@@ -28,7 +28,7 @@ defmodule DobarWeb.Schema do
 
     @desc "My user info"
     field :me, :user do
-      resolve(&Resolvers.UserResolver.current_user/3)
+      resolve(&Resolvers.AccountResolver.current_user/3)
     end
   end
 
@@ -41,7 +41,7 @@ defmodule DobarWeb.Schema do
       arg(:password, non_null(:string))
       arg(:password_confirmation, non_null(:string))
 
-      resolve(&Resolvers.UserResolver.create/2)
+      resolve(&Resolvers.AccountResolver.create/2)
     end
 
     @desc "Login"
@@ -49,7 +49,15 @@ defmodule DobarWeb.Schema do
       arg(:username, non_null(:string))
       arg(:password, non_null(:string))
 
-      resolve(&Resolvers.UserResolver.login/2)
+      resolve(&Resolvers.AccountResolver.login/2)
+    end
+
+    @desc "Add to user's list"
+    field :add_to_list, type: :user_list do
+      arg(:place_id, non_null(:id))
+      arg(:list_type, non_null(:string))
+
+      resolve(&Resolvers.AccountResolver.add_to_list/3)
     end
 
     @desc "would you dobar"

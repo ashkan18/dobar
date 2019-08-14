@@ -84,7 +84,6 @@ defmodule Dobar.Places do
   def create_place(attrs) do
     %Place{}
     |> Place.changeset(attrs)
-    |> IO.inspect()
     |> Repo.insert()
   end
 
