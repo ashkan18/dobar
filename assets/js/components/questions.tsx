@@ -18,7 +18,7 @@ const DOBAR_MUTATION  = gql`
 `
 const RIDESHARE_DOBAR_MUTATION  = gql`
   mutation Rideshare($placeId: ID!, $response: Boolean) {
-    rideshare(placeId: $placeId, response: $response) {
+    rideshareDobar(placeId: $placeId, response: $response) {
       id
     }
   }
