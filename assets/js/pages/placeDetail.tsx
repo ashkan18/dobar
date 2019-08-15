@@ -23,6 +23,11 @@ const FIND_PLACE_QUERY = gql`
           original
         }
       }
+      stats {
+        type
+        response
+        total
+      }
     }
   }
 `

@@ -85,4 +85,12 @@ defmodule Dobar.Reviews do
   def change_review(%Review{} = review) do
     Review.changeset(review, %{})
   end
+
+  def place_stats(place_id) do
+    Review
+    |> where([r], r.place_id == ^place_id)
+    |> group_by([r], [r.review_type, r.response])
+    |> select([r], %{type: r.review_type, response: r.response, total: count(r.id)})
+    |> Repo.all()
+  end
 end
