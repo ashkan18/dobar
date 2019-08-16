@@ -40,8 +40,31 @@ const ADD_TO_LIST_MUTATION = gql`
   }
 `
 
+const labelForStatType = (type) => {
+  switch(type) {
+    case "dobar":
+      return "Dobar"
+    case "rideshare_dobar":
+      return "Rideshare"
+  }
+}
+
+const aggregateStats = (stats) => {
+  return stats.reduce((acc, s) => {
+    if (!acc[s.type]){
+      acc[s.type] = {}
+    }
+    acc[s.type][s.response] = s.total
+    return acc
+  }, {})
+}
+
 export const PlaceDetail = (props: Props) => {
   const { loading, data } = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
+  let stats = null
+  if (data.place !== undefined) {
+    stats = aggregateStats(data.place.stats)
+  }
   const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
   if (loading) {
     return(
@@ -56,11 +79,25 @@ export const PlaceDetail = (props: Props) => {
         <Header noLogin={false}/>
         <Flex flexDirection="column" justifyContent="space-between" m="auto">
           <Sans size={10}>{data.place.name}</Sans>
+          <Sans size={3}>{data.place.tags.map(t => `#${t}`).join(" ")}</Sans>
           <Image src={data.place.images[0].urls.original}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
             <MapPinIcon width={25} height={25} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
           </Flex>
-          <Sans size={3}>{data.place.tags.map(t => `#${t}`).join(" ")}</Sans>
+          <table>
+            <tr>
+              <th></th>
+              <th>Yes</th>
+              <th>No</th>
+            </tr>
+            {stats && Object.keys(stats).map(type =>
+              <tr>
+                <td>{labelForStatType(type)}</td>
+                <td>{stats[type][true]}</td>
+                <td>{stats[type][false]}</td>
+              </tr>
+            )}
+          </table>
           <Questions place={data.place}/>
         </Flex>
       </Flex>
