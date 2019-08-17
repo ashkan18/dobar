@@ -35,9 +35,9 @@ defmodule Dobar.Places do
       order_by: st_distance(place.location, ^point)
   end
 
-  defp place_query({:term, term}, query) do
+  defp place_query({:term, term}, query) when not is_nil(term) do
     from place in query,
-      where: place.name == ^term
+      where: fragment("? % ?", place.name, ^term) or fragment("? = ANY(?)", ^term, place.tags)
   end
 
   defp place_query(_, query), do: query

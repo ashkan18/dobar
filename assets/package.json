@@ -6,7 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "@apollo/react-hooks": "^3.0.0",
+    "@apollo/react-hooks": "^3.0.1",
     "@artsy/palette": "^4.14.30",
     "@types/node": "^12.6.3",
     "apollo-boost": "^0.4.3",

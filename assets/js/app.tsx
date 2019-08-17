@@ -21,7 +21,7 @@ import ReactDOM from "react-dom"
 import { Theme, injectGlobalStyles, Box } from "@artsy/palette"
 import { Route, Switch } from "react-router"
 import { BrowserRouter as Router} from "react-router-dom"
-import Home from "./pages/home"
+import {Search} from "./pages/search"
 import Login from "./pages/login"
 import Signup from "./pages/signup"
 import {PlaceDetail} from "./pages/placeDetail";
@@ -69,7 +69,7 @@ class App extends React.Component {
                   <Route path="/places/:placeId" component={PlaceDetail}/>
                   <Route path="/login" exact component={Login} />
                   <Route path="/signup" exact component={Signup} />
-                  <Route path="/" component={Home}/>
+                  <Route path="/" component={Search}/>
                 </Switch>
               </Router>
             </Box>
