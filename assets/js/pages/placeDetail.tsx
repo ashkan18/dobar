@@ -1,10 +1,11 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, Image, Icon, MapPinIcon, BorderBox } from "@artsy/palette"
+import { Spinner, Flex, Sans, Image, MapPinIcon, BorderBox } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Questions } from "../components/questions"
+import { Link } from "react-router-dom";
 
 interface Props {
   match: any
@@ -43,9 +44,9 @@ const ADD_TO_LIST_MUTATION = gql`
 const labelForStatType = (type) => {
   switch(type) {
     case "dobar":
-      return "Dobar"
+      return "✌️  "
     case "rideshare_dobar":
-      return "Rideshare"
+      return "🚕✌️"
   }
 }
 
@@ -66,6 +67,14 @@ export const PlaceDetail = (props: Props) => {
     stats = aggregateStats(data.place.stats)
   }
   const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
+  const tagsDisplay = (tags) => {
+    return(
+      <Flex flexDirection="row">
+        {tags.map(t => <Link to={{pathname: "/", search: `?term=${t}`}}><Sans size={3} mr={0.5}>#{t}</Sans></Link>)}
+      </Flex>
+    )
+  }
+
   if (loading) {
     return(
       <Flex flexDirection="column">
@@ -79,7 +88,7 @@ export const PlaceDetail = (props: Props) => {
         <Header noLogin={false}/>
         <Flex flexDirection="column" justifyContent="space-between" m="auto">
           <Sans size={10}>{data.place.name}</Sans>
-          <Sans size={3}>{data.place.tags.map(t => `#${t}`).join(" ")}</Sans>
+          {data.place.tags && tagsDisplay(data.place.tags)}
           <Image src={data.place.images[0].urls.original}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
             <MapPinIcon width={25} height={25} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
@@ -88,7 +97,7 @@ export const PlaceDetail = (props: Props) => {
             <Flex flexDirection="column">
               {stats && Object.keys(stats).map(type =>
                 <Sans size={3}>
-                  {labelForStatType(type)}: {stats[type][true]} - {stats[type][false]}
+                  {labelForStatType(type)}: 👍 {stats[type][true]} 👎 {stats[type][false]}
                 </Sans>
               )}
             </Flex>
