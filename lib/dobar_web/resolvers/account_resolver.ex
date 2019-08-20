@@ -17,7 +17,7 @@ defmodule DobarWeb.Resolvers.AccountResolver do
 
   def login(%{username: username, password: password}, _info) do
     with {:ok, %User{} = user} <- Accounts.authenticate_user(username, password),
-         {:ok, jwt, _} <- Guardian.encode_and_sign(user, token_type: :access) do
+         {:ok, jwt, _} <- Guardian.encode_and_sign(user, %{token_type: :access}) do
       {:ok, %{token: jwt}}
     end
   end

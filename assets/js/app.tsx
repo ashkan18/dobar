@@ -23,7 +23,7 @@ import { Route, Switch } from "react-router"
 import { BrowserRouter as Router} from "react-router-dom"
 import {Search} from "./pages/search"
 import Login from "./pages/login"
-import Signup from "./pages/signup"
+import { SignUp } from "./pages/signup"
 import {PlaceDetail} from "./pages/placeDetail";
 
 import ApolloClient from "apollo-client"
@@ -68,7 +68,7 @@ class App extends React.Component {
                 <Switch>
                   <Route path="/places/:placeId" component={PlaceDetail}/>
                   <Route path="/login" exact component={Login} />
-                  <Route path="/signup" exact component={Signup} />
+                  <Route path="/signup" exact component={SignUp} />
                   <Route path="/" component={Search}/>
                 </Switch>
               </Router>
