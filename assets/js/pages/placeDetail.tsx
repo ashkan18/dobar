@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, Image, Icon, MapPinIcon } from "@artsy/palette"
+import { Spinner, Flex, Sans, Image, Icon, MapPinIcon, BorderBox } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
@@ -84,20 +84,15 @@ export const PlaceDetail = (props: Props) => {
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
             <MapPinIcon width={25} height={25} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
           </Flex>
-          <table>
-            <tr>
-              <th></th>
-              <th>Yes</th>
-              <th>No</th>
-            </tr>
-            {stats && Object.keys(stats).map(type =>
-              <tr>
-                <td>{labelForStatType(type)}</td>
-                <td>{stats[type][true]}</td>
-                <td>{stats[type][false]}</td>
-              </tr>
-            )}
-          </table>
+          <BorderBox>
+            <Flex flexDirection="column">
+              {stats && Object.keys(stats).map(type =>
+                <Sans size={3}>
+                  {labelForStatType(type)}: {stats[type][true]} - {stats[type][false]}
+                </Sans>
+              )}
+            </Flex>
+          </BorderBox>
           <Questions place={data.place}/>
         </Flex>
       </Flex>

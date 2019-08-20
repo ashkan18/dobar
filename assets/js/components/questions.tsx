@@ -4,6 +4,7 @@ import { Spinner, Flex, Sans, CheckIcon, CloseIcon } from "@artsy/palette"
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   place: any
@@ -47,6 +48,17 @@ export const Questions = (props: Props) => {
   const rideshareResponse = (response: boolean) => {
     rideshareMutation({variables: {placeId: place.id, response: response}})
     setRideshare(response)
+  }
+  if (!me) {
+    return(
+      <Flex flexDirection="column" justifyContent="space-between">
+        <Sans size={3}> Please <Link to="/login">Login</Link> to check in.</Sans>
+        <Flex flexDirection="row" style={{opacity: 0.2}}>
+          <Sans size={5}>Have you been to {place.name}?</Sans>
+          <CheckIcon ml={2} height={30} width={30}/>
+        </Flex>
+      </Flex>
+    )
   }
   return(
     <Flex flexDirection="column" justifyContent="space-between">
