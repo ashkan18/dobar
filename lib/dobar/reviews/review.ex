@@ -24,6 +24,8 @@ defmodule Dobar.Reviews.Review do
     |> validate_inclusion(:review_type, @review_types)
     |> foreign_key_constraint(:place_id)
     |> foreign_key_constraint(:user_id)
-    |> unique_constraint(:reviews_place_id_user_id_review_type_uniq, name: :reviews_place_id_user_id_review_type_uniq_idx)
+    |> unique_constraint(:reviews_place_id_user_id_review_type_uniq,
+      name: :reviews_place_id_user_id_review_type_uniq_idx
+    )
   end
 end

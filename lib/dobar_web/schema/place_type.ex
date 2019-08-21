@@ -1,7 +1,7 @@
 defmodule DobarWeb.Schema.PlaceTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
-  alias DobarWeb.Resolvers.ReviewResolver
+  alias DobarWeb.Resolvers.{PlaceResolver, ReviewResolver}
 
   @desc "Place stats"
   object :stats do
@@ -13,14 +13,15 @@ defmodule DobarWeb.Schema.PlaceTypes do
   @desc "Image urls for a PlaceImage"
   object :image_urls do
     field :thumb, :string do
-      resolve fn image_urls, _, _ ->
+      resolve(fn image_urls, _, _ ->
         {:ok, image_urls["thumb"]}
-      end
+      end)
     end
+
     field :original, :string do
-      resolve fn image_urls, _, _ ->
+      resolve(fn image_urls, _, _ ->
         {:ok, image_urls["original"]}
-      end
+      end)
     end
   end
 
@@ -45,7 +46,11 @@ defmodule DobarWeb.Schema.PlaceTypes do
     field :facebook, :string
     field :good_for_groups, :boolean
     field :instagram, :string
-    field :images, list_of(:place_image)
+
+    field :images, list_of(:place_image) do
+      resolve(&PlaceResolver.place_images/3)
+    end
+
     field :location, :location
     field :logo_url, :string
     field :name, :string
@@ -65,9 +70,11 @@ defmodule DobarWeb.Schema.PlaceTypes do
     field :weelchaire_accessible, :boolean
     field :wifi, :boolean
     field :working_hours, list_of(:string)
+
     field :stats, list_of(:stats) do
       resolve(&ReviewResolver.place_stats/3)
     end
+
     field :rideshare_dobar_count, :integer
   end
 

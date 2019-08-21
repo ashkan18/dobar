@@ -6,8 +6,8 @@ defmodule Dobar.Accounts.UserList do
   @foreign_key_type :binary_id
   schema "user_lists" do
     field :list_type, :string
-    field :user_id, :binary_id
-    field :place_id, :binary_id
+    belongs_to :user, Dobar.Accounts.User
+    belongs_to :place, Dobar.Places.Place
 
     timestamps()
   end
@@ -23,6 +23,8 @@ defmodule Dobar.Accounts.UserList do
     |> validate_inclusion(:list_type, @list_types)
     |> foreign_key_constraint(:place_id)
     |> foreign_key_constraint(:user_id)
-    |> unique_constraint(:user_listss_place_id_user_id_type_uniq, name: :user_listss_place_id_user_id_type_uniq_idx)
+    |> unique_constraint(:user_listss_place_id_user_id_type_uniq,
+      name: :user_listss_place_id_user_id_type_uniq_idx
+    )
   end
 end

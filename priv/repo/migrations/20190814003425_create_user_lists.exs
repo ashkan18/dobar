@@ -13,6 +13,9 @@ defmodule Dobar.Repo.Migrations.CreateUserLists do
 
     create index(:user_lists, [:user_id])
     create index(:user_lists, [:place_id])
-    create unique_index(:user_lists, [:place_id, :user_id, :list_type], name: :user_listss_place_id_user_id_type_uniq_idx)
+
+    create unique_index(:user_lists, [:place_id, :user_id, :list_type],
+             name: :user_listss_place_id_user_id_type_uniq_idx
+           )
   end
 end

@@ -23,7 +23,6 @@ defmodule Dobar.Places do
     Place
     |> filter_query(args)
     |> Repo.all()
-    |> Repo.preload(:images)
   end
 
   defp filter_query(query, args), do: Enum.reduce(args, query, &place_query/2)
@@ -228,5 +227,9 @@ defmodule Dobar.Places do
   """
   def change_place_image(%PlaceImage{} = place_image) do
     PlaceImage.changeset(place_image, %{})
+  end
+
+  def data() do
+    Dataloader.Ecto.new(Repo)
   end
 end

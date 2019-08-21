@@ -18,8 +18,7 @@ config :dobar, DobarWeb.Endpoint,
   render_errors: [view: DobarWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Dobar.PubSub, adapter: Phoenix.PubSub.PG2]
 
-config :dobar, Dobar.Repo,
-  types: Dobar.PostgresTypes
+config :dobar, Dobar.Repo, types: Dobar.PostgresTypes
 
 # Configures Elixir's Logger
 config :logger, :console,

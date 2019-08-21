@@ -33,6 +33,7 @@ import { ApolloProvider as ApolloProviderHooks } from '@apollo/react-hooks'
 import AuthService from "./services/authService"
 import { createHttpLink } from "apollo-link-http"
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { Me } from "./pages/me";
 
 const httpLink = createHttpLink({
   uri: '/api',
@@ -69,6 +70,7 @@ class App extends React.Component {
                   <Route path="/places/:placeId" component={PlaceDetail}/>
                   <Route path="/login" exact component={Login} />
                   <Route path="/signup" exact component={SignUp} />
+                  <Route path="/me" exact component={Me} />
                   <Route path="/" component={Search}/>
                 </Switch>
               </Router>

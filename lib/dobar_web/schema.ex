@@ -10,6 +10,18 @@ defmodule DobarWeb.Schema do
 
   alias DobarWeb.Resolvers
 
+  def context(ctx) do
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Place, Dobar.Places.data())
+
+    Map.put(ctx, :loader, loader)
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
+  end
+
   connection(node_type: :place)
 
   query do

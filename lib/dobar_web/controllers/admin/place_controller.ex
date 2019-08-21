@@ -37,7 +37,6 @@ defmodule DobarWeb.Admin.PlaceController do
   end
 
   def create(conn, %{"place" => place_params}) do
-
     case Places.create_place(place_params) do
       {:ok, place} ->
         conn

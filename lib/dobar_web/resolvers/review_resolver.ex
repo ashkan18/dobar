@@ -27,7 +27,6 @@ defmodule DobarWeb.Resolvers.ReviewResolver do
 
   def rideshare_dobar(_parent, _args, _context), do: {:error, "Not Authorized"}
 
-
   def place_stats(place, _args, _context) do
     {:ok, Reviews.place_stats(place.id)}
   end

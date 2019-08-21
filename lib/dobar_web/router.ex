@@ -58,9 +58,11 @@ defmodule DobarWeb.Router do
 
     pipe_through :ensure_admin_access
     get("/", DashboardController, :index)
+
     resources "/places", PlaceController do
       resources "/images", PlaceImageController
     end
+
     resources "/users", UserController
   end
 

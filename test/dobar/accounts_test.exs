@@ -81,6 +81,7 @@ defmodule Dobar.AccountsTest do
     def user_list_fixture(attrs \\ %{}) do
       user = Fixtures.create(:user)
       place = Fixtures.create(:place)
+
       {:ok, user_list} =
         attrs
         |> Enum.into(@valid_attrs)
@@ -103,10 +104,12 @@ defmodule Dobar.AccountsTest do
     test "create_user_list/1 with valid data creates a user_list" do
       user = Fixtures.create(:user)
       place = Fixtures.create(:place)
+
       assert {:ok, %UserList{} = user_list} =
                @valid_attrs
                |> Enum.into(%{place_id: place.id, user_id: user.id})
                |> Accounts.create_user_list()
+
       assert user_list.list_type == "planning_to_go"
       assert user_list.user_id == user.id
       assert user_list.place_id == place.id

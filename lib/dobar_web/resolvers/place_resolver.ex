@@ -9,4 +9,9 @@ defmodule DobarWeb.Resolvers.PlaceResolver do
   def find_place(_parent, args, _resolution) do
     {:ok, Places.get_place!(args.id) |> Repo.preload(:images)}
   end
+
+  def place_images(place, _args, _resolution) do
+    place = Repo.preload(place, :images)
+    {:ok, place.images}
+  end
 end
