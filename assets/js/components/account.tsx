@@ -1,7 +1,7 @@
 import { Flex, Button } from '@artsy/palette'
 import React, { useState } from "react"
 import AuthService from '../services/authService'
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Account = () => {
   const authService = new AuthService()

@@ -7,6 +7,7 @@ defmodule DobarWeb.Schema do
   import_types(DobarWeb.Schema.PlaceTypes)
   import_types(DobarWeb.Schema.AccountTypes)
   import_types(DobarWeb.Schema.ReviewTypes)
+  import_types(DobarWeb.Schema.SocialTypes)
 
   alias DobarWeb.Resolvers
 
@@ -70,6 +71,14 @@ defmodule DobarWeb.Schema do
       arg(:list_type, non_null(:string))
 
       resolve(&Resolvers.AccountResolver.add_to_list/3)
+    end
+
+    @desc "Invite people"
+    field :invite_to_place, type: :place_invite do
+      arg(:place_id, non_null(:id))
+      arg(:guest_emails, non_null(list_of(:string)))
+
+      resolve(&Resolvers.SocialResolver.invite_to_place/3)
     end
 
     @desc "would you dobar"
