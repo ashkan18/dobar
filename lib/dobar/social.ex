@@ -23,7 +23,7 @@ defmodule Dobar.Social do
 
   def invites_by_email(email) do
     PlaceInvite
-    |> where(guestEmail: ^email)
+    |> where(guest_email: ^email)
     |> Repo.all()
   end
 

@@ -13,6 +13,7 @@ defmodule Dobar.Accounts.User do
 
     has_many :reviews, Dobar.Reviews.Review
     has_many :lists, Dobar.Accounts.UserList
+    has_many :invites, Dobar.Social.PlaceInvite, foreign_key: :host_id
 
     timestamps()
   end

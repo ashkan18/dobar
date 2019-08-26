@@ -21,8 +21,15 @@ defmodule DobarWeb.Schema.AccountTypes do
     connection field :invitations, node_type: :place_invite do
       resolve(fn
         pagination_args, %{srouce: user} ->
-          invites = Dobar.Social.invites_by_email(user.email)
-          Absinthe.Relay.Connection.from_list(invites, pagination_args)
+          invitations = Dobar.Social.invites_by_email(user.email)
+          Absinthe.Relay.Connection.from_list(invitations, pagination_args)
+      end)
+    end
+    connection field :invites, node_type: :place_invite do
+      resolve(fn
+        pagination_args, %{source: user} ->
+          user = Dobar.Repo.preload(user, :invites)
+          Absinthe.Relay.Connection.from_list(user.invites, pagination_args)
       end)
     end
   end
