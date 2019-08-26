@@ -1,11 +1,13 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, Image, MapPinIcon, BorderBox } from "@artsy/palette"
+import { Spinner, Flex, Sans, Image, MapPinIcon, BorderBox, Button, Modal } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Questions } from "../components/questions"
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { PlaceInvite } from "../components/placeInvite";
 
 interface Props {
   match: any
@@ -61,11 +63,9 @@ const aggregateStats = (stats) => {
 }
 
 export const PlaceDetail = (props: Props) => {
+  const [showInvites, setShowInvites] = useState(false)
   const { loading, data } = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
-  let stats = null
-  if (data.place !== undefined) {
-    stats = aggregateStats(data.place.stats)
-  }
+  const stats = data.place !== undefined ? aggregateStats(data.place.stats) : null
   const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
   const tagsDisplay = (tags) => {
     return(
@@ -92,6 +92,7 @@ export const PlaceDetail = (props: Props) => {
           <Image src={data.place.images[0].urls.original}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
             <MapPinIcon width={25} height={25} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
+            <Button onClick={ _e => setShowInvites(true) }>Invite</Button>
           </Flex>
           <BorderBox>
             <Flex flexDirection="column">
@@ -103,6 +104,15 @@ export const PlaceDetail = (props: Props) => {
             </Flex>
           </BorderBox>
           <Questions place={data.place}/>
+          <Modal
+              title="Invite friends to"
+              hasLogo={false}
+              isWide
+              show={showInvites}
+              onClose={() => setShowInvites(false)}
+            >
+              <PlaceInvite place={data.place}/>
+          </Modal>
         </Flex>
       </Flex>
     )

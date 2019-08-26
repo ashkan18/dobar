@@ -4,6 +4,7 @@ defmodule DobarWeb.Schema.AccountTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   connection(node_type: :user_list)
+  connection(node_type: :place_invite)
 
   @desc "A User"
   object :user do
@@ -15,6 +16,13 @@ defmodule DobarWeb.Schema.AccountTypes do
         pagination_args, %{source: user} ->
           user = Dobar.Repo.preload(user, :lists)
           Absinthe.Relay.Connection.from_list(user.lists, pagination_args)
+      end)
+    end
+    connection field :invitations, node_type: :place_invite do
+      resolve(fn
+        pagination_args, %{srouce: user} ->
+          invites = Dobar.Social.invites_by_email(user.email)
+          Absinthe.Relay.Connection.from_list(invites, pagination_args)
       end)
     end
   end

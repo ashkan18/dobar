@@ -21,6 +21,12 @@ defmodule Dobar.Social do
     Repo.all(PlaceInvite)
   end
 
+  def invites_by_email(email) do
+    PlaceInvite
+    |> where(guestEmail: ^email)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single place_invite.
 

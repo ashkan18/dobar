@@ -74,7 +74,7 @@ defmodule DobarWeb.Schema do
     end
 
     @desc "Invite people"
-    field :invite_to_place, type: :place_invite do
+    field :invite_to_place, type: list_of(:place_invite) do
       arg(:place_id, non_null(:id))
       arg(:guest_emails, non_null(list_of(:string)))
 
