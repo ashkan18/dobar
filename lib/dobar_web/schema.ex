@@ -15,6 +15,7 @@ defmodule DobarWeb.Schema do
     loader =
       Dataloader.new()
       |> Dataloader.add_source(Place, Dobar.Places.data())
+      |> Dataloader.add_source(User, Dobar.Accounts.data())
 
     Map.put(ctx, :loader, loader)
   end

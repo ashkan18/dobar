@@ -6,7 +6,7 @@ defmodule DobarWeb.Schema.SocialTypes do
   @desc "An invitation to a place"
   object :place_invite do
     field :id, :string
-    field :host, :user
+    field :host, :user, resolve: dataloader(User)
     field :place, :place, resolve: dataloader(Place)
     field :guest_email, :string
     field :status, :string

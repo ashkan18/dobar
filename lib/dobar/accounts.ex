@@ -215,4 +215,8 @@ defmodule Dobar.Accounts do
   def change_user_list(%UserList{} = user_list) do
     UserList.changeset(user_list, %{})
   end
+
+  def data() do
+    Dataloader.Ecto.new(Repo)
+  end
 end
