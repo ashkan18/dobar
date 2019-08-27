@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PlaceInvite } from "../components/placeInvite";
 
+
 interface Props {
   match: any
 }
@@ -94,15 +95,17 @@ export const PlaceDetail = (props: Props) => {
             <MapPinIcon width={25} height={25} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
             <Button onClick={ _e => setShowInvites(true) }>Invite</Button>
           </Flex>
-          <BorderBox>
-            <Flex flexDirection="column">
-              {stats && Object.keys(stats).map(type =>
-                <Sans size={3}>
-                  {labelForStatType(type)}: 👍 {stats[type][true]} 👎 {stats[type][false]}
-                </Sans>
-              )}
-            </Flex>
-          </BorderBox>
+          {stats.dobar &&
+            <BorderBox>
+              <Flex flexDirection="column">
+                {Object.keys(stats).map(type =>
+                  <Sans size={3}>
+                    {labelForStatType(type)}: 👍 {stats[type][true]} 👎 {stats[type][false]}
+                  </Sans>
+                )}
+              </Flex>
+            </BorderBox>
+          }
           <Questions place={data.place}/>
           <Modal
               title="Invite friends to"
