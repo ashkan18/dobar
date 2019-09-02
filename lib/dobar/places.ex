@@ -4,7 +4,6 @@ defmodule Dobar.Places do
   """
 
   import Ecto.Query, warn: false
-  import Geo.PostGIS
 
   alias Dobar.Repo
 
@@ -31,7 +30,7 @@ defmodule Dobar.Places do
     point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
 
     from place in query,
-      order_by: st_distance(place.location, ^point)
+      order_by: fragment("ST_Distance(?,?) ASC", place.location, ^point)
   end
 
   defp place_query({:term, term}, query) when not is_nil(term) do

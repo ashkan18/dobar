@@ -61,15 +61,19 @@ defmodule Dobar.Social do
     |> Repo.insert()
   end
 
-  def create_place_invites(%{place_id: place_id, host_id: host_id, guest_emails: guest_emails}) when is_list(guest_emails) do
-    invites = guest_emails
-    |> Enum.uniq()
-    |> Enum.map(&create_place_invite(%{place_id: place_id, host_id: host_id, guest_email: &1}))
-    |> Enum.map(&Kernel.elem(&1, 1))
+  def create_place_invites(%{place_id: place_id, host_id: host_id, guest_emails: guest_emails})
+      when is_list(guest_emails) do
+    invites =
+      guest_emails
+      |> Enum.uniq()
+      |> Enum.map(&create_place_invite(%{place_id: place_id, host_id: host_id, guest_email: &1}))
+      |> Enum.map(&Kernel.elem(&1, 1))
+
     {:ok, invites}
   end
 
   def create_place_invites(_), do: {:error, "invalid input"}
+
   @doc """
   Updates a place_invite.
 

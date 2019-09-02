@@ -14,6 +14,7 @@ defmodule Dobar.SocialTest do
     def place_invite_fixture(attrs \\ %{}) do
       user = Fixtures.create(:user)
       place = Fixtures.create(:place)
+
       {:ok, place_invite} =
         attrs
         |> Enum.into(@valid_attrs)
@@ -41,6 +42,7 @@ defmodule Dobar.SocialTest do
                @valid_attrs
                |> Enum.into(%{place_id: place.id, host_id: user.id})
                |> Social.create_place_invite()
+
       assert place_invite.guest_email == "some guest_email"
       assert place_invite.status == "pending"
       assert place_invite.place_id == place.id
@@ -53,23 +55,35 @@ defmodule Dobar.SocialTest do
     test "create_place_invites/1 with valid data creates a place_invite" do
       user = Fixtures.create(:user)
       place = Fixtures.create(:place)
-      emails =  ["a@shkan.com", "ash@kan.com"]
+      emails = ["a@shkan.com", "ash@kan.com"]
 
-      assert {:ok, invites} = Social.create_place_invites(%{place_id: place.id, host_id: user.id, guest_emails: emails})
+      assert {:ok, invites} =
+               Social.create_place_invites(%{
+                 place_id: place.id,
+                 host_id: user.id,
+                 guest_emails: emails
+               })
+
       assert Enum.map(invites, fn i -> i.place_id end) == [place.id, place.id]
       assert Enum.map(invites, fn i -> i.guest_email end) == emails
     end
 
     test "update_place_invite/2 with valid data updates the place_invite" do
       place_invite = place_invite_fixture()
-      assert {:ok, %PlaceInvite{} = place_invite} = Social.update_place_invite(place_invite, @update_attrs)
+
+      assert {:ok, %PlaceInvite{} = place_invite} =
+               Social.update_place_invite(place_invite, @update_attrs)
+
       assert place_invite.guest_email == "some updated guest_email"
       assert place_invite.status == "done"
     end
 
     test "update_place_invite/2 with invalid data returns error changeset" do
       place_invite = place_invite_fixture()
-      assert {:error, %Ecto.Changeset{}} = Social.update_place_invite(place_invite, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Social.update_place_invite(place_invite, @invalid_attrs)
+
       assert place_invite == Social.get_place_invite!(place_invite.id)
     end
 

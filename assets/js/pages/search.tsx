@@ -12,7 +12,7 @@ interface Props {
 
 const FIND_PLACES = gql`
   query findPlaces($location: LocationInput, $term: String) {
-    places(first: 10, location: $location, term: $term){
+    places(first: 100, location: $location, term: $term){
       edges{
         node{
           id
@@ -34,7 +34,7 @@ export const Search = (props: Props) => {
   const { location } = props
   const params = new URLSearchParams(location.search);
   const [what, setWhat] = useState(params.get("term"))
-  const [where, setWhere] = useState({lat: 73, lng: 34})
+  const [where, setWhere] = useState({lat: 40.689826, lng: -73.9740782})
   const [search, { called, loading, error, data }] = useLazyQuery(FIND_PLACES)
   return (
     <Flex flexDirection="column">

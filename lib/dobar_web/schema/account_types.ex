@@ -18,6 +18,7 @@ defmodule DobarWeb.Schema.AccountTypes do
           Absinthe.Relay.Connection.from_list(user.lists, pagination_args)
       end)
     end
+
     connection field :invitations, node_type: :place_invite do
       resolve(fn
         pagination_args, %{source: user} ->
@@ -25,6 +26,7 @@ defmodule DobarWeb.Schema.AccountTypes do
           Absinthe.Relay.Connection.from_list(invitations, pagination_args)
       end)
     end
+
     connection field :invites, node_type: :place_invite do
       resolve(fn
         pagination_args, %{source: user} ->

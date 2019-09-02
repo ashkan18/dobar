@@ -41,8 +41,8 @@ defmodule Dobar.Places.Place do
     timestamps()
   end
 
-  @required_fields ~w(name description address city state country postal_code location)a
-  @optional_fields ~w(price_range short_description address2 neighborhood website logo_url working_hours wifi weelchaire_accessible tags twitter website takes_reservation phone parking outdoor_seating good_for_groups accepts_card)a
+  @required_fields ~w(name description address city state country location)a
+  @optional_fields ~w(price_range postal_code short_description address2 neighborhood website logo_url working_hours wifi weelchaire_accessible tags twitter website takes_reservation phone parking outdoor_seating good_for_groups accepts_card)a
 
   @doc false
   def changeset(place, attrs) do

@@ -13,7 +13,9 @@ export default class PlaceBrick extends React.Component<Props, {}> {
       <BorderBox>
         <Flex flexDirection="column" justifyContent="space-between">
           <Link to={`/places/${place.id}`}>
-            <Image src={place.images[0].urls.thumb} />
+            {place.images[0] && place.images[0].urls &&
+              <Image src={place.images[0].urls.thumb} />
+            }
             <Sans size="4">{place.name}</Sans>
           </Link>
           <Sans size="2">{place.tags.map( h => `#${h}`).join(" ")}</Sans>

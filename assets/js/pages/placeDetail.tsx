@@ -90,7 +90,9 @@ export const PlaceDetail = (props: Props) => {
         <Flex flexDirection="column" justifyContent="space-between" m="auto">
           <Sans size={10}>{data.place.name}</Sans>
           {data.place.tags && tagsDisplay(data.place.tags)}
-          <Image src={data.place.images[0].urls.original}/>
+          {data.place.images[0] && data.place.images[0].urls &&
+            <Image src={data.place.images[0].urls.original}/>
+          }
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
             <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
             <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>

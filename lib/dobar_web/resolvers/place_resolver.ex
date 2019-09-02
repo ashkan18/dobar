@@ -3,6 +3,7 @@ defmodule DobarWeb.Resolvers.PlaceResolver do
 
   def find_places(_parent, args, _resolution) do
     Places.find_places(args)
+    |> Repo.preload(:images)
     |> Absinthe.Relay.Connection.from_list(args)
   end
 
