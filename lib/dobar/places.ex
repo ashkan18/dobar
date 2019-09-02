@@ -57,6 +57,8 @@ defmodule Dobar.Places do
   """
   def get_place!(id), do: Repo.get!(Place, id)
 
+  def get_place_by_name(name), do: Repo.get_by(Place, name: name)
+
   @doc """
   Creates a place.
 
