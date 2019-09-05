@@ -87,6 +87,10 @@ defmodule Dobar.Places do
     |> Repo.insert()
   end
 
+  def bulk_create_place(places) do
+    Repo.insert_all(Place, places, on_conflict: :nothing)
+  end
+
   @doc """
   Updates a place.
 
