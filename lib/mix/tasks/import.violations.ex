@@ -14,6 +14,8 @@ defmodule Mix.Tasks.Import.Violation do
     "./data/DOHMH_New_York_City_Restaurant_Inspection_Results.csv"
     |> File.stream!()
     |> CSV.decode!(headers: true)
+    |> Stream.reject(&not_current_year?/1)
+    |> Stream.uniq_by(&uniq_field/1)
     |> Stream.map(&place_data/1)
     |> Stream.reject(&is_nil/1)
     |> Stream.chunk_every(500)
@@ -24,17 +26,26 @@ defmodule Mix.Tasks.Import.Violation do
     name |> String.capitalize() |> String.trim()
   end
 
+  defp not_current_year?(%{"INSPECTION DATE" => date}) when not is_nil(date) do
+    !String.contains?(date, "2019")
+  end
+
+  defp not_current_year?(_), do: true
+
+  defp uniq_field(%{"DBA" => name}), do: name
+
   defp place_data(%{
-    "DBA" => name,
-    "Latitude" => lat,
-    "Longitude" => lng,
-    "ZIPCODE" => postal_code,
-    "BUILDING" => building,
-    "STREET" => street,
-    "BORO" => boro,
-    "PHONE" => phone,
-    "CUISINE DESCRIPTION" => desc
-  }) when byte_size(lat) > 0 and byte_size(lng) > 0 do
+         "DBA" => name,
+         "Latitude" => lat,
+         "Longitude" => lng,
+         "ZIPCODE" => postal_code,
+         "BUILDING" => building,
+         "STREET" => street,
+         "BORO" => boro,
+         "PHONE" => phone,
+         "CUISINE DESCRIPTION" => desc
+       })
+       when byte_size(lat) > 0 and byte_size(lng) > 0 do
     %{
       name: cleanup_name(name),
       location: %Geo.Point{coordinates: {lat, lng}, srid: 4326},
@@ -46,10 +57,11 @@ defmodule Mix.Tasks.Import.Violation do
       phone: phone,
       description: desc,
       tags: tags_from_string(desc),
-      inserted_at: NaiveDateTime.utc_now |> NaiveDateTime.truncate(:second),
-      updated_at: NaiveDateTime.utc_now |> NaiveDateTime.truncate(:second)
+      inserted_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
+      updated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
     }
   end
+
   defp place_data(_), do: nil
 
   defp tags_from_string(tags) do
