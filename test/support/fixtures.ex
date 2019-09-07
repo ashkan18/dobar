@@ -12,7 +12,7 @@ defmodule Dobar.Fixtures do
     postal_code: "some postal_code",
     short_description: "some short_description",
     state: "some state",
-    location: %Geo.Point{coordinates: {43.2, 73.3}, srid: 4326}
+    location: %Geo.Point{coordinates: {73.3, 43.2}, srid: 4326}
   }
 
   @user_default_attrs %{

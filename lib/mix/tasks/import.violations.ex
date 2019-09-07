@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Import.Violation do
        when byte_size(lat) > 0 and byte_size(lng) > 0 do
     %{
       name: cleanup_name(name),
-      location: %Geo.Point{coordinates: {lat, lng}, srid: 4326},
+      location: %Geo.Point{coordinates: {lng, lat}, srid: 4326},
       postal_code: postal_code,
       address: address(building, street),
       city: boro,

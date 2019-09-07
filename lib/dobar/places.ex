@@ -27,7 +27,7 @@ defmodule Dobar.Places do
   defp filter_query(query, args), do: Enum.reduce(args, query, &place_query/2)
 
   defp place_query({:location, %{lat: lat, lng: lng}}, query) do
-    point = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
+    point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
 
     from place in query,
       order_by: fragment("ST_Distance(?,?) ASC", place.location, ^point)
@@ -73,7 +73,7 @@ defmodule Dobar.Places do
   def create_place(atts \\ %{})
 
   def create_place(attrs = %{"lat" => lat, "lng" => lng}) do
-    location = %Geo.Point{coordinates: {lat, lng}, srid: 4326}
+    location = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
 
     attrs
     |> Map.drop(["lat", "lng"])

@@ -13,7 +13,7 @@ defmodule DobarWeb.Admin.PlaceControllerTest do
     postal_code: "some postal_code",
     short_description: "some short_description",
     state: "some state",
-    location: %Geo.Point{coordinates: {44.2, 74.3}, srid: 4326}
+    location: %Geo.Point{coordinates: {74.3, 44.2}, srid: 4326}
   }
   @update_attrs %{
     name: "new name"

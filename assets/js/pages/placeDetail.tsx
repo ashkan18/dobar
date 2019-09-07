@@ -83,7 +83,7 @@ export const PlaceDetail = (props: Props) => {
         <Spinner size="large"/>
       </Flex>
     )
-  } else if (data) {
+  } else if (data.place) {
     return(
       <Flex flexDirection="column">
         <Header noLogin={false}/>
