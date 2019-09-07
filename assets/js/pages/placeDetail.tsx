@@ -44,7 +44,7 @@ const ADD_TO_LIST_MUTATION = gql`
   }
 `
 
-const labelForStatType = (type) => {
+const labelForStatType = (type: string) => {
   switch(type) {
     case "dobar":
       return "✌️  "
@@ -66,9 +66,8 @@ const aggregateStats = (stats) => {
 export const PlaceDetail = (props: Props) => {
   const [showInvites, setShowInvites] = useState(false)
   const { loading, data } = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
-  const stats = data.place !== undefined ? aggregateStats(data.place.stats) : null
   const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
-  const tagsDisplay = (tags) => {
+  const tagsDisplay = (tags: Array<string>) => {
     return(
       <Flex flexDirection="row">
         {tags.map(t => <Link to={{pathname: "/", search: `?term=${t}`}}><Sans size={3} mr={0.5}>#{t}</Sans></Link>)}
@@ -84,17 +83,19 @@ export const PlaceDetail = (props: Props) => {
       </Flex>
     )
   } else if (data.place) {
+    const { place } =  data
+    const stats = aggregateStats(place.stats)
     return(
       <Flex flexDirection="column">
         <Header noLogin={false}/>
         <Flex flexDirection="column" justifyContent="space-between" m="auto">
-          <Sans size={10}>{data.place.name}</Sans>
-          {data.place.tags && tagsDisplay(data.place.tags)}
-          {data.place.images[0] && data.place.images[0].urls &&
-            <Image src={data.place.images[0].urls.original}/>
+          <Sans size={10}>{place.name}</Sans>
+          {place.tags && tagsDisplay(place.tags)}
+          {place.images[0] && place.images[0].urls &&
+            <Image src={place.images[0].urls.original}/>
           }
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
-            <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: data.place.id, listType: "planning_to_go"}})} />
+            <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} />
             <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
           </Flex>
           {stats.dobar &&
@@ -108,7 +109,7 @@ export const PlaceDetail = (props: Props) => {
               </Flex>
             </BorderBox>
           }
-          <Questions place={data.place}/>
+          <Questions place={place}/>
           <Modal
               title="Invite friends to"
               hasLogo={false}
@@ -116,7 +117,7 @@ export const PlaceDetail = (props: Props) => {
               show={showInvites}
               onClose={() => setShowInvites(false)}
             >
-              <PlaceInvite place={data.place}/>
+              <PlaceInvite place={place}/>
           </Modal>
         </Flex>
       </Flex>
