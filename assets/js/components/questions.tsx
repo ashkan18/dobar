@@ -35,7 +35,7 @@ const RIDESHARE_DOBAR_MUTATION  = gql`
 
 export const Questions = (props: Props) => {
   const {place} = props
-  const {loading: meLoading, data: {me}} = useQuery(ME_QUERY)
+  const {loading: meLoading, data} = useQuery(ME_QUERY)
   const [haveBeenToPlace, setHaveBeenToPlace] = useState(false)
   const [dobar, setDobar] = useState(false)
   const [rideshare, setRideshare] = useState(false)
@@ -49,7 +49,33 @@ export const Questions = (props: Props) => {
     rideshareMutation({variables: {placeId: place.id, response: response}})
     setRideshare(response)
   }
-  if (!me) {
+  if (data && data.me) {
+    const {me} = data
+    return(
+      <Flex flexDirection="column" justifyContent="space-between">
+        <Flex flexDirection="row">
+          <Sans size={5}>{me && `${me.name}, `} Have you been to {place.name}?</Sans>
+          <CheckIcon ml={2} height={30} width={30} opacity={haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => setHaveBeenToPlace(true)}/>
+        </Flex>
+        {haveBeenToPlace &&
+          <Flex flexDirection="row">
+            <Sans size={5}>Would you go to this place again?</Sans>
+            <CheckIcon ml={2} height={30} width={30} opacity={dobar === true ? 1 : 0.2} onClick={ _e => dobarResponse(true)}/>
+            <CloseIcon ml={2} height={30} width={30} opacity={dobar === false ? 1 : 0.2} onClick={ _e => dobarResponse(false)}/>
+            {dobarLoading && <Spinner/>}
+          </Flex>
+        }
+        {dobar &&
+          <Flex flexDirection="row">
+            <Sans size={5}>You are 3 miles away from {place.name}, would you use a rideshare service to go there?</Sans>
+            <CheckIcon ml={2} height={30} width={30} opacity={rideshare === true ? 1 : 0.2} onClick={ _e => rideshareResponse(true)}/>
+            <CloseIcon ml={2} height={30} width={30} opacity={rideshare === false ? 1 : 0.2} onClick={ _e => rideshareResponse(false)}/>
+            {rideshareLoading && <Spinner/>}
+          </Flex>
+        }
+      </Flex>
+    )
+  } else {
     return(
       <Flex flexDirection="column" justifyContent="space-between">
         <Sans size={3}> Please <Link to="/login">Login</Link> to check in.</Sans>
@@ -60,28 +86,4 @@ export const Questions = (props: Props) => {
       </Flex>
     )
   }
-  return(
-    <Flex flexDirection="column" justifyContent="space-between">
-      <Flex flexDirection="row">
-        <Sans size={5}>{me && `${me.name}, `} Have you been to {place.name}?</Sans>
-        <CheckIcon ml={2} height={30} width={30} opacity={haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => setHaveBeenToPlace(true)}/>
-      </Flex>
-      {haveBeenToPlace &&
-        <Flex flexDirection="row">
-          <Sans size={5}>Would you go to this place again?</Sans>
-          <CheckIcon ml={2} height={30} width={30} opacity={dobar === true ? 1 : 0.2} onClick={ _e => dobarResponse(true)}/>
-          <CloseIcon ml={2} height={30} width={30} opacity={dobar === false ? 1 : 0.2} onClick={ _e => dobarResponse(false)}/>
-          {dobarLoading && <Spinner/>}
-        </Flex>
-      }
-      {dobar &&
-        <Flex flexDirection="row">
-          <Sans size={5}>You are 3 miles away from {place.name}, would you use a rideshare service to go there?</Sans>
-          <CheckIcon ml={2} height={30} width={30} opacity={rideshare === true ? 1 : 0.2} onClick={ _e => rideshareResponse(true)}/>
-          <CloseIcon ml={2} height={30} width={30} opacity={rideshare === false ? 1 : 0.2} onClick={ _e => rideshareResponse(false)}/>
-          {rideshareLoading && <Spinner/>}
-        </Flex>
-      }
-    </Flex>
-  )
 }

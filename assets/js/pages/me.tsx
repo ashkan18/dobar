@@ -97,7 +97,7 @@ export const Me = () => {
     <Flex flexDirection="column">
       <Header noLogin={false}/>
       { loading && <Spinner/>}
-      { !loading && data &&
+      { !loading && data && data.me &&
         <>
           <Sans size={5}>My List</Sans>
           <Separator width={70}/>

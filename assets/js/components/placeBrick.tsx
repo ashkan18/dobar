@@ -14,7 +14,7 @@ export default class PlaceBrick extends React.Component<Props, {}> {
         <Flex flexDirection="column" justifyContent="space-between">
           <Link to={`/places/${place.id}`}>
             {place.images[0] && place.images[0].urls &&
-              <Image src={place.images[0].urls.thumb} />
+              <Image src={place.images[0].urls.thumb} lazyLoad={true}/>
             }
             <Sans size="4">{place.name}</Sans>
           </Link>

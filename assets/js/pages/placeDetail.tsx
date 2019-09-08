@@ -92,7 +92,7 @@ export const PlaceDetail = (props: Props) => {
           <Sans size={10}>{place.name}</Sans>
           {place.tags && tagsDisplay(place.tags)}
           {place.images[0] && place.images[0].urls &&
-            <Image src={place.images[0].urls.original}/>
+            <Image src={place.images[0].urls.original} style={{maxHeight: 500}}/>
           }
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
             <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} />
