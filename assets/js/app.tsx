@@ -31,11 +31,11 @@ import { setContext } from 'apollo-link-context'
 import { ApolloProvider } from "react-apollo"
 import { ApolloProvider as ApolloProviderHooks } from '@apollo/react-hooks'
 import AuthService from "./services/authService"
-import { createHttpLink } from "apollo-link-http"
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Me } from "./pages/me";
+import { createLink } from "apollo-absinthe-upload-link"
 
-const httpLink = createHttpLink({
+const httpLink = createLink({
   uri: '/api',
 });
 

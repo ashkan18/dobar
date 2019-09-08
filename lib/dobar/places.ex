@@ -5,9 +5,9 @@ defmodule Dobar.Places do
 
   import Ecto.Query, warn: false
 
-  alias Dobar.Repo
+  alias Dobar.{Repo, PlaceImageUploader}
 
-  alias Dobar.Places.Place
+  alias Dobar.{Places, Places.Place}
 
   @doc """
   Returns the list of places.
@@ -140,6 +140,22 @@ defmodule Dobar.Places do
 
   alias Dobar.Places.PlaceImage
 
+  def upload_place_image(%{place_id: place_id, photo_file: image_file, uploader_id: uploader_id}) do
+    with place <- Places.get_place!(place_id),
+         {:ok, file} <- PlaceImageUploader.store({image_file, place}),
+         urls <- PlaceImageUploader.urls({file, place}),
+         {:ok, place_image} <-
+           Places.create_place_image(%{
+             urls: urls,
+             place_id: place.id,
+             uploader_id: uploader_id
+           }) do
+      {:ok, place_image}
+    else
+      _ -> {:error, "Cannot upload photo"}
+    end
+  end
+
   @doc """
   Returns the list of place_images.
 
@@ -232,6 +248,11 @@ defmodule Dobar.Places do
   """
   def change_place_image(%PlaceImage{} = place_image) do
     PlaceImage.changeset(place_image, %{})
+  end
+
+  def find_me_a_new_place(user_id) do
+    # find this person's reviews/invites and user list and find a close
+    # in similar tags restaurant
   end
 
   def data() do

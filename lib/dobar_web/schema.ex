@@ -8,6 +8,7 @@ defmodule DobarWeb.Schema do
   import_types(DobarWeb.Schema.AccountTypes)
   import_types(DobarWeb.Schema.ReviewTypes)
   import_types(DobarWeb.Schema.SocialTypes)
+  import_types(Absinthe.Plug.Types)
 
   alias DobarWeb.Resolvers
 
@@ -96,6 +97,14 @@ defmodule DobarWeb.Schema do
       arg(:response, non_null(:boolean))
 
       resolve(&Resolvers.ReviewResolver.rideshare_dobar/3)
+    end
+
+    @desc "Upload place photo"
+    field :upload_place_photo, type: :place_image do
+      arg(:place_id, non_null(:id))
+      arg(:photo, non_null(:upload))
+
+      resolve(&Resolvers.PlaceResolver.upload_place_photo/3)
     end
   end
 end

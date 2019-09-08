@@ -1,7 +1,8 @@
 defmodule DobarWeb.Schema.PlaceTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
-  alias DobarWeb.Resolvers.{PlaceResolver, ReviewResolver}
+  alias DobarWeb.Resolvers.{ReviewResolver}
+  import Absinthe.Resolution.Helpers, only: [dataloader: 2]
 
   @desc "Place stats"
   object :stats do
@@ -46,11 +47,7 @@ defmodule DobarWeb.Schema.PlaceTypes do
     field :facebook, :string
     field :good_for_groups, :boolean
     field :instagram, :string
-
-    field :images, list_of(:place_image) do
-      resolve(&PlaceResolver.place_images/3)
-    end
-
+    field :images, list_of(:place_image), resolve: dataloader(Place, :images)
     field :location, :location
     field :logo_url, :string
     field :name, :string

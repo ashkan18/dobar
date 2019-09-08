@@ -8,15 +8,8 @@ import { Link } from "react-router-dom";
 
 interface Props {
   place: any
+  user: any
 }
-
-const ME_QUERY = gql`
-  query {
-    me {
-      name
-    }
-  }
-`
 
 const DOBAR_MUTATION  = gql`
   mutation Dobar($placeId: ID!, $response: Boolean) {
@@ -34,8 +27,7 @@ const RIDESHARE_DOBAR_MUTATION  = gql`
 `
 
 export const Questions = (props: Props) => {
-  const {place} = props
-  const {loading: meLoading, data} = useQuery(ME_QUERY)
+  const {user, place} = props
   const [haveBeenToPlace, setHaveBeenToPlace] = useState(false)
   const [dobar, setDobar] = useState(false)
   const [rideshare, setRideshare] = useState(false)
@@ -49,12 +41,11 @@ export const Questions = (props: Props) => {
     rideshareMutation({variables: {placeId: place.id, response: response}})
     setRideshare(response)
   }
-  if (data && data.me) {
-    const {me} = data
+  if (user) {
     return(
       <Flex flexDirection="column" justifyContent="space-between" mt={2}>
         <Flex flexDirection="row">
-          <Sans size={5}>{me && `${me.name}, `} Have you been to {place.name}?</Sans>
+          <Sans size={5}>{user && `${user.name}, `} Have you been to {place.name}?</Sans>
           <CheckIcon ml={2} height={30} width={30} opacity={haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => setHaveBeenToPlace(true)}/>
         </Flex>
         {haveBeenToPlace &&

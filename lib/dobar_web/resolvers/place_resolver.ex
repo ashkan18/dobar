@@ -1,18 +1,24 @@
 defmodule DobarWeb.Resolvers.PlaceResolver do
-  alias Dobar.{Places, Repo}
+  alias Dobar.{Places}
 
   def find_places(_parent, args, _resolution) do
     Places.find_places(args)
-    |> Repo.preload(:images)
     |> Absinthe.Relay.Connection.from_list(args)
   end
 
   def find_place(_parent, args, _resolution) do
-    {:ok, Places.get_place!(args.id) |> Repo.preload(:images)}
+    {:ok, Places.get_place!(args.id)}
   end
 
-  def place_images(place, _args, _resolution) do
-    place = Repo.preload(place, :images)
-    {:ok, place.images}
+  def upload_place_photo(_parent, %{place_id: place_id, photo: photo}, %{
+        context: %{current_user: current_user}
+      }) do
+    Places.upload_place_image(%{
+      place_id: place_id,
+      photo_file: photo,
+      uploader_id: current_user.id
+    })
   end
+
+  def upload_place_photo(_parent, _args, _context), do: {:error, "Not Authorized"}
 end
