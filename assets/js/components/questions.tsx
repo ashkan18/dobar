@@ -79,7 +79,7 @@ export const Questions = (props: Props) => {
     return(
       <Flex flexDirection="column" justifyContent="space-between" mt={2}>
         <Sans size={3}> Please <Link to="/login">Login</Link> to check in.</Sans>
-        <Flex flexDirection="row" style={{opacity: 0.2}}>
+        <Flex flexDirection="row" style={{opacity: 0.2}} mt={1}>
           <Sans size={5}>Have you been to {place.name}?</Sans>
           <CheckIcon ml={2} height={30} width={30}/>
         </Flex>

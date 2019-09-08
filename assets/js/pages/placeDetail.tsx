@@ -108,17 +108,15 @@ export const PlaceDetail = (props: Props) => {
           {stats.dobar &&
             <BorderBox mt={2}>
               <Flex flexDirection="column">
-                {Object.keys(stats).map(type =>
-                  <Sans size={3}>
-                    {labelForStatType(type)}: 👍 {stats[type][true]} 👎 {stats[type][false]}
-                  </Sans>
-                )}
+                <Serif size={3}>Number Of total check-ins: <strong>{(stats["dobar"][true] || 0 )+ (stats["dobar"][false] || 0)}</strong></Serif>
+                <Serif size={3}>Would go back: <strong>{stats["dobar"][true] }</strong> and not go back <strong>{ stats["dobar"][false] || 0 }</strong></Serif>
+                <Serif size={3}>Would even pay for rideshare to go back: <strong>{stats["rideshare_dobar"][true] }</strong> and not go back <strong>{ stats["rideshare_dobar"][false] || 0 }</strong></Serif>
               </Flex>
             </BorderBox>
           }
           <Questions place={place}/>
           <Modal
-              title="Invite friends to"
+              title="Plan a visit"
               hasLogo={false}
               isWide
               show={showInvites}
