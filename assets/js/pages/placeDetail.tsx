@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, Image, BorderBox, Modal, HeartFillIcon, MessageIcon } from "@artsy/palette"
+import { Spinner, Flex, Sans, Image, BorderBox, Modal, HeartFillIcon, MessageIcon, Box, Serif, LocationIcon } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
@@ -20,6 +20,9 @@ const FIND_PLACE_QUERY = gql`
       id
       name
       location
+      address
+      address2
+      city
       tags
       images {
         urls {
@@ -94,12 +97,16 @@ export const PlaceDetail = (props: Props) => {
           {place.images[0] && place.images[0].urls &&
             <Image src={place.images[0].urls.original} style={{maxHeight: 500}}/>
           }
-          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={3}>
+          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
             <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} />
             <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
           </Flex>
+          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
+            <LocationIcon/>
+            <Serif size={4}>{[place.address, place.address2, place.city].filter(Boolean).join(", ")}</Serif>
+          </Flex>
           {stats.dobar &&
-            <BorderBox>
+            <BorderBox mt={2}>
               <Flex flexDirection="column">
                 {Object.keys(stats).map(type =>
                   <Sans size={3}>

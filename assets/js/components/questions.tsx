@@ -52,7 +52,7 @@ export const Questions = (props: Props) => {
   if (data && data.me) {
     const {me} = data
     return(
-      <Flex flexDirection="column" justifyContent="space-between">
+      <Flex flexDirection="column" justifyContent="space-between" mt={2}>
         <Flex flexDirection="row">
           <Sans size={5}>{me && `${me.name}, `} Have you been to {place.name}?</Sans>
           <CheckIcon ml={2} height={30} width={30} opacity={haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => setHaveBeenToPlace(true)}/>
@@ -77,7 +77,7 @@ export const Questions = (props: Props) => {
     )
   } else {
     return(
-      <Flex flexDirection="column" justifyContent="space-between">
+      <Flex flexDirection="column" justifyContent="space-between" mt={2}>
         <Sans size={3}> Please <Link to="/login">Login</Link> to check in.</Sans>
         <Flex flexDirection="row" style={{opacity: 0.2}}>
           <Sans size={5}>Have you been to {place.name}?</Sans>
