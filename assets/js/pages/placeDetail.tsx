@@ -110,11 +110,7 @@ export const PlaceDetail = (props: Props) => {
           { meData && meData.me  &&
             <Flex flexDirection="row">
               <Input type="file" name="file" onChange={e => setFileUpload(e.target.files[0])}/>
-              <Button onClick={ _e => {
-                console.log("file: ", fileUpload);
-                uploadPhotoMutation({variables:{placeId: place.id, photo: fileUpload}})
-              }
-              }>Upload</Button>
+              <Button onClick={ _e => uploadPhotoMutation({variables:{placeId: place.id, photo: fileUpload}})}>Upload</Button>
             </Flex>
           }
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>

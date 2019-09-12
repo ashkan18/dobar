@@ -11,8 +11,8 @@ interface Props {
 }
 
 const FIND_PLACES = gql`
-  query findPlaces($location: LocationInput, $term: String) {
-    places(first: 100, location: $location, term: $term){
+  query findPlaces($location: LocationInput, $address: String, $term: String) {
+    places(first: 100, location: $location, address: $address, term: $term){
       edges{
         node{
           id
@@ -34,15 +34,16 @@ export const Search = (props: Props) => {
   const { location } = props
   const params = new URLSearchParams(location.search);
   const [what, setWhat] = useState(params.get("term"))
-  const [where, setWhere] = useState({lat: 40.689826, lng: -73.9740782})
+  const [where, setWhere] = useState()
+  const [address, setAddress] = useState()
   const [search, { called, loading, error, data }] = useLazyQuery(FIND_PLACES)
   return (
     <Flex flexDirection="column">
       <Header noLogin={false}/>
       <Flex flexDirection="row" mt={0}>
-        <Input placeholder="Where" />
-        <Input placeholder="What" onChange={e => setWhat(e.currentTarget.value)} value={what || ""}/>
-        <Button onClick={ _e => search({variables: { location: where, term: what}})}>Search</Button>
+        <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
+        <Input placeholder="What" onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
+        <Button onClick={ _e => search({variables: { location: where, term: what, address: address}})}>Search</Button>
       </Flex>
       { loading && <Spinner/>}
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
