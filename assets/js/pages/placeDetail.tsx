@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PlaceInvite } from "../components/placeInvite";
 import { PhotoUpload } from "../components/photoUpload";
+import { randomPhoto } from "../util"
 
 
 interface Props {
@@ -103,8 +104,8 @@ export const PlaceDetail = (props: Props) => {
         <Flex flexDirection="column" justifyContent="space-between" m="auto">
           <Sans size={10}>{place.name}</Sans>
           {place.tags && tagsDisplay(place.tags)}
-          {place.images[0] && place.images[0].urls &&
-            <Image src={place.images[0].urls.original} style={{maxHeight: 500}}/>
+          {place.images && place.images.length > 0 &&
+            <Image src={randomPhoto(place.images).urls.original} style={{maxHeight: 500}}/>
           }
           { meData && meData.me && place &&
             <PhotoUpload me={meData.me} place={place} />
