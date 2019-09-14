@@ -8,6 +8,7 @@ import { Questions } from "../components/questions"
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PlaceInvite } from "../components/placeInvite";
+import { PhotoUpload } from "../components/photoUpload";
 
 
 interface Props {
@@ -75,10 +76,8 @@ const aggregateStats = (stats) => {
 
 export const PlaceDetail = (props: Props) => {
   const [showInvites, setShowInvites] = useState(false)
-  const [fileUpload, setFileUpload] = useState(null)
   const {loading, data} = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
   const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
-  const [uploadPhotoMutation, { loading: uploadLoading, error: uploadError }] = useMutation(UPLOAD_PHOTO_MUTATION)
   const {loading: meLoading, data: meData} = useQuery(ME_QUERY)
   const tagsDisplay = (tags: Array<string>) => {
     return(
@@ -107,11 +106,8 @@ export const PlaceDetail = (props: Props) => {
           {place.images[0] && place.images[0].urls &&
             <Image src={place.images[0].urls.original} style={{maxHeight: 500}}/>
           }
-          { meData && meData.me  &&
-            <Flex flexDirection="row">
-              <Input type="file" name="file" onChange={e => setFileUpload(e.target.files[0])}/>
-              <Button onClick={ _e => uploadPhotoMutation({variables:{placeId: place.id, photo: fileUpload}})}>Upload</Button>
-            </Flex>
+          { meData && meData.me && place &&
+            <PhotoUpload me={meData.me} place={place} />
           }
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
             <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} />

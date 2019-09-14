@@ -34,7 +34,10 @@ export const Search = (props: Props) => {
   const { location } = props
   const params = new URLSearchParams(location.search);
   const [what, setWhat] = useState(params.get("term"))
-  const [where, setWhere] = useState()
+  const [where, setWhere] = useState({lat: 40.7188725, lng: -74.0047466})
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => setWhere({lat: position.coords.latitude, lng: position.coords.longitude}));
+  }
   const [address, setAddress] = useState()
   const [search, { called, loading, error, data }] = useLazyQuery(FIND_PLACES)
   return (
