@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, Image, BorderBox, Modal, HeartFillIcon, MessageIcon, Box, Serif, LocationIcon, Button, Input } from "@artsy/palette"
+import { Spinner, Flex, Sans, BorderBox, Modal, HeartFillIcon, MessageIcon, Serif, LocationIcon } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
@@ -9,8 +9,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PlaceInvite } from "../components/placeInvite";
 import { PhotoUpload } from "../components/photoUpload";
-import { randomPhoto } from "../util"
-
+import { PlaceImages } from "../components/placeImages"
 
 interface Props {
   match: any
@@ -58,13 +57,6 @@ const ADD_TO_LIST_MUTATION = gql`
   }
 `
 
-const UPLOAD_PHOTO_MUTATION = gql`
-  mutation UploadPlacePhoto($placeId: ID!, $photo: Upload!){
-    uploadPlacePhoto(placeId: $placeId, photo: $photo){
-      id
-    }
-  }
-`
 const aggregateStats = (stats) => {
   return stats.reduce((acc, s) => {
     if (!acc[s.type]){
@@ -101,12 +93,10 @@ export const PlaceDetail = (props: Props) => {
     return(
       <Flex flexDirection="column">
         <Header noLogin={false}/>
-        <Flex flexDirection="column" justifyContent="space-between" m="auto">
+        <Flex flexDirection="column" justifyContent="space-between" m="auto" width={700}>
           <Sans size={10}>{place.name}</Sans>
           {place.tags && tagsDisplay(place.tags)}
-          {place.images && place.images.length > 0 &&
-            <Image src={randomPhoto(place.images).urls.original} style={{maxHeight: 500}}/>
-          }
+          <PlaceImages images={place.images}/>
           { meData && meData.me && place &&
             <PhotoUpload me={meData.me} place={place} />
           }
