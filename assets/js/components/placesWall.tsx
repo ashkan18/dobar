@@ -1,5 +1,5 @@
 import * as React from "react"
-import PlaceBrick from "./placeBrick";
+import { PlaceBrick } from "./placeBrick";
 import { Flex } from "@artsy/palette";
 
 export interface Props{

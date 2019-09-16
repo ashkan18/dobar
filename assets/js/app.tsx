@@ -19,8 +19,8 @@ import "phoenix_html"
 import React from "react"
 import ReactDOM from "react-dom"
 import { Theme, injectGlobalStyles, Box } from "@artsy/palette"
-import { Route, Switch } from "react-router"
-import { BrowserRouter as Router} from "react-router-dom"
+import { Route, Switch, Router } from "react-router"
+import { createBrowserHistory } from "history"
 import {Search} from "./pages/search"
 import Login from "./pages/login"
 import { SignUp } from "./pages/signup"
@@ -56,6 +56,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
+const customHistory = createBrowserHistory()
+
 const { GlobalStyles } = injectGlobalStyles()
 class App extends React.Component {
   render() {
@@ -65,7 +67,7 @@ class App extends React.Component {
           <Theme style={{width: "100%"}}>
             <Box m={2}>
               <GlobalStyles />
-              <Router>
+              <Router history={customHistory}>
                 <Switch>
                   <Route path="/places/:placeId" component={PlaceDetail}/>
                   <Route path="/login" exact component={Login} />
