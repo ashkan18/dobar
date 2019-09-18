@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useState } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
+import { usePosition } from "../usePosition";
 
 interface Props {
   location: any
@@ -36,17 +37,16 @@ export const Search = (props: Props) => {
   const [what, setWhat] = useState(params.get("term"))
   const [where, setWhere] = useState({lat: 40.7188725, lng: -74.0047466})
   const [address, setAddress] = useState()
-  const [search, { called, loading, error, data }] = useLazyQuery(FIND_PLACES)
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      if (!address && !data) {
-        search({variables: {
-          location: {lat: position.coords.latitude, lng: position.coords.longitude},
-          term: what,
-          address: address
-        }})
-      }
-    })
+  const [search, { called, loading, error: queryError, data }] = useLazyQuery(FIND_PLACES)
+  const {position, error: positionError} = usePosition()
+  const [positionFound, setPositionFound] = useState(false)
+  if (position && position.coords && !loading && !called) {
+    const {coords} = position
+    setWhere({lat: coords.latitude, lng: coords.longitude})
+    setPositionFound(true)
+  }
+  if (positionFound && !called) {
+    search({variables: { location: where, term: what, address: address}})
   }
   return (
     <Flex flexDirection="column">

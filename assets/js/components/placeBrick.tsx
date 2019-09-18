@@ -8,7 +8,6 @@ export interface Props{
 }
 
 
-
 export const PlaceBrick = (props: Props) => {
   const {place} = props
   return (
