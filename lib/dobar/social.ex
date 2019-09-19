@@ -120,4 +120,5 @@ defmodule Dobar.Social do
   def change_place_invite(%PlaceInvite{} = place_invite) do
     PlaceInvite.changeset(place_invite, %{})
   end
+
 end

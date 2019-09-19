@@ -216,6 +216,13 @@ defmodule Dobar.Accounts do
     UserList.changeset(user_list, %{})
   end
 
+  def user_place_list(user_id, place_id) do
+    UserList
+    |> where([r], r.place_id == ^place_id)
+    |> where([r], r.user_id == ^user_id)
+    |> Repo.all()
+  end
+
   def data() do
     Dataloader.Ecto.new(Repo)
   end

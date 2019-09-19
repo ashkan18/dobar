@@ -1,5 +1,5 @@
 defmodule DobarWeb.Resolvers.AccountResolver do
-  alias Dobar.{Accounts, Accounts.User}
+  alias Dobar.{Accounts, Accounts.User, Places.Place}
   alias DobarWeb.Auth.Guardian
 
   def create(params, _info) do
@@ -32,4 +32,11 @@ defmodule DobarWeb.Resolvers.AccountResolver do
   end
 
   def add_to_list(_parent, _args, _context), do: {:error, "Not Authorized"}
+
+
+  def user_place_list(%Place{id: place_id}, _args, %{context: %{current_user: %{id: user_id}}}) do
+    {:ok, Accounts.user_place_list(user_id, place_id)}
+  end
+
+  def user_place_list(_place, _args, _), do: {:ok, nil}
 end

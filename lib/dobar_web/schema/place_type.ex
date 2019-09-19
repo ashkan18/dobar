@@ -1,7 +1,7 @@
 defmodule DobarWeb.Schema.PlaceTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
-  alias DobarWeb.Resolvers.{ReviewResolver}
+  alias DobarWeb.Resolvers.{ReviewResolver, AccountResolver}
   import Absinthe.Resolution.Helpers, only: [dataloader: 2]
 
   @desc "Place stats"
@@ -76,6 +76,10 @@ defmodule DobarWeb.Schema.PlaceTypes do
 
     field :my_review, list_of(:review) do
       resolve(&ReviewResolver.user_place_reviews/3)
+    end
+
+    field :my_lists, list_of(:user_list) do
+      resolve(&AccountResolver.user_place_list/3)
     end
   end
 

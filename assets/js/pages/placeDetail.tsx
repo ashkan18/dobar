@@ -1,16 +1,14 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, BorderBox, Modal, HeartFillIcon, MessageIcon, Serif, LocationIcon } from "@artsy/palette"
+import { Spinner, Flex, Sans, BorderBox, Serif, LocationIcon } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useQuery } from "@apollo/react-hooks"
 import { Questions } from "../components/questions"
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { PlaceInvite } from "../components/placeInvite";
-import { PhotoUpload } from "../components/photoUpload";
+import { PhotoUpload } from "../components/photoUpload"
 import { PlaceImages } from "../components/placeImages"
-
+import { SocialActions } from "../components/socialActions"
 interface Props {
   match: any
 }
@@ -40,6 +38,9 @@ const FIND_PLACE_QUERY = gql`
         reviewType
         response
       }
+      myLists {
+        listType
+      }
     }
   }
 `
@@ -48,15 +49,6 @@ const ME_QUERY = gql`
   query {
     me {
       name
-    }
-  }
-`
-
-
-const ADD_TO_LIST_MUTATION = gql`
-  mutation AddToList($placeId: ID!, $listType: String!){
-    addToList(placeId: $placeId, listType: $listType){
-      id
     }
   }
 `
@@ -72,9 +64,7 @@ const aggregateStats = (stats) => {
 }
 
 export const PlaceDetail = (props: Props) => {
-  const [showInvites, setShowInvites] = useState(false)
   const {loading, data} = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
-  const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
   const {loading: meLoading, data: meData} = useQuery(ME_QUERY)
   const tagsDisplay = (tags: Array<string>) => {
     return(
@@ -104,10 +94,7 @@ export const PlaceDetail = (props: Props) => {
           { meData && meData.me && place &&
             <PhotoUpload me={meData.me} place={place}/>
           }
-          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2} >
-            <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} />
-            <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
-          </Flex>
+          <SocialActions place={place}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
             <LocationIcon/>
             <Serif size={4}>{[place.address, place.address2, place.city].filter(Boolean).join(", ")}</Serif>
@@ -122,15 +109,6 @@ export const PlaceDetail = (props: Props) => {
             </BorderBox>
           }
           <Questions place={place} user={meData.me} />
-          <Modal
-              title="Plan a visit"
-              hasLogo={false}
-              isWide
-              show={showInvites}
-              onClose={() => setShowInvites(false)}
-            >
-              <PlaceInvite place={place}/>
-          </Modal>
         </Flex>
       </Flex>
     )
