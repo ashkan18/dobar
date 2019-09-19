@@ -93,4 +93,11 @@ defmodule Dobar.Reviews do
     |> select([r], %{type: r.review_type, response: r.response, total: count(r.id)})
     |> Repo.all()
   end
+
+  def user_place_reviews(user_id, place_id) do
+    Review
+    |> where([r], r.place_id == ^place_id)
+    |> where([r], r.user_id == ^user_id)
+    |> Repo.all()
+  end
 end

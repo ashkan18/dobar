@@ -36,6 +36,10 @@ const FIND_PLACE_QUERY = gql`
         response
         total
       }
+      myReview {
+        reviewType
+        response
+      }
     }
   }
 `
@@ -93,14 +97,14 @@ export const PlaceDetail = (props: Props) => {
     return(
       <Flex flexDirection="column">
         <Header noLogin={false}/>
-        <Flex flexDirection="column" justifyContent="space-between" m="auto" width={700}>
+        <Flex flexDirection="column" justifyContent="space-between" m="auto" style={ { minWidth: "600px" }}>
           <Sans size={10}>{place.name}</Sans>
           {place.tags && tagsDisplay(place.tags)}
           <PlaceImages images={place.images}/>
           { meData && meData.me && place &&
-            <PhotoUpload me={meData.me} place={place} />
+            <PhotoUpload me={meData.me} place={place}/>
           }
-          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
+          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2} >
             <HeartFillIcon width={30} height={30} style={{cursor: "copy"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} />
             <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
           </Flex>

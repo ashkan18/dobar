@@ -42,6 +42,12 @@ export const Questions = (props: Props) => {
     setRideshare(response)
   }
   if (user) {
+    const {myReview} = place
+    if (myReview !== null) {
+      return(
+        <Sans size={2} mt={1}>You have already reviewed this place! Thank you!</Sans>
+      )
+    }
     return(
       <Flex flexDirection="column" justifyContent="space-between" mt={2}>
         <Flex flexDirection="row">

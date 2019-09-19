@@ -73,6 +73,10 @@ defmodule DobarWeb.Schema.PlaceTypes do
     end
 
     field :rideshare_dobar_count, :integer
+
+    field :my_review, list_of(:review) do
+      resolve(&ReviewResolver.user_place_reviews/3)
+    end
   end
 
   input_object :location_input do

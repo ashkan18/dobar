@@ -1,16 +1,19 @@
 defmodule DobarWeb.Resolvers.PlaceResolver do
   alias Dobar.{Places}
 
-  def find_places(_parent, args = %{address: address, term: term}, _resolution) do
-    with {:ok, %{lat: lat, lon: lon} } <- Geocoder.call(address, components: "country:us") do
-      args = args
+  def find_places(parent, args = %{address: address}, resolution) do
+    with {:ok, %{lat: lat, lon: lon}} <- Geocoder.call(address, components: "country:us") do
+      args =
+        args
         |> Map.delete(:address)
         |> Map.put(:location, %{lat: lat, lng: lon})
-      find_places(_parent, args, _resolution)
+
+      find_places(parent, args, resolution)
     else
       _ -> {:error, "Unknown address"}
     end
   end
+
   def find_places(_parent, args, _resolution) do
     Places.find_places(args)
     |> Absinthe.Relay.Connection.from_list(args)
