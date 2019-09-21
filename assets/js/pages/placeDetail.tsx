@@ -55,12 +55,9 @@ const ME_QUERY = gql`
 
 const aggregateStats = (stats) => {
   return stats.reduce((acc, s) => {
-    if (!acc[s.type]){
-      acc[s.type] = {}
-    }
-    acc[s.type][s.response] = s.total
+    acc[s.type][s.response ? 'yes' : 'no'] = s.total
     return acc
-  }, {})
+  }, {"dobar": {"yes": 0, "no": 0}, "rideshare_dobar": {"yes": 0, "no": 0}})
 }
 
 export const PlaceDetail = (props: Props) => {
@@ -102,9 +99,9 @@ export const PlaceDetail = (props: Props) => {
           {stats.dobar &&
             <BorderBox mt={2}>
               <Flex flexDirection="column">
-                <Serif size={3}>Number Of total check-ins: <strong>{(stats["dobar"][true] || 0 )+ (stats["dobar"][false] || 0)}</strong></Serif>
-                <Serif size={3}>Would go back: <strong>{stats["dobar"][true] }</strong> and not go back <strong>{ stats["dobar"][false] || 0 }</strong></Serif>
-                <Serif size={3}>Would even pay for rideshare to go back: <strong>{stats["rideshare_dobar"][true] }</strong> and not go back <strong>{ stats["rideshare_dobar"][false] || 0 }</strong></Serif>
+                <Serif size={3}>Number Of total check-ins: <strong>{stats["dobar"]["yes"] + stats["dobar"]["no"]}</strong></Serif>
+                <Serif size={3}>Would go back: <strong>{stats["dobar"]["yes"]}</strong> and not go back <strong>{stats["dobar"]["no"]}</strong></Serif>
+                <Serif size={3}>Would even pay for rideshare to go back: <strong>{stats["rideshare_dobar"]['yes'] }</strong> and not go back <strong>{ stats["rideshare_dobar"]["no"] || 0 }</strong></Serif>
               </Flex>
             </BorderBox>
           }

@@ -22,9 +22,7 @@ const ADD_TO_LIST_MUTATION = gql`
 export const SocialActions = (props: Props) => {
   const {place} = props
   const {myLists} = place
-  const alreadyLiked = myLists.some(l => l.listType === "planning_to_go")
-  console.log(myLists)
-  console.log(myLists.some(l => l.listType === "planning_to_go"))
+  const alreadyLiked = myLists && myLists.some(l => l.listType === "planning_to_go")
   const [addToListMutation, { loading, error }] = useMutation(ADD_TO_LIST_MUTATION)
   const [showInvites, setShowInvites] = useState(false)
   if (loading) return(<Spinner />)

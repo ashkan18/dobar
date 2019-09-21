@@ -29,8 +29,8 @@ const RIDESHARE_DOBAR_MUTATION  = gql`
 export const Questions = (props: Props) => {
   const {user, place} = props
   const [haveBeenToPlace, setHaveBeenToPlace] = useState(false)
-  const [dobar, setDobar] = useState(false)
-  const [rideshare, setRideshare] = useState(false)
+  const [dobar, setDobar] = useState()
+  const [rideshare, setRideshare] = useState()
   const [dobarMutation, { loading: dobarLoading, error: dobarError }] = useMutation(DOBAR_MUTATION)
   const [rideshareMutation, { loading: rideshareLoading, error: rideshareError }] = useMutation(RIDESHARE_DOBAR_MUTATION)
   const dobarResponse = (response: boolean) => {
@@ -43,7 +43,7 @@ export const Questions = (props: Props) => {
   }
   if (user) {
     const {myReview} = place
-    if (myReview !== null) {
+    if (myReview !== null && myReview.length > 0) {
       return(
         <Sans size={2} mt={1}>You have already reviewed this place! Thank you!</Sans>
       )
