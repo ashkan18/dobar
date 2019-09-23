@@ -48,6 +48,15 @@ config :geocoder, :worker,
   provider: Geocoder.Providers.GoogleMaps,
   key: System.get_env("GEOCODER_GOOGLE_API_KEY")
 
+config :dobar, Dobar.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: System.get_env("SMTP_API_KEY"),
+  # can be `:always` or `:never`
+  tls: :if_available,
+  # can be `true`
+  ssl: false,
+  retries: 1
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

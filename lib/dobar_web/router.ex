@@ -66,6 +66,11 @@ defmodule DobarWeb.Router do
     resources "/users", UserController
   end
 
+  if Mix.env() == :dev do
+    # If using Phoenix
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+
   scope "/api" do
     pipe_through [:api, :graphql]
 

@@ -33,7 +33,6 @@ defmodule DobarWeb.Resolvers.AccountResolver do
 
   def add_to_list(_parent, _args, _context), do: {:error, "Not Authorized"}
 
-
   def user_place_list(%Place{id: place_id}, _args, %{context: %{current_user: %{id: user_id}}}) do
     {:ok, Accounts.user_place_list(user_id, place_id)}
   end

@@ -4,7 +4,7 @@ import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useQuery } from "@apollo/react-hooks";
-import PlaceBrick from "../components/placeBrick";
+import { PlaceBrick } from "../components/placeBrick";
 
 const MY_LIST = gql`
   query Me {

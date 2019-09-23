@@ -1,0 +1,6 @@
+<div class="inquiry-details">
+  <%= @place_invite.host.name %> has invited you to checkout <%= link(@place_invite.place.name, to: "#{DobarWeb.Endpoint.url}/places/#{@place_invite.place.id}") %>
+  <div class="inquiry-material-details">
+    <div>Address: <%= @place_invite.place.address %> </div>
+  </div>
+</div>

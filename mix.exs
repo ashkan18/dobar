@@ -53,6 +53,7 @@ defmodule Dobar.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:poison, "~> 4.0", override: true},
+      {:bamboo, "~> 1.3"},
       arc: "~> 0.11.0",
 
       # If using Amazon S3:
