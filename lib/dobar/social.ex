@@ -7,6 +7,8 @@ defmodule Dobar.Social do
   alias Dobar.Repo
 
   alias Dobar.Social.PlaceInvite
+  alias DobarWeb.Email
+  alias Dobar.Mailer
 
   @doc """
   Returns the list of place_invite.
@@ -68,11 +70,21 @@ defmodule Dobar.Social do
       |> Enum.uniq()
       |> Enum.map(&create_place_invite(%{place_id: place_id, host_id: host_id, guest_email: &1}))
       |> Enum.map(&Kernel.elem(&1, 1))
+      |> Enum.map(&deliver_invite_email/1)
 
     {:ok, invites}
   end
 
   def create_place_invites(_), do: {:error, "invalid input"}
+
+  def deliver_invite_email(invite) do
+    invite
+      |> Repo.preload(:host)
+      |> Repo.preload(:place)
+      |> Email.place_invite()
+      |> Mailer.deliver_later
+    invite
+  end
 
   @doc """
   Updates a place_invite.

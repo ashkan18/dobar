@@ -1,0 +1,1 @@
+<%= @place_invite.host.name %> has invited you to checkout <%= @place_invite.place.name %>
