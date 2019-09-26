@@ -66,7 +66,7 @@ export const PlaceDetail = (props: Props) => {
   const tagsDisplay = (tags: Array<string>) => {
     return(
       <Flex flexDirection="row">
-        {tags.map(t => <Link to={{pathname: "/", search: `?term=${t}`}}><Sans size={3} mr={0.5}>#{t}</Sans></Link>)}
+        {tags.map(t => <Link key={t} to={{pathname: "/", search: `?term=${t}`}}><Sans size={3} mr={0.5}>#{t}</Sans></Link>)}
       </Flex>
     )
   }
