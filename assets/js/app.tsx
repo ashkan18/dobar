@@ -70,8 +70,6 @@ class App extends React.Component {
               <Router history={customHistory}>
                 <Switch>
                   <Route path="/places/:placeId" component={PlaceDetail}/>
-                  <Route path="/login" exact component={Login} />
-                  <Route path="/signup" exact component={SignUp} />
                   <Route path="/me" exact component={Me} />
                   <Route path="/" component={Search}/>
                 </Switch>

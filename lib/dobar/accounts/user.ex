@@ -26,7 +26,7 @@ defmodule Dobar.Accounts.User do
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password)
-    |> unique_constraint(:username)
+    |> unique_constraint(:username, name: :users_username_uniq_idx)
     |> put_pass_hash()
   end
 

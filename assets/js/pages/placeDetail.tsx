@@ -84,7 +84,7 @@ export const PlaceDetail = (props: Props) => {
     return(
       <Flex flexDirection="column">
         <Header noLogin={false}/>
-        <Flex flexDirection="column" justifyContent="space-between" m="auto" style={ { minWidth: "600px" }}>
+        <Flex flexDirection="column" justifyContent="space-between" m="auto" style={ { width: "95%" }}>
           <Sans size={10}>{place.name}</Sans>
           {place.tags && tagsDisplay(place.tags)}
           <PlaceImages images={place.images}/>
@@ -105,7 +105,7 @@ export const PlaceDetail = (props: Props) => {
               </Flex>
             </BorderBox>
           }
-          <Questions place={place} user={meData.me} />
+          <Questions place={place} user={meData && meData.me} />
         </Flex>
       </Flex>
     )

@@ -1,9 +1,7 @@
 import * as React from "react"
-import { Button, Input, Join, Spacer, Box, Spinner } from "@artsy/palette"
+import { Button, Input, Join, Spacer, Spinner, Modal, Sans } from "@artsy/palette"
 import AuthService from "../services/authService"
 import gql from "graphql-tag";
-import Header from "../components/header";
-import { Redirect } from "react-router";
 import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 
@@ -22,17 +20,21 @@ export const SignUp = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [showModal, setShowModal] = useState(true)
   const [signUp, { data, loading, error }] = useMutation(SIGNUP_MUTATION)
-  if (data) {
-    authService.setToken(data.signup.token)
-    return(<Redirect to={'/'} />)
-  }
-  return(
-    <>
-      <Header noLogin={true} />
-      <Box m={3} mt={6}>
+  const [onboard1, setOnboard1] = useState("")
+  const [onboard2, setOnboard2] = useState("")
+
+  const renderSignUp = () => {
+    return(
+      <Modal
+        title="Sign up"
+        show={showModal}
+        isWide
+        onClose={() => setShowModal(false)}
+        >
         <Join separator={<Spacer m={1} />}>
-          {error}
+          {error && <Sans size={4}> Username taken or passwords didn't match. Please try again.</Sans>}
           <Input type="text" onChange={e => setName(e.currentTarget.value)} title="Name" value={name} />
           <Input type="text" onChange={e => setUserName(e.currentTarget.value)} title="Username" value={username} />
           <Input type="email" onChange={e => setEmail(e.currentTarget.value)} title="Email" value={email} />
@@ -41,7 +43,15 @@ export const SignUp = () => {
           <Button size="medium" onClick={_e => signUp({ variables: { name: name, username: username, email: email, password: password, passwordConfirmation: passwordConfirmation } })} mt={1}>Signup!</Button>
           {loading && <Spinner/>}
         </Join>
-      </Box>
-    </>
-  )
+      </Modal>
+    )
+  }
+  if (data) {
+    authService.setToken(data.signup.token)
+    window.location.reload()
+    setShowModal(false)
+    return(<Spinner/>)
+  } else {
+    return renderSignUp()
+  }
 }

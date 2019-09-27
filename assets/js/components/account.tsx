@@ -2,10 +2,14 @@ import { Flex, Button } from '@artsy/palette'
 import React, { useState } from "react"
 import AuthService from '../services/authService'
 import { Link } from 'react-router-dom';
+import { SignUp } from '../pages/signup';
+import Login from '../pages/login';
 
 export const Account = () => {
   const authService = new AuthService()
   const [isLoggedIn, setIsLoggedIn] = useState(authService.getToken() !== null)
+  const [signUp, setSignUp] = useState(false)
+  const [login, setLogin] = useState(false)
   return (
     <>
       {isLoggedIn &&
@@ -16,13 +20,11 @@ export const Account = () => {
       }
       {!isLoggedIn &&
         <Flex flexDirection="row" justifyContent="space-between" width={150} mt={0} mb={0}>
-          <Link to={'/login'}>
-            <Button variant="secondaryOutline" size="small">Login</Button>
-          </Link>
-          <Link to={'/signup'}>
-            <Button size="small">SignUp</Button>
-          </Link>
+          <Button variant="secondaryOutline" size="small" onClick={() => setLogin(true)}>Login</Button>
+          <Button size="small" onClick={() => setSignUp(true)}>SignUp</Button>
         </Flex>}
+      {signUp && <SignUp/>}
+      {login && <Login/>}
     </>
   )
 }
