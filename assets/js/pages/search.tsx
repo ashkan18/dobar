@@ -50,7 +50,7 @@ export const Search = (props: Props) => {
     setPositionFound(true)
   }
   if (positionFound && !called) {
-    search({variables: { location: where, term: what, address: address}})
+    search({variables: { location: where, term: what, address}})
   }
   return (
     <Flex flexDirection="column">

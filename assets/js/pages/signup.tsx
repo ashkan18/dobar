@@ -4,6 +4,7 @@ import AuthService from "../services/authService"
 import gql from "graphql-tag";
 import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
+import { Onboarding } from "../components/onboarding";
 
 const SIGNUP_MUTATION = gql`
   mutation signup($username: String!, $password: String!, $passwordConfirmation: String!, $name: String!, $email: String!){
@@ -22,8 +23,12 @@ export const SignUp = () => {
   const [email, setEmail] = useState("")
   const [showModal, setShowModal] = useState(true)
   const [signUp, { data, loading, error }] = useMutation(SIGNUP_MUTATION)
-  const [onboard1, setOnboard1] = useState("")
-  const [onboard2, setOnboard2] = useState("")
+  const [onboarding, setOnboarding] = useState(false)
+  const finishOnboarding = () => {
+    window.location.reload()
+    setShowModal(false)
+    return(<Spinner/>)
+  }
 
   const renderSignUp = () => {
     return(
@@ -33,24 +38,27 @@ export const SignUp = () => {
         isWide
         onClose={() => setShowModal(false)}
         >
-        <Join separator={<Spacer m={1} />}>
-          {error && <Sans size={4}> Username taken or passwords didn't match. Please try again.</Sans>}
-          <Input type="text" onChange={e => setName(e.currentTarget.value)} title="Name" value={name} />
-          <Input type="text" onChange={e => setUserName(e.currentTarget.value)} title="Username" value={username} />
-          <Input type="email" onChange={e => setEmail(e.currentTarget.value)} title="Email" value={email} />
-          <Input type="password" onChange={e => setPassword(e.currentTarget.value)} title="Password" value={password} />
-          <Input type="password" onChange={e => setPasswordConfirmation(e.currentTarget.value)} title="Password Confirmation" value={passwordConfirmation} />
-          <Button size="medium" onClick={_e => signUp({ variables: { name: name, username: username, email: email, password: password, passwordConfirmation: passwordConfirmation } })} mt={1}>Signup!</Button>
-          {loading && <Spinner/>}
-        </Join>
+          {!onboarding &&
+            <Join separator={<Spacer m={0}/>}>
+              {error && <Sans size={4}> Username taken or passwords didn't match. Please try again.</Sans>}
+              <Input type="text" onChange={e => setName(e.currentTarget.value)} title="Name" value={name} />
+              <Input type="text" onChange={e => setUserName(e.currentTarget.value)} title="Username" value={username} />
+              <Input type="email" onChange={e => setEmail(e.currentTarget.value)} title="Email" value={email} />
+              <Input type="password" onChange={e => setPassword(e.currentTarget.value)} title="Password" value={password} />
+              <Input type="password" onChange={e => setPasswordConfirmation(e.currentTarget.value)} title="Password Confirmation" value={passwordConfirmation} />
+              <Button size="medium" onClick={_e => signUp({ variables: { name: name, username: username, email: email, password: password, passwordConfirmation: passwordConfirmation } })} mt={1}>Signup!</Button>
+              {loading && <Spinner/>}
+            </Join>
+          }
+          { onboarding &&
+            <Onboarding onFinish={() => finishOnboarding()}/>
+          }
       </Modal>
     )
   }
   if (data) {
     authService.setToken(data.signup.token)
-    window.location.reload()
-    setShowModal(false)
-    return(<Spinner/>)
+    setOnboarding(true)
   } else {
     return renderSignUp()
   }
