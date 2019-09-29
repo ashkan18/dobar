@@ -23,7 +23,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState("")
   const [showModal, setShowModal] = useState(true)
   const [signUp, { data, loading, error }] = useMutation(SIGNUP_MUTATION)
-  const [onboarding, setOnboarding] = useState(true)
+  const [onboarding, setOnboarding] = useState(false)
   const finishOnboarding = () => {
     setShowModal(false)
     window.location.reload()
@@ -32,7 +32,7 @@ export const SignUp = () => {
   const renderSignUp = () => {
     return(
       <Modal
-        title="Sign up"
+        title={ onboarding ? "Learning Your Taste" : "Sign up!" }
         show={showModal}
         isWide
         onClose={() => setShowModal(false)}
