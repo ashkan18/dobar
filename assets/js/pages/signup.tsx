@@ -23,11 +23,10 @@ export const SignUp = () => {
   const [email, setEmail] = useState("")
   const [showModal, setShowModal] = useState(true)
   const [signUp, { data, loading, error }] = useMutation(SIGNUP_MUTATION)
-  const [onboarding, setOnboarding] = useState(false)
+  const [onboarding, setOnboarding] = useState(true)
   const finishOnboarding = () => {
-    window.location.reload()
     setShowModal(false)
-    return(<Spinner/>)
+    window.location.reload()
   }
 
   const renderSignUp = () => {
@@ -56,10 +55,10 @@ export const SignUp = () => {
       </Modal>
     )
   }
-  if (data) {
+
+  if (data && !onboarding) {
     authService.setToken(data.signup.token)
     setOnboarding(true)
-  } else {
-    return renderSignUp()
   }
+  return renderSignUp()
 }
