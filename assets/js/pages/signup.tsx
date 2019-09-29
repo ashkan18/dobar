@@ -25,15 +25,14 @@ export const SignUp = () => {
   const [signUp, { data, loading, error }] = useMutation(SIGNUP_MUTATION)
   const [onboarding, setOnboarding] = useState(false)
   const finishOnboarding = () => {
-    window.location.reload()
     setShowModal(false)
-    return(<Spinner/>)
+    window.location.reload()
   }
 
   const renderSignUp = () => {
     return(
       <Modal
-        title="Sign up"
+        title={ onboarding ? "Learning Your Taste" : "Sign up!" }
         show={showModal}
         isWide
         onClose={() => setShowModal(false)}
@@ -56,10 +55,10 @@ export const SignUp = () => {
       </Modal>
     )
   }
-  if (data) {
+
+  if (data && !onboarding) {
     authService.setToken(data.signup.token)
     setOnboarding(true)
-  } else {
-    return renderSignUp()
   }
+  return renderSignUp()
 }
