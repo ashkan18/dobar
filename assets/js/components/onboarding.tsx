@@ -2,7 +2,7 @@ import * as React from "react"
 import { Sans, Flex, Input, Button, Box, Spinner } from "@artsy/palette";
 import { useState } from "react";
 import gql from "graphql-tag";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 
 export interface Props{
   onFinish(): void
@@ -30,6 +30,20 @@ const FIND_PLACES = gql`
   }
 `
 
+const DOBAR_MUTATION  = gql`
+  mutation Dobar($placeId: ID!, $response: Boolean) {
+    dobar(placeId: $placeId, response: $response) {
+      id
+    }
+  }
+`
+const RIDESHARE_DOBAR_MUTATION  = gql`
+  mutation Rideshare($placeId: ID!, $response: Boolean) {
+    rideshareDobar(placeId: $placeId, response: $response) {
+      id
+    }
+  }
+`
 export const Onboarding = (props: Props) => {
   const {onFinish} = props
   const [step, setStep] = useState(0)
@@ -40,6 +54,9 @@ export const Onboarding = (props: Props) => {
   const [responseCount, setResponseCount] = useState(0)
   const [haveBeenToPlace, setHaveBeenToPlace] = useState(false)
   const [dobar, setDobar] = useState(false)
+  const [dobarMutation, { loading: dobarLoading, error: dobarError }] = useMutation(DOBAR_MUTATION)
+  const [rideshareMutation, { loading: rideshareLoading, error: rideshareError }] = useMutation(RIDESHARE_DOBAR_MUTATION)
+
 
   const haveBeen = () => {
     setHaveBeenToPlace(true)
@@ -54,25 +71,26 @@ export const Onboarding = (props: Props) => {
   const wouldDobar = (response: boolean) => {
     setResponseCount(responseCount + 1)
     if (response ) {
-      console.log("would dobar")
+      dobarMutation({variables: {placeId: currentPlace.id, response: response}})
       setDobar(true)
     } else {
       goNext()
     }
     if (responseCount === 3) {
-      onFinish()
+      setStep(2)
+      setTimeout(onFinish, 5000);
     }
   }
 
   const wouldRideshare = (response: boolean) => {
     if (response ) {
-      console.log("would rideshare")
+      rideshareMutation({variables: {placeId: currentPlace.id, response: response}})
     }
     goNext()
   }
 
   const findPlaces = () => {
-    search({variables: { location: {lat: 40.6898229, lng: -73.9745967}}})
+    search({variables: { address }})
   }
 
   if (data && step === 0 && !places) {
@@ -85,7 +103,7 @@ export const Onboarding = (props: Props) => {
 
   return (
     <Box>
-    {step === 0 &&
+      {step === 0 &&
         <>
           <Sans size={4}>What is your favorite neighborhood?</Sans>
           <Flex flexDirection="row" mt={0}>
@@ -94,8 +112,7 @@ export const Onboarding = (props: Props) => {
           </Flex>
         </>
       }
-      {
-        step === 1 &&
+      {step === 1 &&
         <>
           {!haveBeenToPlace &&
             <>
@@ -125,6 +142,9 @@ export const Onboarding = (props: Props) => {
             </>
           }
         </>
+      }
+      {step === 3 &&
+        <Sans size={4}>Thanks for letting us know about your taste! Lets start browsing.</Sans>
       }
     </Box>
   )
