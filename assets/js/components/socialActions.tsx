@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Spinner, Flex, HeartFillIcon, MessageIcon, Modal, Sans, Input, Button, Box, Message } from "@artsy/palette"
+import { Spinner, Flex, HeartFillIcon, MessageIcon, Modal, Sans, Input, Button, Box, Message, AddCircleIcon, AddCircleFillIcon } from "@artsy/palette"
 
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
@@ -51,7 +51,7 @@ export const SocialActions = (props: Props) => {
   return(
     <>
       <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2} >
-        <HeartFillIcon width={30} height={30} style={{cursor: "pointer"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} fill={ alreadyLiked ? 'black100' : 'black30'}/>
+        <AddCircleFillIcon width={25} height={25} style={{cursor: "pointer"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} fill={ alreadyLiked ? 'black100' : 'black30'}/>
         <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
       </Flex>
       {showInviteConfirmation &&

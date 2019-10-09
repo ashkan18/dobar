@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, BorderBox, Serif, LocationIcon } from "@artsy/palette"
+import { Spinner, Flex, Sans, BorderBox, Serif, LocationIcon, BarChart } from "@artsy/palette"
 
 import Header from "../components/header"
 import gql from "graphql-tag"
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { PhotoUpload } from "../components/photoUpload"
 import { PlaceImages } from "../components/placeImages"
 import { SocialActions } from "../components/socialActions"
+import { useEffect } from "react"
 interface Props {
   match: any
 }
@@ -24,6 +25,7 @@ const FIND_PLACE_QUERY = gql`
       city
       tags
       images {
+        id
         urls {
           thumb
           original
@@ -63,6 +65,11 @@ const aggregateStats = (stats) => {
 export const PlaceDetail = (props: Props) => {
   const {loading, data} = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
   const {loading: meLoading, data: meData} = useQuery(ME_QUERY)
+  useEffect(() => {
+    if (data && data.place) {
+      document.title = `Dobar . ${data.place.name}`
+    }
+  }, [data])
   const tagsDisplay = (tags: Array<string>) => {
     return(
       <Flex flexDirection="row">
@@ -93,17 +100,42 @@ export const PlaceDetail = (props: Props) => {
           }
           <SocialActions place={place}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
-            <LocationIcon/>
+            <a rel="noopener noreferrer" href={`https://maps.google.com/?ll=${place.location.lat},${place.location.lng}`} target="_blank">
+              <LocationIcon/>
+            </a>
             <Serif size={4}>{[place.address, place.address2, place.city].filter(Boolean).join(", ")}</Serif>
           </Flex>
           {stats.dobar &&
-            <BorderBox mt={2}>
-              <Flex flexDirection="column">
-                <Serif size={3}>Number Of total check-ins: <strong>{stats["dobar"]["yes"] + stats["dobar"]["no"]}</strong></Serif>
-                <Serif size={3}>Would go back: <strong>{stats["dobar"]["yes"]}</strong> and not go back <strong>{stats["dobar"]["no"]}</strong></Serif>
-                <Serif size={3}>Would even pay for rideshare to go back: <strong>{stats["rideshare_dobar"]['yes'] }</strong> and not go back <strong>{ stats["rideshare_dobar"]["no"] || 0 }</strong></Serif>
-              </Flex>
-            </BorderBox>
+            <>
+              <BarChart
+                bars={
+                  [
+                    {
+                      value: stats["dobar"]["yes"] + stats["dobar"]["no"],
+                      label: {title: "Total Check-in", description: "Total number of people checked in to this place."}
+                    },
+                    {
+                      value: stats["dobar"]["yes"],
+                      label: {title: "Would go back", description: "Total number of people would go back to this place."}
+                    },
+                    {
+                      value: stats["dobar"]["no"],
+                      label: {title: "Would go back", description: "Total number of people would NOT go back to this place."}
+                    },
+                    {
+                      value: stats["rideshare_dobar"]["yes"],
+                      label: {title: "Would rideshare", description: "Total number of people would even get rideshare back to this place."}
+                    },
+                    {
+                      value: stats["rideshare_dobar"]["no"],
+                      label: {title: "Would go back", description: "Total number of people would NOT get rideshare back to this place."}
+                    }
+                  ]
+                }
+                minLabel=""
+                maxLabel=""
+              />
+            </>
           }
           <Questions place={place} user={meData && meData.me} />
         </Flex>

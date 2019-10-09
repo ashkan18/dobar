@@ -3,7 +3,7 @@ import { Flex, Input, Button, Spinner } from "@artsy/palette"
 import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { usePosition } from "../usePosition";
 
@@ -40,6 +40,9 @@ export const Search = (props: Props) => {
   const [search, { called, loading, error: queryError, data }] = useLazyQuery(FIND_PLACES)
   const {position, error: positionError} = usePosition()
   const [positionFound, setPositionFound] = useState(false)
+  useEffect(() => {
+    document.title = `Dobar . Home`
+  }, [])
   const onSubmit = (e) => {
     e.preventDefault()
     search({variables: { location: where, term: what, address: address}})
