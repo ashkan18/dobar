@@ -39,32 +39,30 @@ export const Search = (props: Props) => {
   const [address, setAddress] = useState()
   const [search, { called, loading, error: queryError, data }] = useLazyQuery(FIND_PLACES)
   const {position, error: positionError} = usePosition()
-  const [positionFound, setPositionFound] = useState(false)
-  useEffect(() => {
-    document.title = `Dobar . Home`
-  }, [])
   const onSubmit = (e) => {
     e.preventDefault()
     search({variables: { location: where, term: what, address: address}})
   }
-  if (position && position.coords && !loading && !called) {
-    const {coords} = position
-    setWhere({lat: coords.latitude, lng: coords.longitude})
-    setPositionFound(true)
-  }
-  if (positionFound && !called) {
-    search({variables: { location: where, term: what, address}})
-  }
+  useEffect(() => {
+    if (position && !called) {
+      const {coords} = position
+      setWhere({lat: coords.latitude, lng: coords.longitude})
+      search({variables: { location: where, term: what, address}})
+    }
+  }, [position])
+  useEffect(() => {
+    document.title = `Dobar . Home`
+  }, [])
   return (
     <Flex flexDirection="column">
       <Header noLogin={false}/>
         <form onSubmit={onSubmit}>
-        <Flex flexDirection="row" mt={0}>
-          <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
-          <Input placeholder="What" onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
-          <Button>Search</Button>
-        </Flex>
-      </form>
+          <Flex flexDirection="row" mt={0}>
+            <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
+            <Input placeholder="What" onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
+            <Button>Search</Button>
+          </Flex>
+        </form>
       { loading && <Spinner/>}
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
     </Flex>
