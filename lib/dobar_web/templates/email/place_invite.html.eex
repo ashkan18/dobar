@@ -1,6 +1,27 @@
-<div class="inquiry-details">
+<table class="inquiry-details">
+  <tr><td>
+    <div style="border-bottom: 1px solid #777; margin-top: 60px; padding-bottom: 10px; padding-top: 10px;width: 100%;text-align: center">
+      <span style="font-size: 33px">D</span><span style="font-size: 12">o</span><span style="font-size: 33">.B</span><span style="font-size: 12">ar</span>
+    </div>
+  </tr></td>
+  <tr><td>
+    <div style="padding: 30px"/>
+  </tr></td>
+  <%= if !Enum.empty?(@place_invite.place.images) do %>
+    <tr><td>
+      <img src="<%= Enum.random(@place_invite.place.images).urls.thumb %>" />
+    </tr></td>
+  <% end %>
+  <tr><td>
   <%= @place_invite.host.name %> has invited you to checkout <%= link(@place_invite.place.name, to: "#{DobarWeb.Endpoint.url}/places/#{@place_invite.place.id}") %>
+  </tr></td>
+  <tr><td>
   <div class="inquiry-material-details">
     <div>Address: <%= @place_invite.place.address %> </div>
   </div>
-</div>
+  </tr></td>
+
+  <tr><td>
+    <div style="border-top: 1px solid #777; margin-top: 60px; padding-top: 10px;width: 100%"> Not on dobar yet? <a href="https://dobar.herokuapp.com/">Join</a> to find your next favorite place and share with friends.</div>
+  </tr></td>
+</table>

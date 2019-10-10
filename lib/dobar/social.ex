@@ -80,7 +80,7 @@ defmodule Dobar.Social do
   def deliver_invite_email(invite) do
     invite
       |> Repo.preload(:host)
-      |> Repo.preload(:place)
+      |> Repo.preload(place: :images)
       |> Email.place_invite()
       |> Mailer.deliver_later
     invite
