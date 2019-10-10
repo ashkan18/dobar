@@ -8,16 +8,18 @@
     <div style="padding: 30px"/>
   </tr></td>
   <%= if !Enum.empty?(@place_invite.place.images) do %>
-    <tr><td>
-      <img src="<%= Enum.random(@place_invite.place.images).urls.thumb %>" />
+    <tr><td style="text-align: center">
+      <img src="<%= Enum.random(@place_invite.place.images).urls["thumb"] %>" />
     </tr></td>
   <% end %>
   <tr><td>
-  <%= @place_invite.host.name %> has invited you to checkout <%= link(@place_invite.place.name, to: "#{DobarWeb.Endpoint.url}/places/#{@place_invite.place.id}") %>
+    <div style="margin-top: 15px;">
+      <%= @place_invite.host.name %> has invited you to checkout <%= link(@place_invite.place.name, to: "#{DobarWeb.Endpoint.url}/places/#{@place_invite.place.id}") %>.
+    </div>
   </tr></td>
   <tr><td>
   <div class="inquiry-material-details">
-    <div>Address: <%= @place_invite.place.address %> </div>
+    <div style="margin-top: 15px;font-style: italic"><%= Enum.join([@place_invite.place.address, @place_invite.place.city], ", ") %> </div>
   </div>
   </tr></td>
 
