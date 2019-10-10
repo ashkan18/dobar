@@ -56,13 +56,13 @@ export const Search = (props: Props) => {
   return (
     <Flex flexDirection="column">
       <Header noLogin={false}/>
-        <form onSubmit={onSubmit}>
-          <Flex flexDirection="row" mt={0}>
-            <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
-            <Input placeholder="What" onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
-            <Button>Search</Button>
-          </Flex>
-        </form>
+      <form onSubmit={onSubmit} style={{width: "50%", margin: "auto"}}>
+        <Flex flexDirection="row" mt={0}>
+          <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
+          <Input placeholder="Restaurant/Cuisine..." onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
+          <Button>Search</Button>
+        </Flex>
+      </form>
       { loading && <Spinner/>}
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
     </Flex>
