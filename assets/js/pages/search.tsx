@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Flex, Input, Button, Spinner } from "@artsy/palette"
+import { Flex, Input, Button, Spinner, MagnifyingGlassIcon } from "@artsy/palette"
 import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
@@ -46,10 +46,12 @@ export const Search = (props: Props) => {
   useEffect(() => {
     if (position && !called) {
       const {coords} = position
-      setWhere({lat: coords.latitude, lng: coords.longitude})
-      search({variables: { location: where, term: what, address}})
+      const location = {lat: coords.latitude, lng: coords.longitude}
+      search({variables: { location, term: what}})
+      setWhere(location)
     }
   }, [position])
+
   useEffect(() => {
     document.title = `Dobar . Home`
   }, [])
@@ -60,7 +62,7 @@ export const Search = (props: Props) => {
         <Flex flexDirection="row" mt={0}>
           <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
           <Input placeholder="Restaurant/Cuisine..." onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
-          <Button>Search</Button>
+          <Button><MagnifyingGlassIcon fill={"white100"}/></Button>
         </Flex>
       </form>
       { loading && <Spinner/>}
