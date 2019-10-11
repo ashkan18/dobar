@@ -22,8 +22,6 @@ import { Theme, injectGlobalStyles, Box } from "@artsy/palette"
 import { Route, Switch, Router } from "react-router"
 import { createBrowserHistory } from "history"
 import {Search} from "./pages/search"
-import Login from "./pages/login"
-import { SignUp } from "./pages/signup"
 import {PlaceDetail} from "./pages/placeDetail";
 
 import ApolloClient from "apollo-client"

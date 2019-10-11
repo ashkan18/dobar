@@ -38,6 +38,14 @@ defmodule Dobar.Places do
       where: fragment("? % ?", place.name, ^term) or fragment("? = ANY(?)", ^term, place.tags)
   end
 
+  defp place_query({:order, "popularity"}, query) do
+    from p in query,
+      join: r in assoc(p, :reviews),
+      where: r.response == true,
+      group_by: [p.id],
+      order_by: fragment("SUM(CASE WHEN ? = 'rideshare_dobar' THEN 3 ELSE 1 END) desc", r.review_type)
+  end
+
   defp place_query(_, query), do: query
 
   @doc """

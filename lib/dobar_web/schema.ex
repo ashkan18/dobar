@@ -28,11 +28,12 @@ defmodule DobarWeb.Schema do
   connection(node_type: :place)
 
   query do
-    @desc "Find Places by location"
+    @desc "Find Places"
     connection field :places, node_type: :place do
       arg(:location, :location_input)
       arg(:term, :string)
       arg(:address, :string)
+      arg(:order, :string)
       resolve(&Resolvers.PlaceResolver.find_places/3)
     end
 

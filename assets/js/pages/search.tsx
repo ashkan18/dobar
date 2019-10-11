@@ -4,12 +4,35 @@ import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useState, useEffect } from "react";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { usePosition } from "../usePosition";
+import { FeaturedPlaces } from "../components/featuredPlaces";
+import { randomFromList } from "../util";
 
 interface Props {
   location: any
 }
+
+const POPULAR_PLACES = gql`
+query findPlaces {
+  places(first: 5, order: "popularity"){
+    edges{
+      node{
+        id
+        name
+        workingHours
+        tags
+        images {
+          urls {
+            original
+            thumb
+          }
+        }
+      }
+    }
+  }
+}
+`
 
 const FIND_PLACES = gql`
   query findPlaces($location: LocationInput, $address: String, $term: String) {
@@ -34,8 +57,9 @@ const FIND_PLACES = gql`
 export const Search = (props: Props) => {
   const { location } = props
   const params = new URLSearchParams(location.search);
+  const {loading: popularLoading, data: popularData} = useQuery(POPULAR_PLACES)
   const [what, setWhat] = useState(params.get("term"))
-  const [where, setWhere] = useState({lat: 40.7188725, lng: -74.0047466})
+  const [where, setWhere] = useState()
   const [address, setAddress] = useState()
   const [search, { called, loading, error: queryError, data }] = useLazyQuery(FIND_PLACES)
   const {position, error: positionError} = usePosition()
@@ -47,7 +71,6 @@ export const Search = (props: Props) => {
     if (position && !called) {
       const {coords} = position
       const location = {lat: coords.latitude, lng: coords.longitude}
-      search({variables: { location, term: what}})
       setWhere(location)
     }
   }, [position])
@@ -65,7 +88,8 @@ export const Search = (props: Props) => {
           <Button><MagnifyingGlassIcon fill={"white100"}/></Button>
         </Flex>
       </form>
-      { loading && <Spinner/>}
+      { (popularLoading || loading) && <Spinner/>}
+      { popularData && !data && <FeaturedPlaces places={[randomFromList(popularData.places.edges.map( e => e.node))]} feature="Most Popular"/>}
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
     </Flex>
   )

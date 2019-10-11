@@ -1,7 +1,7 @@
 import * as React from "react"
 import { BorderBox, Sans, Flex, Image } from "@artsy/palette";
 import { Link } from "react-router-dom";
-import { randomPhoto } from "../util"
+import { randomFromList } from "../util"
 
 export interface Props{
   place: any
@@ -15,7 +15,7 @@ export const PlaceBrick = (props: Props) => {
       <Flex flexDirection="column" justifyContent="space-between">
         <Link to={`/places/${place.id}`}>
           {place.images && place.images.length > 0 &&
-            <Image src={randomPhoto(place.images).urls.thumb} lazyLoad={true}/>
+            <Image src={randomFromList(place.images).urls.thumb} lazyLoad={true}/>
           }
           <Sans size="4">{place.name}</Sans>
         </Link>
