@@ -10,6 +10,7 @@ import { PhotoUpload } from "../components/photoUpload"
 import { PlaceImages } from "../components/placeImages"
 import { SocialActions } from "../components/socialActions"
 import { useEffect } from "react"
+import { FunnelChart } from "../components/funnelChart"
 interface Props {
   match: any
 }
@@ -107,34 +108,11 @@ export const PlaceDetail = (props: Props) => {
           </Flex>
           {stats.dobar &&
             <>
-              <BarChart
-                bars={
-                  [
-                    {
-                      value: stats["dobar"]["yes"] + stats["dobar"]["no"],
-                      label: {title: "Total Check-in", description: "Total number of people checked in to this place."}
-                    },
-                    {
-                      value: stats["dobar"]["yes"],
-                      label: {title: "Would go back", description: "Total number of people would go back to this place."}
-                    },
-                    {
-                      value: stats["dobar"]["no"],
-                      label: {title: "Would go back", description: "Total number of people would NOT go back to this place."}
-                    },
-                    {
-                      value: stats["rideshare_dobar"]["yes"],
-                      label: {title: "Would rideshare", description: "Total number of people would even get rideshare back to this place."}
-                    },
-                    {
-                      value: stats["rideshare_dobar"]["no"],
-                      label: {title: "Would go back", description: "Total number of people would NOT get rideshare back to this place."}
-                    }
-                  ]
-                }
-                minLabel=""
-                maxLabel=""
-              />
+              <FunnelChart chartWidth={250} data={[
+                {name: `Total check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
+                {name: `Total go back`, value: stats["dobar"]["yes"]},
+                {name: `Total rideshare go-back`, value: stats["rideshare_dobar"]["yes"]},
+              ]}/>
             </>
           }
           <Questions place={place} user={meData && meData.me} />

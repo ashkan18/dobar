@@ -46,6 +46,11 @@ defmodule Dobar.Places do
       order_by: fragment("SUM(CASE WHEN ? = 'rideshare_dobar' THEN 3 ELSE 1 END) desc", r.review_type)
   end
 
+  defp place_query({:order, "random"}, query) do
+    from p in query,
+    order_by: fragment("RANDOM()")
+  end
+
   defp place_query(_, query), do: query
 
   @doc """

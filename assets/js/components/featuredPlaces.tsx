@@ -1,6 +1,6 @@
 import * as React from "react"
 import { PlaceBrick } from "./placeBrick";
-import { Flex, Sans, Box, BorderBox, Separator } from "@artsy/palette";
+import { Flex, Sans, BorderBox, Separator } from "@artsy/palette";
 
 export interface Props{
   places: Array<any>

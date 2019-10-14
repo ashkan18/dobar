@@ -63,6 +63,7 @@ export const Search = (props: Props) => {
   const [address, setAddress] = useState()
   const [search, { called, loading, error: queryError, data }] = useLazyQuery(FIND_PLACES)
   const {position, error: positionError} = usePosition()
+
   const onSubmit = (e) => {
     e.preventDefault()
     search({variables: { location: where, term: what, address: address}})
@@ -78,10 +79,11 @@ export const Search = (props: Props) => {
   useEffect(() => {
     document.title = `Dobar . Home`
   }, [])
+
   return (
     <Flex flexDirection="column">
       <Header noLogin={false}/>
-      <form onSubmit={onSubmit} style={{width: "50%", margin: "auto"}}>
+      <form onSubmit={onSubmit} style={{maxWidth: "500px", margin: "auto"}}>
         <Flex flexDirection="row" mt={0}>
           <Input placeholder="Where" onChange={ e => setAddress(e.currentTarget.value) } value={address || ""} />
           <Input placeholder="Restaurant/Cuisine..." onChange={e => setWhat(e.currentTarget.value) } value={what || ""}/>
