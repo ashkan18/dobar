@@ -77,10 +77,6 @@ export const Questions = (props: Props) => {
     return(
       <Flex flexDirection="column" justifyContent="space-between" mt={2}>
         <Sans size={3}> Please <Link to="/login">Login</Link> to check in.</Sans>
-        <Flex flexDirection="row" style={{opacity: 0.2}} mt={1}>
-          <Sans size={5}>Have you been to {place.name}?</Sans>
-          <QuestionResponse size={5} ml={2}>Yes</QuestionResponse>
-        </Flex>
       </Flex>
     )
   }

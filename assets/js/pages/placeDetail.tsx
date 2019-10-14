@@ -101,19 +101,21 @@ export const PlaceDetail = (props: Props) => {
           }
           <SocialActions place={place}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
-            <a rel="noopener noreferrer" href={`https://maps.google.com/?ll=${place.location.lat},${place.location.lng}`} target="_blank">
+            <a rel="noopener noreferrer" href={`https://maps.google.com/maps/search/?api=1&&query=${place.location.lat},${place.location.lng}`} target="_blank">
               <LocationIcon/>
             </a>
             <Serif size={4}>{[place.address, place.address2, place.city].filter(Boolean).join(", ")}</Serif>
           </Flex>
-          {stats.dobar &&
-            <>
-              <FunnelChart chartWidth={250} data={[
-                {name: `Total check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
-                {name: `Total go back`, value: stats["dobar"]["yes"]},
-                {name: `Total rideshare go-back`, value: stats["rideshare_dobar"]["yes"]},
-              ]}/>
-            </>
+          {stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] > 0) &&
+            <FunnelChart chartWidth={250} data={[
+              {name: `Total check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
+              {name: `Total go back`, value: stats["dobar"]["yes"]},
+              {name: `Total rideshare go-back`, value: stats["rideshare_dobar"]["yes"]},
+            ]}/>
+          }
+          {
+            stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] === 0) &&
+            <Sans size="2">No one has reviewed {place.name}. Be the first one!</Sans>
           }
           <Questions place={place} user={meData && meData.me} />
         </Flex>

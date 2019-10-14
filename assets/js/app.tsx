@@ -21,7 +21,7 @@ import ReactDOM from "react-dom"
 import { Theme, injectGlobalStyles, Box } from "@artsy/palette"
 import { Route, Switch, Router } from "react-router"
 import { createBrowserHistory } from "history"
-import {Search} from "./pages/search"
+import {Main} from "./pages/main"
 import {PlaceDetail} from "./pages/placeDetail";
 
 import ApolloClient from "apollo-client"
@@ -69,7 +69,7 @@ class App extends React.Component {
                 <Switch>
                   <Route path="/places/:placeId" component={PlaceDetail}/>
                   <Route path="/me" exact component={Me} />
-                  <Route path="/" component={Search}/>
+                  <Route path="/" component={Main}/>
                 </Switch>
               </Router>
             </Box>

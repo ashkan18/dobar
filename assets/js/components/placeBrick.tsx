@@ -10,12 +10,18 @@ export interface Props{
 
 export const PlaceBrick = (props: Props) => {
   const {place} = props
+  const [defaultImage, setDefaultImage] = React.useState()
+  React.useEffect(() => {
+    if (place && place.images && place.images.length > 0) {
+      setDefaultImage(randomFromList(place.images))
+    }
+  }, [place] )
   return (
     <BorderBox>
       <Flex flexDirection="column" justifyContent="space-between">
         <Link to={`/places/${place.id}`}>
-          {place.images && place.images.length > 0 &&
-            <Image src={randomFromList(place.images).urls.thumb} lazyLoad={true}/>
+          {defaultImage &&
+            <Image src={defaultImage.urls.thumb} lazyLoad={true}/>
           }
           <Sans size="4">{place.name}</Sans>
         </Link>
