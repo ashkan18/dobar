@@ -48,7 +48,7 @@ const STYLE = {
 
   trapStylesBase: {
     height: 0,
-    borderTop: '10px solid orange',
+    borderTop: '10px solid #FFE076',
     margin: '0 auto',
   }
 }

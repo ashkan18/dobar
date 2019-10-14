@@ -96,10 +96,7 @@ export const PlaceDetail = (props: Props) => {
           <Sans size={10}>{place.name}</Sans>
           {place.tags && tagsDisplay(place.tags)}
           <PlaceImages images={place.images}/>
-          { meData && meData.me && place &&
-            <PhotoUpload me={meData.me} place={place}/>
-          }
-          <SocialActions place={place}/>
+          <SocialActions place={place} me={meData && meData.me}/>
           <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
             <a rel="noopener noreferrer" href={`https://maps.google.com/maps/search/?api=1&&query=${place.location.lat},${place.location.lng}`} target="_blank">
               <LocationIcon/>

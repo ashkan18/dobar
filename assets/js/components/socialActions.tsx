@@ -4,9 +4,11 @@ import { Spinner, Flex, HeartFillIcon, MessageIcon, Modal, Sans, Input, Button, 
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { useState } from "react";
+import PhotoUpload from "./photoUpload";
 
 interface Props {
   place: any
+  me: any
 }
 
 const ADD_TO_LIST_MUTATION = gql`
@@ -26,7 +28,7 @@ const PLACE_INVITE = gql`
 
 
 export const SocialActions = (props: Props) => {
-  const {place} = props
+  const {place, me} = props
   const {myLists} = place
   const alreadyLiked = myLists && myLists.some(l => l.listType === "planning_to_go")
   const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
@@ -51,8 +53,9 @@ export const SocialActions = (props: Props) => {
   return(
     <>
       <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2} >
-        <AddCircleFillIcon width={25} height={25} style={{cursor: "pointer"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} fill={ alreadyLiked ? 'black100' : 'black30'}/>
-        <MessageIcon width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
+        <PhotoUpload me={me} place={place}/>
+        <AddCircleFillIcon mr={1} ml={1} width={25} height={25} style={{cursor: "pointer"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} fill={ alreadyLiked ? 'black100' : 'black30'}/>
+        <MessageIcon mr={1} ml={1} width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
       </Flex>
       {showInviteConfirmation &&
         <Box>
