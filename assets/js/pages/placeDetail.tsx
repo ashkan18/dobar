@@ -105,9 +105,9 @@ export const PlaceDetail = (props: Props) => {
           </Flex>
           {stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] > 0) &&
             <FunnelChart chartWidth={250} data={[
-              {name: `Total check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
-              {name: `Total go back`, value: stats["dobar"]["yes"]},
-              {name: `Total rideshare go-back`, value: stats["rideshare_dobar"]["yes"]},
+              {name: `Check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
+              {name: `Going back`, value: stats["dobar"]["yes"]},
+              {name: `Rideshare`, value: stats["rideshare_dobar"]["yes"]},
             ]}/>
           }
           {
