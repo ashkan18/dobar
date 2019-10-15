@@ -4,8 +4,7 @@ import { Flex, Input, Spinner, ArtworkIcon } from "@artsy/palette"
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/react-hooks"
 import { useState, useEffect } from "react";
-import { IncomingMessage } from "http";
-
+import { CameraIcon } from "./cameraIcon"
 
 interface Props {
   place: any
@@ -37,7 +36,7 @@ export const PhotoUpload = (props: Props) => {
   return(
     <Flex flexDirection="row" mr={1} ml={1}>
       <Input type="file" name="file" onChange={e => setFileUpload(e.target.files[0])} hidden={true} id="uploadInput" name="uploadInput"/>
-      <label htmlFor="uploadInput" style={{cursor: "pointer"}}><ArtworkIcon width={25} height={25}/></label>
+      <label htmlFor="uploadInput" style={{cursor: "pointer"}}><CameraIcon width={25} height={25} fill={"black5"}/></label>
       {uploading && <Spinner />}
     </Flex>
   )

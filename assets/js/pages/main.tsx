@@ -116,7 +116,7 @@ export const Main = (props: Props) => {
       </form>
       { (popularLoading || loading) && <Spinner/>}
       { featuredPlaces && !data &&
-        <Flex flexDirection="row" m="auto" wrap>
+        <Flex flexDirection="row" m="auto" flexWrap="wrap">
           <FeaturedPlaces places={featuredPlaces.popular} feature="Most Popular"/>
           <FeaturedPlaces places={featuredPlaces.random} feature="Lucky Places"/>
         </Flex>
