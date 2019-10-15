@@ -24,5 +24,6 @@ defmodule Dobar.Social.PlaceInvite do
     |> validate_inclusion(:status, @statuses)
     |> foreign_key_constraint(:place_id)
     |> foreign_key_constraint(:user_id)
+    |> unique_constraint([:host_id, :place_id, :guest_email], name: :place_invite_host_place_guest)
   end
 end

@@ -69,6 +69,7 @@ defmodule Dobar.Social do
       guest_emails
       |> Enum.uniq()
       |> Enum.map(&create_place_invite(%{place_id: place_id, host_id: host_id, guest_email: &1}))
+      |> Enum.filter(fn create_response -> Kernel.elem(create_response, 0) == :ok end)
       |> Enum.map(&Kernel.elem(&1, 1))
       |> Enum.map(&deliver_invite_email/1)
 
