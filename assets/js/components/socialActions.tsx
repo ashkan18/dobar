@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Spinner, Flex, HeartFillIcon, MessageIcon, Modal, Sans, Input, Button, Box, Message, AddCircleIcon, AddCircleFillIcon } from "@artsy/palette"
+import { Spinner, Flex, HeartFillIcon, MessageIcon, Modal, Sans, Input, Button, Box, Message, HeartIcon } from "@artsy/palette"
 
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
@@ -54,7 +54,8 @@ export const SocialActions = (props: Props) => {
     <>
       <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2} >
         <PhotoUpload me={me} place={place}/>
-        <AddCircleFillIcon mr={1} ml={1} width={25} height={25} style={{cursor: "pointer"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} fill={ alreadyLiked ? 'black100' : 'black30'}/>
+        {alreadyLiked && <HeartFillIcon mr={1} ml={1} width={25} height={25} style={{cursor: "pointer"}} fill='red100'/> }
+        {!alreadyLiked && <HeartIcon mr={1} ml={1} width={25} height={25} style={{cursor: "pointer"}} onClick={(e) => addToListMutation({variables: {placeId: place.id, listType: "planning_to_go"}})} /> }
         <MessageIcon mr={1} ml={1} width={30} height={30} style={{cursor: "pointer"}} onClick={ _e => setShowInvites(true) }/>
       </Flex>
       {showInviteConfirmation &&
