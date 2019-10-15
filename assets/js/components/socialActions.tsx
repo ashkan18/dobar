@@ -66,14 +66,14 @@ export const SocialActions = (props: Props) => {
         </Box>
       }
       <Modal
-        title="Plan a visit"
+        title={`Plan a visit to ${place.name}`}
         hasLogo={false}
         isWide
         show={showInvites}
         onClose={() => setShowInvites(false)}
       >
           <Flex flexDirection="column" justifyContent="space-between">
-            <Sans size={5} mb={2}>Please fill list of emails for people you want to invite to {place.name}?</Sans>
+            <Sans size={5} mb={2}>Please fill list of emails for people you want to invite?</Sans>
             {guestEmails.map( (ge, index) => <Input type="email" key={index} onChange={e =>  setEmail(index, e.currentTarget.value)}/>)}
             <Button onClick={ _e => addEmail("") } mt={2}>Add</Button>
             <Button onClick={ _e =>  sendInvites() } mt={2}>Invite</Button>
