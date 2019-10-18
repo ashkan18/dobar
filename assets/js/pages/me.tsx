@@ -4,7 +4,8 @@ import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useQuery } from "@apollo/react-hooks";
-import { PlaceBrick } from "../components/placeBrick";
+import { useState } from "react";
+import { InvitationList } from "../components/invitationList";
 
 const MY_LIST = gql`
   query Me {
@@ -77,22 +78,40 @@ const MY_LIST = gql`
     }
 `
 
-interface InvitationProps {
-  invitation: any
-  host: boolean
-}
 
-export const Invitation = (props: InvitationProps) => {
-  const {invitation, host} = props
-  return(
-    <Flex flexDirection="column" mt={2}>
-      <Sans size={2}>{host ? invitation.guestEmail : invitation.host.name} - {invitation.status}</Sans>
-      <PlaceBrick place={invitation.place} />
-    </Flex>
-  )
-}
+
 export const Me = () => {
   const { loading, data } = useQuery(MY_LIST)
+  const [invites, setInvites] = useState({})
+  const [invitations, setInvitations] = useState({})
+  React.useEffect(() => {
+    if (data) {
+      const invites = data.me.invites.edges.map(e => e.node).reduce(
+        (groupedInvites: any, i: any) => ({
+          ...groupedInvites,
+          [i.place.id]: [
+            ...(groupedInvites[i.place.id] || []),
+            i,
+          ],
+        }),
+        {},
+      )
+      setInvites(invites)
+
+      const invitations = data.me.invitations.edges.map(e => e.node).reduce(
+        (groupedInvites: any, i: any) => ({
+          ...groupedInvites,
+          [i.place.id]: [
+            ...(groupedInvites[i.place.id] || []),
+            i,
+          ],
+        }),
+        {},
+      )
+      setInvitations(invitations)
+    }
+  }, [data])
+
   return (
     <Flex flexDirection="column">
       <Header noLogin={false}/>
@@ -101,14 +120,10 @@ export const Me = () => {
         <>
           <Sans size={5}>My List</Sans>
           <Separator width={70}/>
-          <PlacesWall places={data.me.lists.edges.map(l => l.node.place)}/>
-          <Sans size={5} mt={2}>Invitations</Sans>
-          <Separator width={70}/>
-          {Array.isArray(data.me.invitations.edges) && data.me.invitations.edges.length >= 0 && data.me.invitations.edges.map(i => <Invitation invitation={i.node} host={false}/>)}
-          {Array.isArray(data.me.invitations.edges) && data.me.invitations.edges.length === 0 && <Sans size={3}>You have no current invitation.</Sans>}
-          <Sans size={5} mt={2}>Invites</Sans>
-          <Separator width={70}/>
-          {data.me.invites.edges.map(i => <Invitation invitation={i.node} host/>)}
+          { data.me.lists.edges.length > 0 && <PlacesWall places={data.me.lists.edges.map(l => l.node.place)}/> }
+          { data.me.lists.edges.length == 0 && <Sans size={3} mt={1}>Nothing currently in your favorite list.</Sans> }
+          <InvitationList title="Invitations" invitations={invitations}/>
+          <InvitationList title="Invites" invitations={invites}/>
         </>
       }
     </Flex>
