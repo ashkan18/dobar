@@ -26,7 +26,7 @@ defmodule Dobar.PlaceImageUploader do
 
   # Override the persisted filenames:
   def filename(version, {file, _scope}) do
-    "#{Path.basename(Path.extname(file.file_name))}_#{version}"
+    "#{Path.basename(file.file_name, Path.extname(file.file_name))}_#{version}"
   end
 
   def storage_dir(_version, {_file, scope}) do
