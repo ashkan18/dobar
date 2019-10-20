@@ -21,12 +21,12 @@ defmodule Dobar.PlaceImageUploader do
 
   # Define a thumbnail transformation:
   def transform(:thumb, _) do
-    {:convert, "-strip -auto-orient -thumbnail 250x250^ -gravity center -extent 250x250 -format jpg", :jpg}
+    {:convert, "-thumbnail 250x250 -auto-orient -extent 250x250 -gravity center -format jpg", :jpg}
   end
 
   # Override the persisted filenames:
   def filename(version, {file, _scope}) do
-    "#{file.file_name}_#{version}"
+    "#{Path.basename(Path.extname(file.file_name))}_#{version}"
   end
 
   def storage_dir(_version, {_file, scope}) do
