@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Flex, Input, Button, Spinner, MagnifyingGlassIcon, LocationIcon } from "@artsy/palette"
-import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useState, useEffect } from "react";

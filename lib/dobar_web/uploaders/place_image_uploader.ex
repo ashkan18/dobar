@@ -1,11 +1,6 @@
 defmodule Dobar.PlaceImageUploader do
   use Arc.Definition
 
-  # Include ecto support (requires package arc_ecto installed):
-  # use Arc.Ecto.Definition
-
-  @versions [:original]
-
   # To add a thumbnail version:
   @versions [:original, :thumb]
 
@@ -22,6 +17,10 @@ defmodule Dobar.PlaceImageUploader do
   # Define a thumbnail transformation:
   def transform(:thumb, _) do
     {:convert, "-thumbnail 250x250 -auto-orient -extent 250x250 -gravity center -format jpg", :jpg}
+  end
+
+  def transform(:original, _) do
+    {:convert, "-auto-orient -format jpg", :jpg}
   end
 
   # Override the persisted filenames:

@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Flex, Spinner, Sans, Separator } from "@artsy/palette"
-import Header from "../components/header";
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useQuery } from "@apollo/react-hooks";
@@ -114,7 +113,6 @@ export const Me = () => {
 
   return (
     <Flex flexDirection="column">
-      <Header noLogin={false}/>
       { loading && <Spinner/>}
       { !loading && data && data.me &&
         <>

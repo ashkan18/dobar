@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Spinner, Flex, Sans, BorderBox, Serif, LocationIcon, BarChart } from "@artsy/palette"
 
-import Header from "../components/header"
 import gql from "graphql-tag"
 import { useQuery } from "@apollo/react-hooks"
 import { Questions } from "../components/questions"
@@ -81,10 +80,7 @@ export const PlaceDetail = (props: Props) => {
 
   if (loading) {
     return(
-      <Flex flexDirection="column">
-        <Header noLogin={false}/>
-        <Spinner size="large"/>
-      </Flex>
+      <Spinner size="large"/>
     )
   } else if (data.place) {
     const { place } =  data
