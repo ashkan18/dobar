@@ -5,7 +5,7 @@ import {Account} from './account'
 import styled from 'styled-components';
 
 interface Props {
-  noLogin: boolean
+  search?: boolean
 }
 
 const Header = (props: Props) => {
@@ -15,7 +15,7 @@ const Header = (props: Props) => {
         <StyledLink to={"/"}>
           <span style={{fontSize: 33}}>D</span><span style={{fontSize: 12}}>o</span><span style={{fontSize: 33}}>.B</span><span style={{fontSize: 12}}>ar</span>
         </StyledLink>
-        { !props.noLogin && <Account/> }
+        <Account/>
       </Flex>
       <Separator mb={2} mt={1}/>
     </>

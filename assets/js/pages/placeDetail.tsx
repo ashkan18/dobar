@@ -90,32 +90,29 @@ export const PlaceDetail = (props: Props) => {
     const { place } =  data
     const stats = aggregateStats(place.stats)
     return(
-      <Flex flexDirection="column">
-        <Header noLogin={false}/>
-        <Flex flexDirection="column" justifyContent="space-between" m="auto" style={ { width: "95%" }}>
-          <Sans size={10}>{place.name}</Sans>
-          {place.tags && tagsDisplay(place.tags)}
-          <PlaceImages images={place.images}/>
-          <SocialActions place={place} me={meData && meData.me}/>
-          <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
-            <a rel="noopener noreferrer" href={`https://maps.google.com/maps/search/?api=1&&query=${place.location.lat},${place.location.lng}`} target="_blank">
-              <LocationIcon/>
-            </a>
-            <Serif size={4}>{[place.address, place.address2, place.city].filter(Boolean).join(", ")}</Serif>
-          </Flex>
-          {stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] > 0) &&
-            <FunnelChart chartWidth={250} data={[
-              {name: `Check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
-              {name: `Going back`, value: stats["dobar"]["yes"]},
-              {name: `Rideshare`, value: stats["rideshare_dobar"]["yes"]},
-            ]}/>
-          }
-          {
-            stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] === 0) &&
-            <Sans size="2">No one has reviewed {place.name}. Be the first one!</Sans>
-          }
-          <Questions place={place} user={meData && meData.me} />
+      <Flex flexDirection="column" justifyContent="space-between" m="auto" style={ { width: "95%" }}>
+        <Sans size={10}>{place.name}</Sans>
+        {place.tags && tagsDisplay(place.tags)}
+        <PlaceImages images={place.images}/>
+        <SocialActions place={place} me={meData && meData.me}/>
+        <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2}>
+          <a rel="noopener noreferrer" href={`https://maps.google.com/maps/search/?api=1&&query=${place.location.lat},${place.location.lng}`} target="_blank">
+            <LocationIcon/>
+          </a>
+          <Serif size={4}>{[place.address, place.address2, place.city].filter(Boolean).join(", ")}</Serif>
         </Flex>
+        {stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] > 0) &&
+          <FunnelChart chartWidth={250} data={[
+            {name: `Check-in`, value: stats["dobar"]["yes"] + stats["dobar"]["no"]},
+            {name: `Going back`, value: stats["dobar"]["yes"]},
+            {name: `Rideshare`, value: stats["rideshare_dobar"]["yes"]},
+          ]}/>
+        }
+        {
+          stats.dobar && (stats["dobar"]["yes"] + stats["dobar"]["no"] === 0) &&
+          <Sans size="2">No one has reviewed {place.name}. Be the first one!</Sans>
+        }
+        <Questions place={place} user={meData && meData.me} />
       </Flex>
     )
   }

@@ -46,11 +46,11 @@ export const Questions = (props: Props) => {
     const {myReview} = place
     if (myReview !== null && myReview.length > 0) {
       return(
-        <Sans size={2} mt={1}>You have already reviewed this place! Thank you!</Sans>
+        <Sans size={2} mt={2} m={"auto"}>You have already reviewed this place! Thank you!</Sans>
       )
     }
     return(
-      <Flex flexDirection="column" justifyContent="space-between" mt={2}>
+      <Flex flexDirection="column" justifyContent="space-between" mt={2} m={"auto"}>
         <Flex flexDirection="row">
           <Sans size={5}>{user && `${user.name}, `} Have you been to {place.name}?</Sans>
           <QuestionResponse size={5} ml={2} opacity={haveBeenToPlace === true ? 1 : 0.2} onClick={ _e => setHaveBeenToPlace(true)}> Yes </QuestionResponse>

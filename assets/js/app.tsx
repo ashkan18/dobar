@@ -18,7 +18,7 @@ import "phoenix_html"
 
 import React from "react"
 import ReactDOM from "react-dom"
-import { Theme, injectGlobalStyles, Box } from "@artsy/palette"
+import { Theme, injectGlobalStyles, Box, Flex } from "@artsy/palette"
 import { Route, Switch, Router } from "react-router"
 import { createBrowserHistory } from "history"
 import {Main} from "./pages/main"
@@ -32,6 +32,7 @@ import AuthService from "./services/authService"
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Me } from "./pages/me";
 import { createLink } from "apollo-absinthe-upload-link"
+import Header from "./components/header"
 
 const httpLink = createLink({
   uri: '/api',
@@ -63,16 +64,17 @@ class App extends React.Component {
       <ApolloProvider client={client}>
         <ApolloProviderHooks client={client}>
           <Theme style={{width: "100%"}}>
-            <Box m={2}>
-              <GlobalStyles />
-              <Router history={customHistory}>
+            <GlobalStyles />
+            <Router history={customHistory}>
+              <Flex flexDirection="column" m={2}>
+                <Header/>
                 <Switch>
                   <Route path="/places/:placeId" component={PlaceDetail}/>
                   <Route path="/me" exact component={Me} />
                   <Route path="/" component={Main}/>
                 </Switch>
-              </Router>
-            </Box>
+              </Flex>
+            </Router>
           </Theme>
         </ApolloProviderHooks>
       </ApolloProvider>

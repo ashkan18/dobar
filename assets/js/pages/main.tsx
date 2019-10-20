@@ -104,8 +104,7 @@ export const Main = (props: Props) => {
    } , [featuredData])
 
   return (
-    <Flex flexDirection="column">
-      <Header noLogin={false}/>
+    <>
       <form onSubmit={onSubmit} style={{maxWidth: "500px", margin: "auto"}}>
         <Flex flexDirection="row" mt={0}>
           { where && <LocationIcon width={40} height={40} mr={1}/>}
@@ -122,6 +121,6 @@ export const Main = (props: Props) => {
         </Flex>
       }
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
-    </Flex>
+    </>
   )
 }
