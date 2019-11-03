@@ -1,11 +1,10 @@
 import * as React from "react"
-import { Spinner, Flex, Sans, BorderBox, Serif, LocationIcon, BarChart } from "@artsy/palette"
+import { Spinner, Flex, Sans, Serif, LocationIcon } from "@artsy/palette"
 
 import gql from "graphql-tag"
 import { useQuery } from "@apollo/react-hooks"
 import { Questions } from "../components/questions"
 import { Link } from "react-router-dom";
-import { PhotoUpload } from "../components/photoUpload"
 import { PlaceImages } from "../components/placeImages"
 import { SocialActions } from "../components/socialActions"
 import { useEffect } from "react"
@@ -64,7 +63,7 @@ const aggregateStats = (stats) => {
 
 export const PlaceDetail = (props: Props) => {
   const {loading, data} = useQuery(FIND_PLACE_QUERY, {variables: {id: props.match.params.placeId}})
-  const {loading: meLoading, data: meData} = useQuery(ME_QUERY)
+  const {data: meData} = useQuery(ME_QUERY)
   useEffect(() => {
     if (data && data.place) {
       document.title = `Dobar . ${data.place.name}`

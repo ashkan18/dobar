@@ -30,12 +30,12 @@ const PLACE_INVITE = gql`
 export const SocialActions = (props: Props) => {
   const {place, me} = props
   const {myLists} = place
-  const alreadyLiked = myLists && myLists.some(l => l.listType === "planning_to_go")
-  const [addToListMutation, { loading: addToListLoading, error: addToListError }] = useMutation(ADD_TO_LIST_MUTATION)
+  const [addToListMutation, { loading: addToListLoading, called: addToListCalled }] = useMutation(ADD_TO_LIST_MUTATION)
   const [showInvites, setShowInvites] = useState(false)
   const [guestEmails, setGuestEmails] = useState([""])
-  const [inviteToPlaceMutation, { data: inviteData, loading: inviteLoading, error: inviteError, called: inviteCalled }] = useMutation(PLACE_INVITE)
+  const [inviteToPlaceMutation, { loading: inviteLoading }] = useMutation(PLACE_INVITE)
   const [showInviteConfirmation, setShowInviteConfirmation] = useState(false)
+  const alreadyLiked = addToListCalled || (myLists && myLists.some(l => l.listType === "planning_to_go"))
   const addEmail = (email: string) => {
     setGuestEmails(guestEmails.concat([email]))
   }

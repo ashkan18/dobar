@@ -3,7 +3,7 @@ import { Flex, Spinner, Sans, Separator } from "@artsy/palette"
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useQuery } from "@apollo/react-hooks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InvitationList } from "../components/invitationList";
 
 const MY_LIST = gql`
@@ -83,7 +83,9 @@ export const Me = () => {
   const { loading, data } = useQuery(MY_LIST)
   const [invites, setInvites] = useState({})
   const [invitations, setInvitations] = useState({})
-  React.useEffect(() => {
+  document.title = `Dobar . My Account`
+
+  useEffect(() => {
     if (data) {
       const invites = data.me.invites.edges.map(e => e.node).reduce(
         (groupedInvites: any, i: any) => ({
