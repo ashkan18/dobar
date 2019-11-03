@@ -16,7 +16,8 @@ defmodule Dobar.PlaceImageUploader do
 
   # Define a thumbnail transformation:
   def transform(:thumb, _) do
-    {:convert, "-thumbnail 250x250 -auto-orient -extent 250x250 -gravity center -format jpg", :jpg}
+    {:convert, "-thumbnail 250x250 -auto-orient -extent 250x250 -gravity center -format jpg",
+     :jpg}
   end
 
   def transform(:original, _) do

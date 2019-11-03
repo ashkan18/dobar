@@ -43,12 +43,13 @@ defmodule Dobar.Places do
       join: r in assoc(p, :reviews),
       where: r.response == true,
       group_by: [p.id],
-      order_by: fragment("SUM(CASE WHEN ? = 'rideshare_dobar' THEN 3 ELSE 1 END) desc", r.review_type)
+      order_by:
+        fragment("SUM(CASE WHEN ? = 'rideshare_dobar' THEN 3 ELSE 1 END) desc", r.review_type)
   end
 
   defp place_query({:order, "random"}, query) do
     from p in query,
-    order_by: fragment("RANDOM()")
+      order_by: fragment("RANDOM()")
   end
 
   defp place_query(_, query), do: query
@@ -263,9 +264,9 @@ defmodule Dobar.Places do
     PlaceImage.changeset(place_image, %{})
   end
 
-  def find_me_a_new_place(user_id) do
-    # find this person's reviews/invites and user list and find a close
-    # in similar tags restaurant
+  def find_users_a_new_place(user_ids, be_adventorus \\ false) do
+    # finds a new place for people with these ids based on their favorites and list of places they've been/invited
+    # be_adventorus decides if we should take them to new type of place or not
   end
 
   def data() do
