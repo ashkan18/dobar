@@ -137,9 +137,7 @@ defmodule Dobar.PlacesTest do
       place = Fixtures.create(:place)
 
       assert {:ok, %PlaceImage{} = place_image} =
-               Places.create_place_image(
-                 Enum.into(@valid_attrs, %{place_id: place.id, uploader_id: user.id})
-               )
+               Places.create_place_image(Enum.into(@valid_attrs, %{place_id: place.id, uploader_id: user.id}))
 
       assert place_image.urls["original"] == "some original_url"
     end
@@ -151,8 +149,7 @@ defmodule Dobar.PlacesTest do
     test "update_place_image/2 with valid data updates the place_image" do
       place_image = place_image_fixture()
 
-      assert {:ok, %PlaceImage{} = place_image} =
-               Places.update_place_image(place_image, @update_attrs)
+      assert {:ok, %PlaceImage{} = place_image} = Places.update_place_image(place_image, @update_attrs)
 
       assert place_image.urls["original"] == "some updated original_url"
     end

@@ -28,8 +28,7 @@ defmodule DobarWeb.Admin.PlaceImageControllerTest do
 
   describe "create place_image" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn =
-        post(conn, Routes.admin_place_place_image_path(conn, :create), place_image: @create_attrs)
+      conn = post(conn, Routes.admin_place_place_image_path(conn, :create), place_image: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_place_place_image_path(conn, :show, id)
@@ -39,8 +38,7 @@ defmodule DobarWeb.Admin.PlaceImageControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn =
-        post(conn, Routes.admin_place_place_image_path(conn, :create), place_image: @invalid_attrs)
+      conn = post(conn, Routes.admin_place_place_image_path(conn, :create), place_image: @invalid_attrs)
 
       assert html_response(conn, 200) =~ "New Place image"
     end
@@ -59,10 +57,7 @@ defmodule DobarWeb.Admin.PlaceImageControllerTest do
     setup [:create_place_image]
 
     test "redirects when data is valid", %{conn: conn, place_image: place_image} do
-      conn =
-        put(conn, Routes.admin_place_place_image_path(conn, :update, place_image),
-          place_image: @update_attrs
-        )
+      conn = put(conn, Routes.admin_place_place_image_path(conn, :update, place_image), place_image: @update_attrs)
 
       assert redirected_to(conn) == Routes.admin_place_place_image_path(conn, :show, place_image)
 
@@ -71,10 +66,7 @@ defmodule DobarWeb.Admin.PlaceImageControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, place_image: place_image} do
-      conn =
-        put(conn, Routes.admin_place_place_image_path(conn, :update, place_image),
-          place_image: @invalid_attrs
-        )
+      conn = put(conn, Routes.admin_place_place_image_path(conn, :update, place_image), place_image: @invalid_attrs)
 
       assert html_response(conn, 200) =~ "Edit Place image"
     end

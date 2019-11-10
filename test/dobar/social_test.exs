@@ -71,8 +71,7 @@ defmodule Dobar.SocialTest do
     test "update_place_invite/2 with valid data updates the place_invite" do
       place_invite = place_invite_fixture()
 
-      assert {:ok, %PlaceInvite{} = place_invite} =
-               Social.update_place_invite(place_invite, @update_attrs)
+      assert {:ok, %PlaceInvite{} = place_invite} = Social.update_place_invite(place_invite, @update_attrs)
 
       assert place_invite.guest_email == "some updated guest_email"
       assert place_invite.status == "done"
@@ -81,8 +80,7 @@ defmodule Dobar.SocialTest do
     test "update_place_invite/2 with invalid data returns error changeset" do
       place_invite = place_invite_fixture()
 
-      assert {:error, %Ecto.Changeset{}} =
-               Social.update_place_invite(place_invite, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Social.update_place_invite(place_invite, @invalid_attrs)
 
       assert place_invite == Social.get_place_invite!(place_invite.id)
     end

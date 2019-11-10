@@ -223,6 +223,20 @@ defmodule Dobar.Accounts do
     |> Repo.all()
   end
 
+  def find_users_by_username(usernames) when is_list(usernames) do
+    from(u in User,
+      where: u.username in ^usernames
+    )
+    |> Repo.all()
+  end
+
+  def find_users_by_username(usernames) when is_binary(usernames) do
+    from(u in User,
+      where: u.username == ^usernames
+    )
+    |> Repo.all()
+  end
+
   def data() do
     Dataloader.Ecto.new(Repo)
   end

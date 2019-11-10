@@ -37,6 +37,13 @@ defmodule DobarWeb.Schema do
       resolve(&Resolvers.PlaceResolver.find_places/3)
     end
 
+    @desc "Finds you and your friends a new place"
+    connection field :find_us_new_places, node_type: :place do
+      arg(:other_usernames, list_of(:string))
+      arg(:being_adventorous, :boolean, default_value: false)
+      resolve(&Resolvers.DiscoverResolver.find_us_new_places/3)
+    end
+
     @desc "Find Place by Id"
     field :place, :place do
       arg(:id, non_null(:string))

@@ -7,7 +7,7 @@ defmodule Dobar.Places do
 
   alias Dobar.{Repo, PlaceImageUploader}
 
-  alias Dobar.{Places, Places.Place}
+  alias Dobar.Places.Place
 
   @doc """
   Returns the list of places.
@@ -19,12 +19,10 @@ defmodule Dobar.Places do
 
   """
   def find_places(args \\ %{}) do
-    Place
-    |> filter_query(args)
+    args
+    |> Enum.reduce(Place, &place_query/2)
     |> Repo.all()
   end
-
-  defp filter_query(query, args), do: Enum.reduce(args, query, &place_query/2)
 
   defp place_query({:location, %{lat: lat, lng: lng}}, query) do
     point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
@@ -43,8 +41,7 @@ defmodule Dobar.Places do
       join: r in assoc(p, :reviews),
       where: r.response == true,
       group_by: [p.id],
-      order_by:
-        fragment("SUM(CASE WHEN ? = 'rideshare_dobar' THEN 3 ELSE 1 END) desc", r.review_type)
+      order_by: fragment("SUM(CASE WHEN ? = 'rideshare_dobar' THEN 3 ELSE 1 END) desc", r.review_type)
   end
 
   defp place_query({:order, "random"}, query) do
@@ -155,11 +152,11 @@ defmodule Dobar.Places do
   alias Dobar.Places.PlaceImage
 
   def upload_place_image(%{place_id: place_id, photo_file: image_file, uploader_id: uploader_id}) do
-    with place <- Places.get_place!(place_id),
+    with place <- get_place!(place_id),
          {:ok, file} <- PlaceImageUploader.store({image_file, place}),
          urls <- PlaceImageUploader.urls({file, place}),
          {:ok, place_image} <-
-           Places.create_place_image(%{
+           create_place_image(%{
              urls: urls,
              place_id: place.id,
              uploader_id: uploader_id
@@ -262,11 +259,6 @@ defmodule Dobar.Places do
   """
   def change_place_image(%PlaceImage{} = place_image) do
     PlaceImage.changeset(place_image, %{})
-  end
-
-  def find_users_a_new_place(user_ids, be_adventorus \\ false) do
-    # finds a new place for people with these ids based on their favorites and list of places they've been/invited
-    # be_adventorus decides if we should take them to new type of place or not
   end
 
   def data() do
