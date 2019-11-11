@@ -24,14 +24,14 @@ defmodule DobarWeb.Admin.AuthController do
   end
 
   def login(conn, %{"user" => %{"username" => username, "password" => password}}) do
-    case Accounts.authenticate_user(username, password) do
-      {:ok, user} ->
-        # Use access tokens.
-        conn
-        |> Guardian.Plug.sign_in(user, token_type: :access)
-        |> redirect(to: Routes.admin_place_path(conn, :index))
-
-      {:error, _reason} ->
+    with {:ok, user} <- Accounts.authenticate_user(username, password),
+         Enum.member?(user.roles, "admin") do
+      # Use access tokens.
+      conn
+      |> Guardian.Plug.sign_in(user, token_type: :access, role: "admin")
+      |> redirect(to: Routes.admin_place_path(conn, :index))
+    else
+      _ ->
         conn
         |> put_flash(:error, "Username or Password didn't match, please try again.")
         |> redirect(to: Routes.admin_auth_path(conn, :index))

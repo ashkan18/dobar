@@ -10,6 +10,7 @@ defmodule Dobar.Accounts.User do
     field :name, :string
     field :password, :string
     field :username, :string
+    field :roles, {:array, :string}, default: []
 
     has_many :reviews, Dobar.Reviews.Review
     has_many :lists, Dobar.Accounts.UserList
@@ -21,7 +22,7 @@ defmodule Dobar.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :name, :username, :password])
+    |> cast(attrs, [:email, :name, :username, :password, :roles])
     |> validate_required([:email, :name, :username, :password])
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 8)

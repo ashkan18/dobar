@@ -21,7 +21,7 @@ defmodule DobarWeb.Router do
 
   pipeline :ensure_admin_access do
     plug(Guardian.Plug.EnsureAuthenticated,
-      claims: %{"typ" => "access"},
+      claims: %{"typ" => "access", "role" => "admin"},
       error_handler: DobarWeb.Admin.AuthErrorHandler
     )
   end
