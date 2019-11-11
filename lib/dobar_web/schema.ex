@@ -40,7 +40,7 @@ defmodule DobarWeb.Schema do
     @desc "Finds you and your friends a new place"
     connection field :find_us_new_places, node_type: :place do
       arg(:other_usernames, list_of(:string))
-      arg(:being_adventorous, :boolean, default_value: false)
+      arg(:being_adventurous, :boolean, default_value: false)
       resolve(&Resolvers.DiscoverResolver.find_us_new_places/3)
     end
 

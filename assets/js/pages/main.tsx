@@ -1,11 +1,12 @@
 import * as React from "react"
-import { Flex, Input, Button, Spinner, MagnifyingGlassIcon, LocationIcon } from "@artsy/palette"
+import { Flex, Input, Button, Spinner, MagnifyingGlassIcon, LocationIcon, BorderBox, Checkbox } from "@artsy/palette"
 import gql from "graphql-tag";
 import PlacesWall from "../components/placesWall";
 import { useState, useEffect } from "react";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { usePosition } from "../usePosition";
 import { FeaturedPlaces } from "../components/featuredPlaces";
+import { DiscoverPlaces } from "../components/discoverPlaces";
 
 interface Props {
   location: any
@@ -113,12 +114,11 @@ export const Main = (props: Props) => {
         </Flex>
       </form>
       { (popularLoading || loading) && <Spinner/>}
-      { featuredPlaces && !data &&
-        <Flex flexDirection="row" m="auto" flexWrap="wrap">
-          <FeaturedPlaces places={featuredPlaces.popular} feature="Most Popular"/>
-          <FeaturedPlaces places={featuredPlaces.random} feature="Lucky Places"/>
-        </Flex>
-      }
+      <Flex flexDirection="row" m="auto" flexWrap="wrap">
+        { featuredPlaces && !data && <FeaturedPlaces places={featuredPlaces.popular} feature="Most Popular"/> }
+        { featuredPlaces && !data && <FeaturedPlaces places={featuredPlaces.random} feature="Lucky Places"/> }
+        <DiscoverPlaces />
+      </Flex>
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
     </>
   )

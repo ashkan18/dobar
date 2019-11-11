@@ -15,8 +15,8 @@ defmodule Dobar.Discover do
       )
       |> Repo.all()
 
-    reviewd_place_ids = Enum.map(reviewed_places, &Enum.at(&1, 0))
-    tags = Enum.flat_map(reviewed_places, &Enum.at(&1, 1))
+    reviewd_place_ids = Enum.map(reviewed_places, &Enum.at(&1, 0)) |> Enum.uniq()
+    tags = Enum.flat_map(reviewed_places, &Enum.at(&1, 1)) |> Enum.uniq()
 
     Place
     |> filter_places(reviewd_place_ids)

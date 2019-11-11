@@ -14,8 +14,8 @@ export const Account = () => {
     <>
       {isLoggedIn &&
         <Flex flexDirection="row" justifyContent="space-between" width={150} mt={0} mb={0}>
-          <Link to="/me"><Button size="small"> Me </Button></Link>
-          <Button size="small" variant="secondaryOutline" onClick={() => { authService.logout(); setIsLoggedIn(false) }}> Logout </Button>
+          <Link to="/me"><Button size="small">Me</Button></Link>
+          <Button size="small" variant="secondaryOutline" onClick={() => { authService.logout(); setIsLoggedIn(false) }}>Logout</Button>
         </Flex>
       }
       {!isLoggedIn &&

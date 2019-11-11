@@ -3,7 +3,7 @@ defmodule DobarWeb.Resolvers.DiscoverResolver do
 
   def find_us_new_places(
         _parent,
-        args = %{other_usernames: other_usernames, being_adventorous: being_adventorous},
+        args = %{other_usernames: other_usernames, being_adventurous: being_adventurous},
         %{
           context: %{current_user: current_user}
         }
@@ -12,7 +12,7 @@ defmodule DobarWeb.Resolvers.DiscoverResolver do
     other_usernames
     |> Accounts.find_users_by_username()
     |> Enum.reduce([current_user.id], fn a, acc -> acc ++ [a.id] end)
-    |> Discover.find_users_a_new_place(being_adventorous)
+    |> Discover.find_users_a_new_place(being_adventurous)
     |> Absinthe.Relay.Connection.from_list(args)
   end
 
