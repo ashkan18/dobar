@@ -21,6 +21,7 @@ defmodule Dobar.Discover do
     Place
     |> filter_places(reviewd_place_ids)
     |> tune_adventorusness(tags, be_adventorus)
+    |> order_by(fragment("RANDOM()"))
     |> limit(10)
     |> Repo.all()
   end

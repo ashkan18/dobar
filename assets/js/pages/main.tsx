@@ -71,14 +71,14 @@ const FIND_PLACES = gql`
 `
 export const Main = (props: Props) => {
   const { location } = props
-  const params = new URLSearchParams(location.search);
+  const params = new URLSearchParams(location.search)
   const {loading: popularLoading, data: featuredData} = useQuery(POPULAR_PLACES)
   const [what, setWhat] = useState(params.get("term"))
   const [where, setWhere] = useState()
   const [address, setAddress] = useState()
   const [search, { called, loading, error: queryError, data }] = useLazyQuery(FIND_PLACES)
   const {position, error: positionError} = usePosition()
-  const [featuredPlaces, setFeaturedPlaces] = useState()
+  const [featuredPlaces, setFeaturedPlaces] = useState({popular: [], random: []})
   const onSubmit = (e) => {
     e.preventDefault()
     search({variables: { location: where, term: what, address: address}})
@@ -113,12 +113,12 @@ export const Main = (props: Props) => {
           <Button><MagnifyingGlassIcon fill={"white100"}/></Button>
         </Flex>
       </form>
-      { (popularLoading || loading) && <Spinner/>}
-      <Flex flexDirection="row" m="auto" flexWrap="wrap">
-        { featuredPlaces && !data && <FeaturedPlaces places={featuredPlaces.popular} feature="Most Popular"/> }
-        { featuredPlaces && !data && <FeaturedPlaces places={featuredPlaces.random} feature="Lucky Places"/> }
+      { loading && <Spinner/>}
+      {!data && <Flex flexDirection="row" m="auto" flexWrap="wrap">
+        <FeaturedPlaces places={featuredPlaces.popular} feature="Most Popular"/>
+        <FeaturedPlaces places={featuredPlaces.random} feature="Lucky Places"/>
         <DiscoverPlaces />
-      </Flex>
+      </Flex>}
       { called && !loading && data && <PlacesWall places={data.places.edges.map( e => e.node)}/>}
     </>
   )
