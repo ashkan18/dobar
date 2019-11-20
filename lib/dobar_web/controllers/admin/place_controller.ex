@@ -5,7 +5,7 @@ defmodule DobarWeb.Admin.PlaceController do
   alias Dobar.Places.Place
 
   def index(conn, _params) do
-    places = Places.find_places()
+    places = Places.find_places(%{limit: 10})
     render(conn, "index.html", places: places)
   end
 

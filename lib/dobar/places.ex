@@ -49,6 +49,8 @@ defmodule Dobar.Places do
       order_by: fragment("RANDOM()")
   end
 
+  defp place_query({:limit, limit_to}, query), do: query |> limit(^limit_to)
+
   defp place_query(_, query), do: query
 
   @doc """
