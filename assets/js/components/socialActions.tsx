@@ -49,7 +49,7 @@ export const SocialActions = (props: Props) => {
     setShowInvites(false)
     setShowInviteConfirmation(true)
   }
-  if (addToListLoading || inviteLoading) return(<Spinner />)
+  if (inviteLoading) return(<Spinner />)
   return(
     <>
       <Flex flexDirection="row" justifyContent="space-between" m="auto" mt={1} mb={2} >

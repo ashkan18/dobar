@@ -18,5 +18,5 @@
   <% end %>
 <% else %>
   <h1>Hello <%= @maybe_user.username%>!</h1>
-  <span><%= link "Logout", to: Routes.admin_auth_path(@conn, :delete), method: :post%></span>
+  <span><%= link "Logout", to: Routes.admin_auth_path(@conn, :logout), method: :post%></span>
 <% end %>
