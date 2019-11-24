@@ -4,10 +4,11 @@ defmodule DobarWeb.Admin.PlaceController do
   alias Dobar.Places
   alias Dobar.Places.Place
 
-  def index(conn, _params) do
-    places = Places.find_places(%{limit: 10})
+  def index(conn, %{"term" => term}) do
+    places = Places.find_places(%{limit: 10, term: term})
     render(conn, "index.html", places: places)
   end
+  def index(conn, _params), do: render(conn, "index.html", places: Places.find_places(%{limit: 10}))
 
   def new(conn, _params) do
     changeset = Places.change_place(%Place{})

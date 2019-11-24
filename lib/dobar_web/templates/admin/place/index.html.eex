@@ -1,5 +1,8 @@
-<h1>Listing Places</h1>
-
+<h1>Search Places</h1>
+<%= form_for @conn, Routes.admin_place_path(@conn, :index), [method: :get], fn f -> %>
+  <%= search_input f, :term %>
+  <%= submit "Search" %>
+<% end %>
 <table>
   <thead>
     <tr>
