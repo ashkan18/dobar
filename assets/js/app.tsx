@@ -33,6 +33,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Me } from "./pages/me";
 import { createLink } from "apollo-absinthe-upload-link"
 import Header from "./components/header"
+import Footer from "./components/footer"
 
 const httpLink = createLink({
   uri: '/api',
@@ -73,6 +74,7 @@ class App extends React.Component {
                   <Route path="/me" exact component={Me} />
                   <Route path="/" component={Main}/>
                 </Switch>
+                <Footer/>
               </Flex>
             </Router>
           </Theme>

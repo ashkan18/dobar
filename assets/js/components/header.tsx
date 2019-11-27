@@ -4,11 +4,8 @@ import { Link } from "react-router-dom"
 import {Account} from './account'
 import styled from 'styled-components';
 
-interface Props {
-  search?: boolean
-}
 
-const Header = (props: Props) => {
+const Header = () => {
   return (
     <>
       <Flex flexDirection="row" flexWrap="nowrap" mt={2} justifyContent="space-between" alignContext="top" style={ { width: "100%"  }}>
