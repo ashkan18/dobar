@@ -13,7 +13,7 @@ export const PlaceImages = (props: Props) => {
   }
   return(
     <Flex flexDirection="row" mt={2} flexWrap={"wrap"} justifyContent="center">
-      {images.map( img => <Image src={img.urls.thumb} style={{maxHeight: 230}} key={img.id}/>)}
+      {images.map( img => <Image src={img.urls.thumb} style={{maxHeight: 230, border:'1px solid'}} m={.5} key={img.id}/>)}
     </Flex>
   )
 }
