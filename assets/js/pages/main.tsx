@@ -114,7 +114,7 @@ export const Main = (props: Props) => {
         </Flex>
       </form>
       { loading && <Spinner/>}
-      {!data && <Flex flexDirection="row" m="auto" flexWrap="wrap">
+      {!data && <Flex flexDirection="column" m="auto" flexWrap="wrap">
         <FeaturedPlaces places={featuredPlaces.popular} feature="Most Popular"/>
         <FeaturedPlaces places={featuredPlaces.random} feature="Lucky Places"/>
         <DiscoverPlaces />
